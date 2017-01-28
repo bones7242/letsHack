@@ -1,0 +1,29 @@
+{
+  "name": "lets-hack",
+  "version": "1.0.0",
+  "description": "learn to code by working together to solve problems",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/billbitt/letsHack.git"
+  },
+  "keywords": [
+    "collaborative",
+    "coding",
+    "challenges"
+  ],
+  "author": "harold bill and eric",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/billbitt/letsHack/issues"
+  },
+  "homepage": "https://github.com/billbitt/letsHack#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mysql": "^2.13.0",
+    "sequelize": "^3.30.0"
+  }
+}
