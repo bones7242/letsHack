@@ -1,5 +1,8 @@
 *.DS_Store
 
+# database credentials
+config/config.json
+
 # Logs
 logs
 *.log
