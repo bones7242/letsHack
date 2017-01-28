@@ -47,7 +47,7 @@ $(document).ready(function() {
 		$(this).prev("input").val("");
 	});
     // make chat send on enter keypress
-	$("input#chat-box").on("focus", function(){
+	$("input#chatbox").on("focus", function(){
 		$("body").on("keypress", function(event){
 			if (event.charCode === 13) {
 				// if enter key is pressed
