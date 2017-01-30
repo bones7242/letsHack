@@ -20,6 +20,26 @@ ul {
 input[type=text] {
     margin-bottom: 10px;
 }
+#icon {
+    background-image: url(../img/logo-sm.png);
+    display: block;
+    width: 77px;
+    height: 42px;
+    background-size: cover;
+    float: left;
+    background-color: #4484CE;
+    margin: 0 12px;
+    background-position-y: -3px;
+}
+.login-page #icon {
+    float: right;
+    width: 150px;
+    height: 82px;
+    background-color: white;
+    margin: 0;
+    background-position-y: -10px;
+    background-repeat: no-repeat;
+}
 #logo {
     font-family: 'Concert One', cursive;
     font-size: 1.6em;
@@ -28,9 +48,9 @@ input[type=text] {
 }
 .login-page #logo {
     font-family: 'Concert One', cursive;
-    font-size: 3em;
+    font-size: 4em;
     text-shadow: black 2px 2px 1px;
-    text-align: center;
+    text-align: right;
     margin: 0 0 20px 0;
     line-height: 40px;
     color: #F9CF00;
