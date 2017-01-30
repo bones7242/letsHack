@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Let's Hack! -- Pair Challenge #{{challenge.id}}</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css" media="screen" title="no title">
+  <link rel="stylesheet" href="../public/css/styles.css" media="screen" title="no title">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.6.7/firebase.js"></script>
@@ -15,11 +15,29 @@
     <div id="logo">Let's Hack!</div>
     <div class="columns main-column">
         <h2>Sign Up</h2>
-        <p>New user? Sign up here.</p>
+        <p>
+            <form method="POST" action="/new-user">
+                Choose a Username:<br>
+                <input type="text" name="username"><br>
+                Your Email:<br>
+                <input type="text" name="email"><br>
+                Choose a Password:<br>
+                <input type="text" name="password"><br>
+                Confirm Password:
+                <input type="text" name="passwordConfirm">
+            </form>
+        </p>
     </div>
     <div class="columns side-column">
         <h2>Log In</h2>
-        <p>Existing user? Sign in here.</p>
+        <p>
+            <form method="POST" action="/login">
+                Email:<br>
+                <input type="text" name="email"><br>
+                Password:<br>
+                <input type="text" name="password"><br>
+            </form>
+        </p>
     </div>
   </div>
   <footer>

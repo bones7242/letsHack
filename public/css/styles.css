@@ -17,6 +17,9 @@ h1, h2 {
 ul {
     list-style: none;
 }
+input[type=text] {
+    margin-bottom: 10px;
+}
 #logo {
     font-family: 'Concert One', cursive;
     font-size: 1.6em;
@@ -70,6 +73,13 @@ ul {
 .main-column {
     padding: 10px 30px;
     margin: 0;
+    border-radius: 12px;
+}
+
+.login-page .side-column {
+    font-size: unset;
+    margin-top: 20px;
+    padding: 20px;
     border-radius: 12px;
 }
 .code-input {
