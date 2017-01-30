@@ -8,10 +8,20 @@
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.6.7/firebase.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Concert+One" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h1>Let's Hack! Challenge #{{challenge.id}}: {{challenge.name}}</h1>
+  <nav>
+    <div id="logo">Let's Hack!</div>
+    <div class="nav-right">
+      <div class="nav-item userName">username</div>
+      <div class="nav-item">Lobby</div>
+      <div class="nav-item">Logout</div>
+      <div class="nav-item">Profile</div>
+    </div>
+  </nav>
+  <div class="container" id="header-box">
+    <h1>Challenge #{{challenge.id}}: {{challenge.name}}</h1>
     <p>{{challenge.instructionsAll}}</p>
   </div>
   <div class="container">
