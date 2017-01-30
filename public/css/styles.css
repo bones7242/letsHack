@@ -5,10 +5,17 @@ body {
     background-color: #D9D9D9;
     color: #000;
 }
+body.login-page {
+    background-color: #4484CE;
+    color: #000;
+}
 h1, h2 {
     margin-top: 0;
     color: #267126;
     font-family: 'Concert One', cursive;
+}
+ul {
+    list-style: none;
 }
 #logo {
     font-family: 'Concert One', cursive;
@@ -16,11 +23,29 @@ h1, h2 {
     letter-spacing: 2px;
     text-shadow: black 2px 2px 1px;
 }
+.login-page #logo {
+    font-family: 'Concert One', cursive;
+    font-size: 3em;
+    text-shadow: black 2px 2px 1px;
+    text-align: center;
+    margin: 0 0 20px 0;
+    line-height: 40px;
+    color: #F9CF00;
+}
 #header-box {
     background-color: #d9d9d9;
     padding-bottom: 0;
     margin-bottom: -10px;
     padding-top: 0;
+}
+#main-box {
+    background-color: #d9d9d9;
+}
+
+#login-box.container {
+    margin-top: 10%;
+    max-width: 710px;
+    border-radius: 12px;
 }
 .container {
     background-color: white;
@@ -36,6 +61,16 @@ h1, h2 {
     float: left;
     padding: 0 2%;
     margin: 0;
+}
+.side-column {
+    background-color: #d9d9d9;
+    text-align: right;
+    font-size: smaller;
+}
+.main-column {
+    padding: 10px 30px;
+    margin: 0;
+    border-radius: 12px;
 }
 .code-input {
     border: 1px solid #8BC34A;
@@ -58,7 +93,7 @@ h1, h2 {
     font-style: italic;
 }
 .chat-message-user-1 {
-    background-color: #3ed1e4;
+    background-color: #4484CE;
 }
 nav {
     background-color: #4484CE;
@@ -67,6 +102,9 @@ nav {
     height: 32px;
     width: 100%;
     min-width: 430px;
+}
+nav a, nav a:active, nav a:visited, nav a:hover {
+    color: white;
 }
 nav .nav-right, nav .nav-item {
     float: right;
@@ -83,4 +121,10 @@ nav #logo {
     width: 20%;
     min-width: 120px;
     font-size: 1.5em;
+}
+footer {
+    text-align: center;
+    margin: 60px 0;
+    color: #FFF;
+    font-size: small;
 }
