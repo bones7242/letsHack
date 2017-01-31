@@ -119,11 +119,15 @@ input[type=text] {
     overflow-y: auto;
     overflow-x: hidden;
 }
-.chat-message-user-0 {
-    font-style: italic;
+.chat-message-user-a {
+    color: black
 }
-.chat-message-user-1 {
-    background-color: #4484CE;
+.chat-message-user-b {
+    background-color: #77dc35;
+    color: black
+}
+.chatter {
+    font-style: italic;
 }
 nav {
     background-color: #4484CE;
