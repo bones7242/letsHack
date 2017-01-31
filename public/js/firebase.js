@@ -2,36 +2,10 @@ $(document).ready(function() {
     console.log("ready");
     firebase.initializeApp(config);
 	var database = firebase.database();
-
-// get this data from the back end
-    var sessionData = {
-        sessionId : 34567,
-        challenge : {
-            challengeId : 4567,
-            instructionsAll : "In this challenge, you will be reversing and setting a string to all caps",
-            instructionsA : "Write a function that reverses a string and returns that value",
-            instructions : "Write a function that makes a string into all caps and returns that value"
-        }
-    };
-    var myPlayer = {
-        screenname: "Harry", 
-        id: 12345,
-        playerRole: "a", 
-        inChallenge: sessionData.challenge.challengeId, 
-        codeSoFar: "// start coding here"
-    };
-    var myPartner = {
-        screenname:"Gerry", 
-        id: 45678,
-        playerRole: "b", 
-        inChallenge: sessionData.challenge.challengeId, 
-        codeSoFar: "// start coding here"
-    };
-// end of data from back end 
-
     var myPointer;
     var myRef;
     var partnerPointer;
+    var partnerRef;
     var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
     myRef = sessionRef.push(myPlayer, function(err){
         if (err) console.err(err);
@@ -39,20 +13,18 @@ $(document).ready(function() {
     });
     myRef.onDisconnect().remove();
 
+    // when this session changes value
     sessionRef.on("value", function(snapshot){
         var usersConnected  = snapshot.numChildren();
-        console.log("users connected:", usersConnected);
+        //console.log("users connected:", usersConnected);
         if (usersConnected === 2 && myPointer) {
             // game has started, loop through users on change
             for (user in snapshot.val()){
                 if (user === myPointer){
-                    console.log("found myself");
+                    //console.log("found myself");
                 } else {
-                    console.log("this is someone else: " + user);
                     // watch for partner's typing
-                    partnerPointer = snapshot.getKey();
-                    console.log(partnerPointer);
-                    var partnersCode = user.codeSoFar;
+                    var partnersCode = snapshot.child(user).val().codeSoFar;
                     $("#partner-code .code-input").text(partnersCode);
                 }
             }

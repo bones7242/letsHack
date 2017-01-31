@@ -28,14 +28,14 @@
   <div class="container">
     <div class="container columns" id="your-code">
         <h2>Your Task</h2>
-        <p>{{challenge.instructionsA}}</p>
-        <textarea cols="50" class="code-input"  wrap="soft">{{challenge.startCodeA}}</textarea>
+        <p>{{challenge.instructionsB}}</p>
+        <textarea cols="50" class="code-input"  wrap="soft">{{challenge.startCodeB}}</textarea>
         <br clear="all">
         <button>Test My Code</button>
     </div>
     <div class="container columns" id="partner-code">
         <h2>{{userB.displayName}}'s Task</h2>
-        <p>{{challenge.instructionsB}}</p>
+        <p>{{challenge.instructionsA}}</p>
         <div class="code-input">
           <!-- starter code will come from firebase -->
         </div>
@@ -61,16 +61,16 @@
         challengeId : 4567
     };
     var myPlayer = {
-        screenname: "Harry", 
-        id: 12345,
-        playerRole: "a", 
+        screenname:"Gerry", 
+        id: 45678,
+        playerRole: "b", 
         inChallenge: sessionData.challengeId, 
         codeSoFar: " "
     };
     var myPartner = {
-        screenname:"Gerry", 
-        id: 45678,
-        playerRole: "b", 
+        screenname: "Harry", 
+        id: 12345,
+        playerRole: "a", 
         inChallenge: sessionData.challengeId, 
         codeSoFar: " "
     };
