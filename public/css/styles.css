@@ -1,0 +1,160 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 22px;
+    background-color: #D9D9D9;
+    color: #000;
+}
+body.login-page {
+    background-color: #4484CE;
+    color: #000;
+}
+h1, h2 {
+    margin-top: 0;
+    color: #267126;
+    font-family: 'Concert One', cursive;
+}
+ul {
+    list-style: none;
+}
+input[type=text] {
+    margin-bottom: 10px;
+}
+#icon {
+    background-image: url(../img/logo-sm.png);
+    display: block;
+    width: 77px;
+    height: 42px;
+    background-size: cover;
+    float: left;
+    background-color: #4484CE;
+    margin: 0 12px;
+    background-position-y: -3px;
+}
+.login-page #icon {
+    float: right;
+    width: 150px;
+    height: 82px;
+    background-color: white;
+    margin: 0;
+    background-position-y: -10px;
+    background-repeat: no-repeat;
+}
+#logo {
+    font-family: 'Concert One', cursive;
+    font-size: 1.6em;
+    letter-spacing: 2px;
+    text-shadow: black 2px 2px 1px;
+}
+.login-page #logo {
+    font-family: 'Concert One', cursive;
+    font-size: 4em;
+    text-shadow: black 2px 2px 1px;
+    text-align: right;
+    margin: 0 0 20px 0;
+    line-height: 40px;
+    color: #F9CF00;
+}
+#header-box {
+    background-color: #d9d9d9;
+    padding-bottom: 0;
+    margin-bottom: -10px;
+    padding-top: 0;
+}
+#main-box {
+    background-color: #d9d9d9;
+}
+
+#login-box.container {
+    margin-top: 10%;
+    max-width: 710px;
+    border-radius: 12px;
+}
+.container {
+    background-color: white;
+    margin: 20px auto;
+    padding: 2%;
+}
+.fullWidth {
+    min-width: 350px;
+    min-height: 350px;
+}
+.columns {
+    width: 50%;
+    float: left;
+    padding: 0 2%;
+    margin: 0;
+}
+.side-column {
+    background-color: #d9d9d9;
+    text-align: right;
+    font-size: smaller;
+}
+.main-column {
+    padding: 10px 30px;
+    margin: 0;
+    border-radius: 12px;
+}
+
+.login-page .side-column {
+    font-size: unset;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 12px;
+}
+.code-input {
+    border: 1px solid #8BC34A;
+    min-height: 350px;
+    padding: 5px 10px;
+    color: #F9CF00;
+    background-color: black;
+}
+#chat-history {
+    background-color: #F9CF00;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+    margin: 1% 0;
+    padding: 4px 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.chat-message-user-0 {
+    font-style: italic;
+}
+.chat-message-user-1 {
+    background-color: #4484CE;
+}
+nav {
+    background-color: #4484CE;
+    color: white;
+    padding: 4px;
+    height: 32px;
+    width: 100%;
+    min-width: 430px;
+}
+nav a, nav a:active, nav a:visited, nav a:hover {
+    color: white;
+}
+nav .nav-right, nav .nav-item {
+    float: right;
+    font-size: small;
+}
+nav .nav-item {
+    padding-right: 3%;
+}
+nav .nav-right {
+    width: 70%;
+}
+nav #logo {
+    float: left;
+    width: 20%;
+    min-width: 120px;
+    font-size: 1.5em;
+}
+footer {
+    text-align: center;
+    margin: 60px 0;
+    color: #FFF;
+    font-size: small;
+}
