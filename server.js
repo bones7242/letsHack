@@ -68,18 +68,7 @@ app.use(passport.session());
 
 
 // require("./routes/api-routes.js")(app);
-// require("./routes/html-routes.js")(app);
-
-app.get('/',
-  function(req, res) {
-    res.render('hometest', { user: req.user });
-  });
-
-app.get('/login',
-  function(req, res){
-    res.render('login');
-  });
-
+require("./routes/html-routes.js")(app);
 
 
   app.post('/login',
@@ -107,13 +96,10 @@ app.get('/logout',
     res.redirect('/');
   });
 
-  app.get("/signup", function(req, res) {
-    res.render("signup");
-  });
-
   app.post("/signup", function(req, res) {
       db.User.create({
-        email: req.body.username,
+        email: req.body.email,
+        username: req.body.username,
         password: req.body.password
       }).then(function(){
 
