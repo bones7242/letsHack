@@ -2,41 +2,75 @@ $(document).ready(function() {
     console.log("ready");
     firebase.initializeApp(config);
 	var database = firebase.database();
-    // get this from the back end
-    var thisChallenge = 4000;
-    // get name from user input, assign id based on whether 
-    // or not there's already a user in this challenge
+
+// get this data from the back end
+    var sessionData = {
+        sessionId : 34567,
+        challenge : {
+            challengeId : 4567,
+            instructionsAll : "In this challenge, you will be reversing and setting a string to all caps",
+            instructionsA : "Write a function that reverses a string and returns that value",
+            instructions : "Write a function that makes a string into all caps and returns that value"
+        }
+    };
     var myPlayer = {
-        name:"Harry", 
-        playerNum:0, 
-        inChallenge: thisChallenge, 
-        codeSoFar: ""
+        screenname: "Harry", 
+        id: 12345,
+        playerRole: "a", 
+        inChallenge: sessionData.challenge.challengeId, 
+        codeSoFar: "// start coding here"
     };
     var myPartner = {
-        name:"Gerry", 
-        playerNum:1, 
-        inChallenge: thisChallenge, 
-        codeSoFar: ""
+        screenname:"Gerry", 
+        id: 45678,
+        playerRole: "b", 
+        inChallenge: sessionData.challenge.challengeId, 
+        codeSoFar: "// start coding here"
     };
-    database.ref("users/").push(myPlayer);
-    database.ref("users/").push(myPartner);
-    // watch for partner's typing
-    database.ref("users/" + myPartner.id + "/codeSoFar").on("value", function(snapshot){
-        $("#partner-code .code-input").text(snapshot.val());
-    }, function(error){
-        console.error("Can't get partner's typing")
+// end of data from back end 
+
+    var myPointer;
+    var myRef;
+    var partnerPointer;
+    var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
+    myRef = sessionRef.push(myPlayer, function(err){
+        if (err) console.err(err);
+        myPointer = myRef.getKey();
     });
-    // send code typing to db
+    myRef.onDisconnect().remove();
+
+    sessionRef.on("value", function(snapshot){
+        var usersConnected  = snapshot.numChildren();
+        console.log("users connected:", usersConnected);
+        if (usersConnected === 2 && myPointer) {
+            // game has started, loop through users on change
+            for (user in snapshot.val()){
+                if (user === myPointer){
+                    console.log("found myself");
+                } else {
+                    console.log("this is someone else: " + user);
+                    // watch for partner's typing
+                    partnerPointer = snapshot.getKey();
+                    console.log(partnerPointer);
+                    var partnersCode = user.codeSoFar;
+                    $("#partner-code .code-input").text(partnersCode);
+                }
+            }
+        }
+    });
+
+    // send my code typing to db
     $("#your-code .code-input").on("focus", function(){
         $("body").on("keypress", function(event){
-            var code = $("#partner-code .code-input").val().trim();
-            database.ref("users/" + myPlayer.id + "/codeSoFar").set(code);
+            var code = $("#your-code .code-input").val().trim();
+            myRef.child("/codeSoFar").set(code);
 		});
     }).on("focusout", function(){
 		$("body").off("keypress");
 	});
+
     // watch for new chats
-	database.ref("chatLog").orderByChild("timestamp").on("value", function(snapshot){
+	database.ref("chatLog/" + sessionData.thisSessionId).orderByChild("timestamp").on("value", function(snapshot){
 		displayChats(snapshot.val());
 	}, function(error){
 		console.error("Can't get chatLog data: " + error);
@@ -61,12 +95,12 @@ $(document).ready(function() {
         // default values
         var chatter = "anon";
         var chatOwner = false;
-        if (myPlayer && myPlayer.name){
-            chatter = myPlayer.name;
-            chatOwner = "user-" + myPlayer.playerNum;
+        if (myPlayer && myPlayer.screenname){
+            chatter = myPlayer.screenname;
+            chatOwner = "user-" + myPlayer.playerRole;
         }
         var timeStamp = new Date();
-        database.ref("chatLog").push({name:chatter, message:msg, owner:chatOwner, timestamp:timeStamp});
+        database.ref("chatLog/" + sessionData.thisSessionId).push({screenname:chatter, message:msg, owner:chatOwner, timestamp:timeStamp});
     }
     function displayChats(snapshot){
         $("#chat-history").empty();
@@ -76,14 +110,14 @@ $(document).ready(function() {
             if (chat.owner){
                 div.addClass("chat-message-" + chat.owner)
             }
-            var txt = '<span class="chatter">' + chat.name + ": </span>";
+            var txt = '<span class="chatter">' + chat.screenname + ": </span>";
             txt += chat.message;
             div.html(txt);
             $("#chat-history").prepend(div);	
         }
     }
     function clearChat(){
-        database.ref("chatLog").remove();
+        database.ref("chatLog/"+thisSessionId).remove();
     }
 
 
