@@ -23,16 +23,16 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                Session.belongsTo(models.Author, {
+                Session.belongsTo(models.User, {
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false
                     }
                 }); 
             },
-            // CAN WE ASSOCIATE WITH CHALLENGES TOO?
+            // CAN WE ASSOCIATE WITH MULTIPLE TABLES LIKE THIS?
             associate: function(models) {
-                Session.belongsTo(models.Session, {
+                Session.belongsTo(models.Challenge, {
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false
