@@ -1,16 +1,8 @@
 // model for the users table
 module.exports = function(sequelize, DataTypes) {
-    var Session = sequelize.define("Sessions", {
-        userId: { //do we supply this or does sequelize do it automatically?
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        challengeId: {  //do we supply this or does sequelize do it automatically?
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        time: {
-            type: DataTypes.DATETIME
+    var Session = sequelize.define("Session", {
+        dateStarted: {
+            type: DataTypes.DATE
         },
         success: {
             type: DataTypes.BOOLEAN,
@@ -23,16 +15,16 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                Session.belongsTo(models.Author, {
+                Session.belongsTo(models.User, {
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false
                     }
                 }); 
             },
-            // CAN WE ASSOCIATE WITH CHALLENGES TOO?
+            // CAN WE ASSOCIATE WITH MULTIPLE TABLES LIKE THIS?
             associate: function(models) {
-                Session.belongsTo(models.Session, {
+                Session.belongsTo(models.Challenge, {
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false
@@ -41,5 +33,5 @@ module.exports = function(sequelize, DataTypes) {
             }
         }
     });
-    return User;
+    return Session;
 };
