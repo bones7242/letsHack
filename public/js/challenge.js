@@ -92,5 +92,30 @@ $(document).ready(function() {
         database.ref("chatLog/"+thisSessionId).remove();
     }
 
+  /*
+  // code to execute tests 
+  on submit (
+    if (
+      var inputA = eval(codeA-input.val); 
+      var inputB = eval(codeB-input.val);
+ 
+ // OR
 
+      {{inputA}}
+            
+      {{inputB}}
+
+    var test = function(){
+      {{test}}
+    };
+    
+    if (test)
+      {
+        showTestSuccess();
+      }
+      else {
+        showTestFail();
+      }
+
+    */
 });
