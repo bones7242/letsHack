@@ -1,5 +1,9 @@
 *.DS_Store
 
+# private credentials
+config/config.json
+views/js/firebase-config.js
+
 # Logs
 logs
 *.log
