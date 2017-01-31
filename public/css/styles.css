@@ -131,7 +131,7 @@ nav {
     padding: 4px;
     height: 32px;
     width: 100%;
-    min-width: 430px;
+    min-width: 490px;
 }
 nav a, nav a:active, nav a:visited, nav a:hover {
     color: white;
@@ -140,11 +140,11 @@ nav .nav-right, nav .nav-item {
     float: right;
     font-size: small;
 }
+nav .nav-right {
+    width: 50%;
+}
 nav .nav-item {
     padding-right: 3%;
-}
-nav .nav-right {
-    width: 70%;
 }
 nav #logo {
     float: left;
