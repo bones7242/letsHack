@@ -22,7 +22,6 @@ module.exports = function(sequelize, DataTypes) {
                     }
                 }); 
             },
-            // CAN WE ASSOCIATE WITH MULTIPLE TABLES LIKE THIS?
             associate: function(models) {
                 Session.belongsTo(models.Challenge, {
                     onDelete: "cascade",
