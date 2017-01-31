@@ -18,6 +18,7 @@ module.exports = function(sequelize, DataTypes) {
         lastName: {
             type: DataTypes.STRING
         }
+
     }, {
         classMethods: {
             associate: function(models) {
