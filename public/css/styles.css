@@ -31,6 +31,9 @@ input[type=text] {
     margin: 0 12px;
     background-position-y: -3px;
 }
+nav #icon {
+    cursor: pointer;
+}
 .login-page #icon {
     float: right;
     width: 150px;
@@ -108,6 +111,8 @@ input[type=text] {
     padding: 5px 10px;
     color: #F9CF00;
     background-color: black;
+    font-family: monospace;
+    white-space: pre;
 }
 #chat-history {
     background-color: #F9CF00;
@@ -146,6 +151,7 @@ nav .nav-right, nav .nav-item {
 }
 nav .nav-right {
     width: 50%;
+    display: none;
 }
 nav .nav-item {
     padding-right: 3%;
@@ -155,6 +161,7 @@ nav #logo {
     width: 20%;
     min-width: 120px;
     font-size: 1.5em;
+    cursor: pointer;
 }
 footer {
     text-align: center;
