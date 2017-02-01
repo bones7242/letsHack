@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                User.hasMany(models.Session);  // Associating User with Sessions
+                User.hasMany(models.Session);  // Associating users with sessions
             }
         }
     });
