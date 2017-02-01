@@ -5,8 +5,11 @@
 
   <div class="container" id="main-box">
     <div class="container columns main-column">
-        <h2>Please Wait to be Paired with Someone...</h2>
-        <p>There are currently ***number of logged in users*** hackers online.</p>
+        <h2>Are You Ready?</h2>
+        <button id="joinQueue">Join Queue</button>
+        <!--<h2>Please Wait to be Paired with Someone...</h2>-->
+        <p>Join the queue and you will be paired randomly with another person, and given a challenge to solve!</p>
+        <p class="small">There are currently ***number of logged in users*** hackers online.</p>
         <ul class="onlineusers">
         {{#each usersonline}}
             <li>{{username}}</li>
