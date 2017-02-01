@@ -31,6 +31,9 @@ input[type=text] {
     margin: 0 12px;
     background-position-y: -3px;
 }
+nav #icon {
+    cursor: pointer;
+}
 .login-page #icon {
     float: right;
     width: 150px;
@@ -155,6 +158,7 @@ nav #logo {
     width: 20%;
     min-width: 120px;
     font-size: 1.5em;
+    cursor: pointer;
 }
 footer {
     text-align: center;
