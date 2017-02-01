@@ -5,31 +5,31 @@ module.exports = function(app) {
 
   // routes for harold
   // route to get information for logged a user (by id)
-  app.get("/lobby", function(req, res){
-    db.User.findOne({
-      where: {
-        id: req.body.id //can change this to displayName or email if that is better 
-      }
-    }).then(function(data){
-      res.json(data);  
-    })
-  });
+  // app.get("/lobby", function(req, res){
+  //   db.User.findOne({
+  //     where: {
+  //       id: req.body.id //can change this to displayName or email if that is better 
+  //     }
+  //   }).then(function(data){
+  //     res.json(data);  
+  //   })
+  // });
 
   // route for whether or not someone is logged in. if yes, ?
-  app.get("", function(req, res){
+  //app.get("", function(req, res){
     // tbd 
-  });
+  //});
 
   // routes to get information for a challenge (by id)
-  app.get("/challenge", function(req, res){
-    db.Challenge.findOne({
-      where: {
-        id: req.body.id
-      }
-    }).then(function(data){
-      res.json(data);
-    })
-  })
+  // app.get("/challenge", function(req, res){
+  //   db.Challenge.findOne({
+  //     where: {
+  //       id: req.body.id
+  //     }
+  //   }).then(function(data){
+  //     res.json(data);
+  //   })
+  // })
   
   // route for returning challenge history (by user id)
   app.get("/user/:userId/challengeHistory", function(req, res){
