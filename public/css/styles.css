@@ -149,6 +149,7 @@ nav .nav-right, nav .nav-item {
 }
 nav .nav-right {
     width: 50%;
+    display: none;
 }
 nav .nav-item {
     padding-right: 3%;
