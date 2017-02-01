@@ -3,33 +3,33 @@ var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var path = require('path');
 var passport = require('passport');
-var Strategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 
-var PORT = process.env.PORT || 9000;
+var PORT = process.env.PORT || 3000;
 
 var db = require("./models");
 
-//Local sign in call, may want to move this to separate document in future
-passport.use(new Strategy({
+//Setting the local authetication strategy, may want to move this to a separate document in future
+passport.use(new LocalStrategy({
   usernameField: 'email'
-},
-  function(email, password, cb) {
+  },
+  function(email, password, done) {
     db.User.findOne({ where: {email: email}}).then(function(user) {
-      console.log(user);
       if (!user) {
-        return cb(null, false);
+        return done(null, false);
       } else if (password != user.password) {
-        return cb(null, false);
+        return done(null, false);
       } else {
-        return cb(null, user);
+        return done(null, user);
       }
     }).catch(function(err){
-      return cb(err);
+      return done(err);
     });
 }));
 
   passport.serializeUser(function(user, cb) {
+    console.log("serialized: " + user.id);
     cb(null, user.id);
   });
 
@@ -40,6 +40,7 @@ passport.use(new Strategy({
       }
     }, function (err, user) {
       if (err) { return cb(err); }
+      console.log("deserialize: " + user);
       cb(null, user);
     });
   });
@@ -55,6 +56,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
+
 app.use(bodyParser.json());
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
@@ -69,43 +71,7 @@ app.use(passport.session());
 
 // require("./routes/api-routes.js")(app);
 require("./routes/html-routes.js")(app);
-
-
-  app.post('/login',
-          function (req, res, next) {
-              // console.log(req.user.isAuthenticated());
-              next();
-          },
-          passport.authenticate('local',{
-                  successRedirect: '/',
-                  failureRedirect: '/login'
-              }
-          ));
-// app.post('/login',
-//   passport.authenticate('local', { failureRedirect: '/signup'}),
-//   function (req, res){
-//     console.log("passport user", req.user.email);
-//
-//     res.redirect('/profile');
-//   });
-
-
-app.get('/logout',
-  function(req, res){
-    req.logout();
-    res.redirect('/');
-  });
-
-  app.post("/signup", function(req, res) {
-      db.User.create({
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password
-      }).then(function(){
-
-        res.redirect('/login');
-      });
-    });
+require("./routes/passport-routes.js")(app, passport);
 
 
 db.sequelize.sync().then(function(){
