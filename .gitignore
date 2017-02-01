@@ -1,7 +1,8 @@
 *.DS_Store
 
 # private credentials
-views/js/firebase-config.js
+public/js/firebase-config.js
+config/config.json
 
 # Logs
 logs
@@ -56,6 +57,3 @@ jspm_packages
 
 # dotenv environment variables file
 .env
-
-# sequelize configuration
-config/config.json

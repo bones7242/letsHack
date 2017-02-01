@@ -119,11 +119,15 @@ input[type=text] {
     overflow-y: auto;
     overflow-x: hidden;
 }
-.chat-message-user-0 {
-    font-style: italic;
+.chat-message-user-a {
+    color: black
 }
-.chat-message-user-1 {
-    background-color: #4484CE;
+.chat-message-user-b {
+    background-color: #77dc35;
+    color: black
+}
+.chatter {
+    font-style: italic;
 }
 nav {
     background-color: #4484CE;
@@ -131,7 +135,7 @@ nav {
     padding: 4px;
     height: 32px;
     width: 100%;
-    min-width: 430px;
+    min-width: 490px;
 }
 nav a, nav a:active, nav a:visited, nav a:hover {
     color: white;
@@ -140,11 +144,11 @@ nav .nav-right, nav .nav-item {
     float: right;
     font-size: small;
 }
+nav .nav-right {
+    width: 50%;
+}
 nav .nav-item {
     padding-right: 3%;
-}
-nav .nav-right {
-    width: 70%;
 }
 nav #logo {
     float: left;
@@ -155,6 +159,6 @@ nav #logo {
 footer {
     text-align: center;
     margin: 60px 0;
-    color: #FFF;
+    color: #888;
     font-size: small;
 }
