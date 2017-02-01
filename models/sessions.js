@@ -1,21 +1,15 @@
 // model for the users table
 module.exports = function(sequelize, DataTypes) {
     var Session = sequelize.define("Session", {
-        dateStarted: {
-            type: DataTypes.DATE
-        },
         success: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             default: false
-        },
-        teammateId: {
-            type: DataTypes.INTEGER
         }
     }, {
         classMethods: {
             associate: function(models) {
-                Session.belongsTo(models.User, {
+                Session.belongsTo(models.User, {  //BelongsTo inserts an association key in the source model (UserId)
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false
@@ -23,7 +17,15 @@ module.exports = function(sequelize, DataTypes) {
                 }); 
             },
             associate: function(models) {
-                Session.belongsTo(models.Challenge, {
+                Session.belongsTo(models.Teammate, {  
+                    onDelete: "cascade",
+                    foreignKey: {
+                        allowNull: false
+                    }
+                }); 
+            },
+            associate: function(models) {
+                Session.belongsTo(models.Challenge, { 
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false

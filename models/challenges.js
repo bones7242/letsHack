@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                Challenge.hasMany(models.Session);  // Associating challenges with sessions
+                Challenge.hasMany(models.Session); 
             }
         }
     });
