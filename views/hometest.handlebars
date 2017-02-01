@@ -2,5 +2,6 @@
   <p>Welcome! Please <a href="/login">log in</a>.</p>
 {{/unless}}
 
-
-  <p>Hello, {{this.email}} </p>
+{{#if user}}
+  <p>Hello, {{user.email}} </p>
+{{/if}}
