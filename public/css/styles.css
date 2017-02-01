@@ -111,6 +111,8 @@ nav #icon {
     padding: 5px 10px;
     color: #F9CF00;
     background-color: black;
+    font-family: monospace;
+    white-space: pre;
 }
 #chat-history {
     background-color: #F9CF00;

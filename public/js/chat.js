@@ -1,13 +1,36 @@
-
-
-
-function createChatRoom(chatRoomName, myUserName, maxUsers){
-    if (!database){
-        firebase.initializeApp(config);
-        var database = firebase.database();
-    }
+function createChatRoom(chatRoomName, maxUsers, myUserName, database){
     
-    chatRoom = chatRoomName;
+    var chatRoom = chatRoomName;
+
+    
+    var sendChat = function (msg, screenname){
+        // default values
+        var chatter = "anon";
+        var chatOwner = false;
+        if (screenname){
+            chatter = screenname;
+            chatOwner = "user-" + screenname;
+        }
+        var timeStamp = new Date();
+        database.ref("chatLog/" + chatRoom).push({screenname:chatter, message:msg, owner:chatOwner, timestamp:timeStamp});
+    };
+    var displayChats = function (snapshot){
+        $("#chat-history").empty();
+        for (var key in snapshot) {
+            var chat = snapshot[key];
+            var div = $("<div>").addClass("chat-message");
+            if (chat.owner){
+                div.addClass("chat-message-" + chat.owner)
+            }
+            var txt = '<span class="chatter">' + chat.screenname + ": </span>";
+            txt += chat.message;
+            div.html(txt);
+            $("#chat-history").prepend(div);	
+        }
+    };
+    var clearChat = function (){
+        database.ref("chatLog/"+chatRoom).remove();
+    };
 
     // watch for new chats
     database.ref("chatLog/" + chatRoom).orderByChild("timestamp").on("value", function(snapshot){
@@ -34,33 +57,4 @@ function createChatRoom(chatRoomName, myUserName, maxUsers){
     }).on("focusout", function(){
         $("body").off("keypress");
     });
-}
-
-function sendChat(msg, screenname){
-    // default values
-    var chatter = "anon";
-    var chatOwner = false;
-    if (screenname){
-        chatter = screenname;
-        chatOwner = "user-" + screenname;
-    }
-    var timeStamp = new Date();
-    database.ref("chatLog/" + chatRoom).push({screenname:chatter, message:msg, owner:chatOwner, timestamp:timeStamp});
-}
-function displayChats(snapshot){
-    $("#chat-history").empty();
-    for (var key in snapshot) {
-        var chat = snapshot[key];
-        var div = $("<div>").addClass("chat-message");
-        if (chat.owner){
-            div.addClass("chat-message-" + chat.owner)
-        }
-        var txt = '<span class="chatter">' + chat.screenname + ": </span>";
-        txt += chat.message;
-        div.html(txt);
-        $("#chat-history").prepend(div);	
-    }
-}
-function clearChat(){
-    database.ref("chatLog/"+chatRoom).remove();
 }

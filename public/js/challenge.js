@@ -2,16 +2,22 @@ $(document).ready(function() {
     //console.log("ready");
     firebase.initializeApp(config);
 	var database = firebase.database();
+    
     var myPointer;
     var myRef;
     var partnerPointer;
     var partnerRef;
+
     var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
     myRef = sessionRef.push(myPlayer, function(err){
         if (err) console.err(err);
         myPointer = myRef.getKey();
     });
     myRef.onDisconnect().remove();
+
+    function addBRTags(input){
+        return input.split("\n").join("<br />");
+    }
 
     // when this session changes value
     sessionRef.on("value", function(snapshot){
@@ -25,7 +31,7 @@ $(document).ready(function() {
                 } else {
                     // watch for partner's typing
                     var partnersCode = snapshot.child(user).val().codeSoFar;
-                    $("#partner-code .code-input").text(partnersCode);
+                    $("#partner-code .code-input").html(addBRTags(partnersCode));
                 }
             }
         }
@@ -33,14 +39,15 @@ $(document).ready(function() {
 
     // send my code typing to db
     $("#your-code .code-input").on("focus", function(){
-        $("body").on("keypress", function(event){
+        $("body").on("keyup", function(event){
             var code = $("#your-code .code-input").val().trim();
             myRef.child("/codeSoFar").set(code);
 		});
     }).on("focusout", function(){
-		$("body").off("keypress");
+		$("body").off("keyup");
 	});
 
+    createChatRoom(sessionData.sessionId, 2, user.displayName, database);
 
   /*
   // code to execute tests 
