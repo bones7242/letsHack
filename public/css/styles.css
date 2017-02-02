@@ -101,9 +101,9 @@ nav #icon {
 p.small {
     font-size: .8em;
 }
-#joinQueue {
+.largeButton {
     float: right;
-    background-color: blue;
+    background-color: #2f2fa9;
     color: white;
     border: 0;
     font-size: 1.5em;
@@ -201,6 +201,7 @@ footer {
     width: 60%;
     min-height: 200px;
     margin: 5% auto;
+    padding: 4px 12px;
 }
 #modal .modal-close {
     cursor: pointer;

@@ -5,8 +5,7 @@ $(document).ready(function() {
     
     var myPointer;
     var myRef;
-    var partnerPointer;
-    var partnerRef;
+    var partnerPresent = false;
 
     var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
     myRef = sessionRef.push(user, function(err){
@@ -30,10 +29,17 @@ $(document).ready(function() {
                     //console.log("found myself");
                 } else {
                     // watch for partner's typing
+                    partnerPresent = true;
                     var partnersCode = snapshot.child(user).val().codeSoFar;
                     $("#partner-code .code-input").html(addBRTags(partnersCode));
                 }
             }
+        } else if (usersConnected < 2 && partnerPresent === true){
+            //partner was here, but they disconnected
+            openModal(myPartner + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby?userId=" + user.id;});
+        } else if (usersConnected > 2){
+            //there are more than 2 people in this challenge... awkward!
+            openModal("Room is Full", "Hm, something went wrong, that challenge is already full. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby?userId=" + user.id;});
         }
     });
 
