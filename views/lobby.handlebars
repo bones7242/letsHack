@@ -22,11 +22,8 @@
         {{#unless user}}
         <p>Welcome! Please <a href="/login">log in</a>.</p>
         {{/unless}}
-        <p>You have not completed any challenges yet.</p>
         <ul class="challenge-history">
-        {{#each challengeHistory}}
-            <li>{{id}}: {{name}}, completed on {{timestamp-success}}</li>
-        {{/each}}
+        <!-- this gets populated by the frontend function showChallengeHistory --> 
         </ul>
     </div>
   </div>
@@ -41,6 +38,15 @@
   <script src="/js/lobby.js" type="text/javascript"></script>
   <script src="/js/chat.js" type="text/javascript"></script>
   <script lang="text/javascript">
-   // create variables with data from server
-   // data for logged in user and each online user
+    //dummy data for testing
+    var user = {
+      displayName : "HaroldProfileHbrs",
+      id : 90876
+    }
+    /*/get logged in user data from server
+    var user = {
+      displayName : {{user.displayName}},
+      userId : {{user.id}}
+    }
+    /*/
   </script>

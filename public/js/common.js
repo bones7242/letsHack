@@ -1,15 +1,21 @@
-//dummy data for logged in user
-var user = {
-  displayName : "HaroldCommonJS",
-  userId : 90876,
-  loggedIn : true
-}
 $(document).ready(function() {
+    function openModal(title, html){
+      $("#modal").show().find(".title").text(title).next("p").html(html);
+    }
+    function closeModal(){
+      $("#modal").hide().find(".title").text("").next("p").html("");
+    }
+    $("#modal").click(".modal-close, modal-background", closeModal);
+
     $("nav #icon, nav #logo").click(function(){
-      console.log("go home");
       window.location = "/";
     });
-    if (user.loggedIn){
-      $("nav .nav-right").show();
+    
+    if (typeof user != 'undefined'){
+        var lobbyLink = $("nav .nav-right")
+          .show()
+          .find(".nav-item.lobby-link a");
+        var lobbyHref = lobbyLink.attr("href");
+        lobbyLink.attr("href", lobbyHref + "?userId=" + user.id);
     }
 });

@@ -1,8 +1,5 @@
 function createChatRoom(chatRoomName, maxUsers, myUserName, database){
-    
     var chatRoom = chatRoomName;
-
-    
     var sendChat = function (msg, screenname){
         // default values
         var chatter = "anon";

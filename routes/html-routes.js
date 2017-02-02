@@ -14,22 +14,25 @@ module.exports = function(app) {
     res.render("login");
   });
 
+  // when clicked from the nav
   app.get("/lobby", function(req, res) {
     // this page needs data:
     // logged in user info
     db.User.findOne({
       where: {
-        id: req.body.id //can change this to displayName or email if that is better 
+        id: req.body.userId //can change this to displayName or email if that is better 
       }
     }).then(function(data){   
       res.render("lobby", {user: data});
     });
   });
 
-  app.get("/challenge", function(req, res) {
+  // this one will not actually be used in production, 
+  // since challenges will be accessed after create session
+  app.get("/challenge/:challengeid", function(req, res) {
     db.Challenge.findOne({
       where: {
-        id: req.body.id
+        id: req.params.id
       }
     }).then(function(data){
       res.render("challenge", {challege: data});
