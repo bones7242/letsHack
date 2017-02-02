@@ -16,17 +16,16 @@
         {{else}}
             <h2>Please Login</h2>
             <p>
-                
+                Back to the <a href="/login">login page</a> to sign in or sign up.
             </p>
         {{/if}}
         <br><br>
-        <p class="small">There are currently ***number of logged in users*** hackers online.</p>
     </div>
 
     <div class="container columns side-column">
         <h3>Your Challenge History</h3>
         {{#unless user}}
-        <p>Welcome! Please <a href="/login">log in</a>.</p>
+        <p>You must <a href="/login">login</a> to see your profile information.</p>
         {{/unless}}
         <ul class="challenge-history">
         <!-- this gets populated by the frontend function showChallengeHistory --> 
