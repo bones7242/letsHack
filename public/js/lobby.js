@@ -14,12 +14,26 @@
 
             //check to see if you can pair the user with someone else in the queue
             queueRef.on("value", function(snapshot){
-                length = snapshot.numChildren();
-                console.log(length + "users in the queue");
-                if (length > 1){
-                    
-                }
+                console.log(snapshot.numChildren() + " users in the queue");
+                var foundMatch = false;
+                snapshot.forEach(function(userInQueue){
+                    var waitingUser = userInQueue.val();
+                    if (!foundMatch && waitingUser != user.displayName){
+                        createSession(waitingUser);
+                        foundMatch = true;
+                    }
+                });
             });
         });
 
+        function createSession(partnerName){
+            console.log("create a session with user ", partnerName)
+            $.ajax("/session/create", {
+                data:{
+                    method: "POST",
+                    userId: user.displayName,
+                    teammateId: partnerName
+                }
+            });
+        }
    });

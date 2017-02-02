@@ -56,7 +56,7 @@ module.exports = function(app) {
       password: req.body.password
       // note: left out "displayName", "firstName", and "lastName"
     }).then(function(newUser){
-      res.json(newUser);  //returns the new user information (that isn't null) as well as "id", "updatedAt", and "createdAt"
+      res.render("lobby", {user: newUser});  //returns the new user information (that isn't null) as well as "id", "updatedAt", and "createdAt"
     });
   });
 
@@ -86,13 +86,20 @@ module.exports = function(app) {
 
   // route for creating a session 
   app.post("/session/create", function(req, res){  //route to create a session
+    //need to select a challenge ID that isn't in either user's challenge history.
+    var challengeSelected;
     db.Session.create({
       success: "false",  // will always be false when created 
-      TeammateId: req.body.TeammateId,
-      UserId: req.body.UserId,  // note: must be an valid(existing) UserId
-      ChallengeId: req.body.ChallengeId  // note: must be an valid(existing) ChallengeId
+      teammateId: req.body.teammateId,
+      UserId: req.body.userId,  // note: must be an valid(existing) UserId
+      ChallengeId: challengeSelected  // note: must be an valid(existing) ChallengeId
     }).then(function(newSession){
-      res.json(newSession);  // returns the new session information including "id", "updatedAt", and "createdAt"
+      // this page needs data:
+      // - all data for the session
+      // - all data for challenge (test, starter code, instructions, etc)
+      // - screen name or id for logged in user
+      // - screen name or id for partner
+       res.render("challenge", {session: newSession});  // returns the new session information including "id", "updatedAt", and "createdAt"
     });
   });
 
