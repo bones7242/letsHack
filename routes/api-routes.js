@@ -2,34 +2,6 @@
 var db = require("../models");
 
 module.exports = function(app) {
-
-  // routes for harold
-  // route to get information for logged a user (by id)
-  // app.get("/lobby", function(req, res){
-  //   db.User.findOne({
-  //     where: {
-  //       id: req.body.id //can change this to displayName or email if that is better 
-  //     }
-  //   }).then(function(data){
-  //     res.json(data);  
-  //   })
-  // });
-
-  // route for whether or not someone is logged in. if yes, ?
-  //app.get("", function(req, res){
-    // tbd 
-  //});
-
-  // routes to get information for a challenge (by id)
-  // app.get("/challenge", function(req, res){
-  //   db.Challenge.findOne({
-  //     where: {
-  //       id: req.body.id
-  //     }
-  //   }).then(function(data){
-  //     res.json(data);
-  //   })
-  // })
   
   // route for returning challenge history (by user id)
   app.get("/user/:userId/challengeHistory", function(req, res){
@@ -38,17 +10,20 @@ module.exports = function(app) {
       where: {
         UserId: userId
       },
-      // this returns challenge info by ChallengeID and user information by UserID, but how do I get user information by TeammateId?
-      include: [db.Challenge, db.User]  
+      include: [{
+        model: db.Challenge,
+        as: "Challenge"
+      }, {
+        model: db.User,
+        as: "Teammate"
+      }]
     }).then(function(data){
-
-      // parse the results into a summary easily consumed by the front end.
-
-      res.json(data);
+      // to do: parse the results into a summary easily consumed by the front end.
+      res.send(data);
     })
   });
 
-  // routes for testing ----
+  // --- routes for testing (might be usefull in production too) ---
   // route for creating a user 
   app.post("/user/create", function(req, res){  //route to create new user 
     db.User.create({
