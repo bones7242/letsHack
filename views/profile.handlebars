@@ -2,7 +2,6 @@
     <h1>User Profile</h1>
     <p>View <!--and update - future development--> your user information</p>
   </div>
-
   <div class="container" id="main-box">
     <div class="container columns main-column">
         {{#if user}}
@@ -34,6 +33,20 @@
         </ul>
     </div>
   </div>
+  
+  <script lang="text/javascript">
+    //dummy data for testing
+    var user = {
+      displayName : "HaroldProfileHbrs",
+      userId : 90876
+    }
+    /*/get logged in user data from server
+    var user = {
+      displayName : {{user.displayName}},
+      userId : {{user.id}}
+    }
+    /*/
+  </script>
 
 
 
