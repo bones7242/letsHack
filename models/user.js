@@ -24,9 +24,7 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 User.hasMany(models.Session);  // adds key to Sessions for UserID
-            },
-            associate: function(models) {
-                User.hasMany(models.Session, {as: "Teammate"});  // adds key to Sessions as 
+                User.hasMany(models.Session, {as: "TeammateId"});  // adds key to Sessions as 
             },
         }
     });
