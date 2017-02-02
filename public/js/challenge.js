@@ -9,7 +9,7 @@ $(document).ready(function() {
     var partnerRef;
 
     var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
-    myRef = sessionRef.push(myPlayer, function(err){
+    myRef = sessionRef.push(user, function(err){
         if (err) console.err(err);
         myPointer = myRef.getKey();
     });
