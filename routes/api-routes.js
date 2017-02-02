@@ -38,7 +38,8 @@ module.exports = function(app) {
       where: {
         UserId: userId
       },
-      include: [db.Challenge, db.Teammate]  // include the challenge information based on the challenge id & the teammate information based on the teammate id 
+      // this returns challenge info by ChallengeID and user information by UserID, but how do I get user information by TeammateId?
+      include: [db.Challenge, db.User]  
     }).then(function(data){
 
       // parse the results into a summary easily consumed by the front end.
@@ -47,11 +48,8 @@ module.exports = function(app) {
     })
   });
 
-
-
-
-
-  // routes for testing
+  // routes for testing ----
+  // route for creating a user 
   app.post("/user/create", function(req, res){  //route to create new user 
     db.User.create({
       email: req.body.email,
@@ -62,6 +60,7 @@ module.exports = function(app) {
     });
   });
 
+  // route for updating a user 
   app.put("/user/update", function(req, res){  //route to update a user 
     db.User.update({
       email: req.body.email,
@@ -85,10 +84,11 @@ module.exports = function(app) {
     });
   })
 
+  // route for creating a session 
   app.post("/session/create", function(req, res){  //route to create a session
     db.Session.create({
       success: "false",  // will always be false when created 
-      teammateId: req.body.teammateId,
+      TeammateId: req.body.TeammateId,
       UserId: req.body.UserId,  // note: must be an valid(existing) UserId
       ChallengeId: req.body.ChallengeId  // note: must be an valid(existing) ChallengeId
     }).then(function(newSession){
@@ -96,6 +96,7 @@ module.exports = function(app) {
     });
   });
 
+  // route for updating a session 
   app.put("/session/update", function(req, res){  //route to update a session (based on session Id)
     db.Session.update({
       success: req.body.success,
@@ -118,6 +119,7 @@ module.exports = function(app) {
     });
   });
 
+  // route for creating a challenge 
   app.post("/challenge/create", function(req, res){  //route to create a challenge 
     db.Challenge.create({
       difficulty: req.body.difficulty,
@@ -133,6 +135,7 @@ module.exports = function(app) {
     });
   });
 
+  // route for updating a challenge 
   app.put("/challenge/update", function(req, res){  //route to update a challenge 
     db.Challenge.update({
       difficulty: req.body.difficulty,

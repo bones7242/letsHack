@@ -5,26 +5,20 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             default: false
+        },
+        TeammateId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     }, {
         classMethods: {
             associate: function(models) {
-                Session.belongsTo(models.User, {  //BelongsTo inserts an association key in the source model (UserId)
+                Session.belongsTo(models.User, { 
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false
                     }
-                }); 
-            },
-            associate: function(models) {
-                Session.belongsTo(models.Teammate, {  
-                    onDelete: "cascade",
-                    foreignKey: {
-                        allowNull: false
-                    }
-                }); 
-            },
-            associate: function(models) {
+                });
                 Session.belongsTo(models.Challenge, { 
                     onDelete: "cascade",
                     foreignKey: {
