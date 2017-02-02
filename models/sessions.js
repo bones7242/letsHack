@@ -5,11 +5,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             default: false
-        }//,
-        // TeammateId: {
-        //     type: DataTypes.INTEGER,
-        //     allowNull: false
-        // }
+        }
     }, {
         classMethods: {
             associate: function(models) {
