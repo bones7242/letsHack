@@ -136,15 +136,13 @@ module.exports = function(app) {
           // this page needs the following data:
           // - all data for the session
           // - all data for challenge (test, starter code, instructions, etc)
-          // - screen name or id for logged in user
-          // - screen name or id for partner
+          // - screen name or id for logged in user  >> located at sessionData.UserId
+          // - screen name or id for partner  >> located at sessionData.TeammateId
           var newSession = {
-            sessionData: sessionData,
-            challengeData: challengeData,
-            //userId: userId,  // not necessary because located at sessionData.UserId?
-            //teammateId: teammateId  // not necessary because located at sessionData.TeammateId?
+            sessionData: JSON.parse(JSON.stringify(sessionData)),
+            challengeData: JSON.parse(JSON.stringify(challengeData)),
           };
-          console.log("newSession:", JSON.Parse(newSession));
+          console.log("newSession:", newSession);
           res.render("Challenge", {session: newSession});
         });
     });
