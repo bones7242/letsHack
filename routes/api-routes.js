@@ -61,21 +61,71 @@ module.exports = function(app) {
 
   // route for creating a session 
   app.post("/session/create", function(req, res){
-    //need to select a challenge ID that isn't in either user's challenge history.
+    // need to select a challenge ID that isn't in either user's challenge history.
+    var userId = req.body.userId;
+    var teammateId = req.body.teammateId;
     var challengeSelected;
-    db.Session.create({
-      success: "false",  // will always be false when created 
-      teammateId: req.body.teammateId,
-      UserId: req.body.userId,  // note: must be an valid(existing) UserId
-      ChallengeId: challengeSelected  // note: must be an valid(existing) ChallengeId
-    }).then(function(newSession){
-      // this page needs data:
-      // - all data for the session
-      // - all data for challenge (test, starter code, instructions, etc)
-      // - screen name or id for logged in user
-      // - screen name or id for partner
-       res.render("challenge", {session: newSession});  // returns the new session information including "id", "updatedAt", and "createdAt"
+    // make db queries  
+    db.sequelize.Promise.all([
+      db.Session.findAll({
+          attributes: ["ChallengeId"],
+          where: {
+            $or: [{UserId: userId}, {UserId: teammateId}]
+          }
+      }),
+      db.Challenge.findAll({
+          attributes: ["id"],
+      })
+    ])
+    .spread(function(sessions, challenges) {
+      //console.log("data0: ", JSON.parse(JSON.stringify(data[0].dataValues)).ChallengeId);
+      // parse the results to get an array of the used challenge ids
+      var usedChallenges = []; 
+      var jsonSessions = JSON.parse(JSON.stringify(sessions));
+      for (var i = 0; i < jsonSessions.length; i++){
+        usedChallenges.push(jsonSessions[i].ChallengeId); //note: for some reason it comes through with ID capitalized 
+      }
+      // compare to an array of all possible challenge id 
+      var allChallengeId = []; 
+        // tbd
+      res.send(usedChallenges);
     });
+
+
+    // db.Session.findAll({  // find all challenges users have performed 
+    //   attributes: ['ChallengeID'],
+    //   where: {
+    //     $or: [{UserId: userId}, {UserId: teammateId}]
+    //   }
+    // }).then(function(data){
+    //   console.log("data0: ", JSON.parse(JSON.stringify(data[0].dataValues)).ChallengeId);
+    //   // parse the results to get an array of the used challenge ids
+    //   var challenges = []; 
+    //   var jsonData = JSON.parse(JSON.stringify(data));
+    //   for (var i = 0; i < jsonData.length; i++){
+    //     challenges.push(jsonData[i].ChallengeID); //note: for some reason it comes through with ID capitalized 
+    //   }
+    //   // compare to an array of all possible challenge id 
+    //   var allChallengeId = []; 
+    //   res.send(data);
+    // }).then(function(){
+    //   db.
+    // });
+
+    // //create session 
+    // db.Session.create({
+    //   success: "false",  // will always be false when created 
+    //   teammateId: req.body.teammateId,
+    //   UserId: req.body.userId,  // note: must be an valid(existing) UserId
+    //   ChallengeId: challengeSelected  // note: must be an valid(existing) ChallengeId
+    // }).then(function(newSession){
+    //   // this page needs data:
+    //   // - all data for the session
+    //   // - all data for challenge (test, starter code, instructions, etc)
+    //   // - screen name or id for logged in user
+    //   // - screen name or id for partner
+    //    res.render("challenge", {session: newSession});  // returns the new session information including "id", "updatedAt", and "createdAt"
+    // });
   });
 
   // route to update a session (based on session Id)
