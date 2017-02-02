@@ -73,9 +73,20 @@ module.exports = function(app) {
         model: db.User,
         as: "Teammate"
       }]
+      // to do: order the results by challengeId and then by date updated 
     }).then(function(data){
-      // to do: parse the results into a summary easily consumed by the front end.
-      res.send(data);
+      data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
+      var mappedData = data.map(function(session){
+        var newObject = {};
+        newObject.ChallengeId = session.ChallengeId;
+        newObject.ChallengeName = session.Challenge.name;
+        newObject.success = session.success;
+        newObject.updatedAt = session.updatedAt;
+        newObject.TeammateId = session.Teammate.id;
+        newObject.TeammateDisplayName = session.Teammate.displayName;
+        return newObject;
+      })
+      res.json(mappedData);
     })
   });
 
@@ -99,17 +110,15 @@ module.exports = function(app) {
     .spread(function(sessions, challenges) {
       // parse the results to get an array of the used challenge ids
       var usedChallengeIds = []; 
-      var jsonSessions = JSON.parse(JSON.stringify(sessions));
-      for (var i = 0; i < jsonSessions.length; i++){
-        usedChallengeIds.push(jsonSessions[i].ChallengeId); //note: for some reason it comes through with ID capitalized 
+      for (var i = 0; i < sessions.length; i++){
+        usedChallengeIds.push(sessions[i].ChallengeId); //note: for some reason it comes through with ID capitalized 
       }
       usedChallengeIds = removeDuplicates(usedChallengeIds);
       console.log("used:", usedChallengeIds);
       // parse the array of all possible challenge id 
       var allChallengeIds = []; 
-      var jsonChallenges = JSON.parse(JSON.stringify(challenges));
-      for (var i = 0; i < jsonChallenges.length; i++){
-        allChallengeIds.push(jsonChallenges[i].id); //note: for some reason it comes through with ID capitalized 
+      for (var i = 0; i < challenges.length; i++){
+        allChallengeIds.push(challenges[i].id); //note: for some reason it comes through with ID capitalized 
       }
       console.log("total:", allChallengeIds)
       // compare the arrays to and remove the used challenges from AllChallengeIds 
