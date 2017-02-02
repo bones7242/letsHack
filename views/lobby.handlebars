@@ -22,11 +22,8 @@
         {{#unless user}}
         <p>Welcome! Please <a href="/login">log in</a>.</p>
         {{/unless}}
-        <p>You have not completed any challenges yet.</p>
         <ul class="challenge-history">
-        {{#each challengeHistory}}
-            <li>{{id}}: {{name}}, completed on {{timestamp-success}}</li>
-        {{/each}}
+        <!-- this gets populated by the frontend function showChallengeHistory --> 
         </ul>
     </div>
   </div>

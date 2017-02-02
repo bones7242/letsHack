@@ -6,7 +6,6 @@ var user = {
 }
 $(document).ready(function() {
     $("nav #icon, nav #logo").click(function(){
-      console.log("go home");
       window.location = "/";
     });
     if (user.loggedIn){
