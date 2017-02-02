@@ -1,6 +1,27 @@
 
 var db = require("../models");
 
+// helper function to remove duplicates
+function removeDuplicates(array){
+  for (var i = array.length; i > 0; i--){
+    if ((array.indexOf(array[i]) >= 0) && (array.indexOf(array[i]) < i)) {
+      array.splice(i,1);
+    };
+  };
+  return array;
+}
+
+// helper function to compare two arrays and return 
+function removeElements(startArray, removeArray){
+  for (var i = 0; i < startArray.length; i++){
+    if (removeArray.indexOf(startArray[i]) >= 0) {
+      startArray.splice(i, 1);
+    };
+  };
+  return startArray;
+}
+
+// routes to export 
 module.exports = function(app) {
   
   // route for returning challenge history (by user id)
@@ -61,16 +82,15 @@ module.exports = function(app) {
 
   // route for creating a session 
   app.post("/session/create", function(req, res){
-    // need to select a challenge ID that isn't in either user's challenge history.
     var userId = req.body.userId;
     var teammateId = req.body.teammateId;
-    var challengeSelected;
-    // make db queries  
+    // 1. select a challenge id that isn't in either user's challenge history.
     db.sequelize.Promise.all([
       db.Session.findAll({
           attributes: ["ChallengeId"],
           where: {
             $or: [{UserId: userId}, {UserId: teammateId}]
+            //todo: only select those challenge ids for records where 'success = true'
           }
       }),
       db.Challenge.findAll({
@@ -78,54 +98,56 @@ module.exports = function(app) {
       })
     ])
     .spread(function(sessions, challenges) {
-      //console.log("data0: ", JSON.parse(JSON.stringify(data[0].dataValues)).ChallengeId);
       // parse the results to get an array of the used challenge ids
-      var usedChallenges = []; 
+      var usedChallengeIds = []; 
       var jsonSessions = JSON.parse(JSON.stringify(sessions));
       for (var i = 0; i < jsonSessions.length; i++){
-        usedChallenges.push(jsonSessions[i].ChallengeId); //note: for some reason it comes through with ID capitalized 
+        usedChallengeIds.push(jsonSessions[i].ChallengeId); //note: for some reason it comes through with ID capitalized 
       }
-      // compare to an array of all possible challenge id 
-      var allChallengeId = []; 
-        // tbd
-      res.send(usedChallenges);
+      usedChallengeIds = removeDuplicates(usedChallengeIds);
+      console.log("used:", usedChallengeIds);
+      // parse the array of all possible challenge id 
+      var allChallengeIds = []; 
+      var jsonChallenges = JSON.parse(JSON.stringify(challenges));
+      for (var i = 0; i < jsonChallenges.length; i++){
+        allChallengeIds.push(jsonChallenges[i].id); //note: for some reason it comes through with ID capitalized 
+      }
+      console.log("total:", allChallengeIds)
+      // compare the arrays to and remove the used challenges from AllChallengeIds 
+      var possibleChallengeIds = removeElements(allChallengeIds, usedChallengeIds)
+      // select a challenge
+      var challengeToUse = possibleChallengeIds[0];
+      // 2. create the session and get the information 
+      db.sequelize.Promise.all([
+        db.Session.create({
+            success: "false",  // will always be false when created 
+            ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
+            UserId: userId,  // note: must be an valid(existing) UserId
+            TeammateId: teammateId,  // note: must be an valid(existing) UserId 
+          }),
+          db.Challenge.findOne({
+              where: {
+                id: challengeToUse
+              }
+          })
+        ])
+        .spread(function(sessionData, challengeData) {
+          // 3. return the information 
+          // this page needs the following data:
+          // - all data for the session
+          // - all data for challenge (test, starter code, instructions, etc)
+          // - screen name or id for logged in user
+          // - screen name or id for partner
+          var newSession = {
+            sessionData: sessionData,
+            challengeData: challengeData,
+            //userId: userId,  // not necessary because located at sessionData.UserId?
+            //teammateId: teammateId  // not necessary because located at sessionData.TeammateId?
+          };
+          console.log("newSession:", JSON.Parse(newSession));
+          res.render("Challenge", {session: newSession});
+        });
     });
-
-
-    // db.Session.findAll({  // find all challenges users have performed 
-    //   attributes: ['ChallengeID'],
-    //   where: {
-    //     $or: [{UserId: userId}, {UserId: teammateId}]
-    //   }
-    // }).then(function(data){
-    //   console.log("data0: ", JSON.parse(JSON.stringify(data[0].dataValues)).ChallengeId);
-    //   // parse the results to get an array of the used challenge ids
-    //   var challenges = []; 
-    //   var jsonData = JSON.parse(JSON.stringify(data));
-    //   for (var i = 0; i < jsonData.length; i++){
-    //     challenges.push(jsonData[i].ChallengeID); //note: for some reason it comes through with ID capitalized 
-    //   }
-    //   // compare to an array of all possible challenge id 
-    //   var allChallengeId = []; 
-    //   res.send(data);
-    // }).then(function(){
-    //   db.
-    // });
-
-    // //create session 
-    // db.Session.create({
-    //   success: "false",  // will always be false when created 
-    //   teammateId: req.body.teammateId,
-    //   UserId: req.body.userId,  // note: must be an valid(existing) UserId
-    //   ChallengeId: challengeSelected  // note: must be an valid(existing) ChallengeId
-    // }).then(function(newSession){
-    //   // this page needs data:
-    //   // - all data for the session
-    //   // - all data for challenge (test, starter code, instructions, etc)
-    //   // - screen name or id for logged in user
-    //   // - screen name or id for partner
-    //    res.render("challenge", {session: newSession});  // returns the new session information including "id", "updatedAt", and "createdAt"
-    // });
   });
 
   // route to update a session (based on session Id)
