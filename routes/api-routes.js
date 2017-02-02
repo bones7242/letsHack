@@ -23,29 +23,8 @@ function removeElements(startArray, removeArray){
 
 // routes to export 
 module.exports = function(app) {
-  
-  // route for returning challenge history (by user id)
-  app.get("/user/:userId/challengeHistory", function(req, res){
-    var userId = req.params.userId;
-    db.Session.findAll({
-      where: {
-        UserId: userId
-      },
-      include: [{
-        model: db.Challenge,
-        as: "Challenge"
-      }, {
-        model: db.User,
-        as: "Teammate"
-      }]
-    }).then(function(data){
-      // to do: parse the results into a summary easily consumed by the front end.
-      res.send(data);
-    })
-  });
 
-  // --- routes for testing (might be usefull in production too) ---
-  // route for creating a user 
+  // route for creating a new user 
   app.post("/user/create", function(req, res){  //route to create new user 
     db.User.create({
       email: req.body.email,
@@ -79,6 +58,26 @@ module.exports = function(app) {
       };
     });
   })
+  
+  // route for returning challenge history by user id
+  app.get("/user/:userId/challengeHistory", function(req, res){
+    var userId = req.params.userId;
+    db.Session.findAll({
+      where: {
+        UserId: userId
+      },
+      include: [{
+        model: db.Challenge,
+        as: "Challenge"
+      }, {
+        model: db.User,
+        as: "Teammate"
+      }]
+    }).then(function(data){
+      // to do: parse the results into a summary easily consumed by the front end.
+      res.send(data);
+    })
+  });
 
   // route for creating a session 
   app.post("/session/create", function(req, res){
@@ -89,8 +88,8 @@ module.exports = function(app) {
       db.Session.findAll({
           attributes: ["ChallengeId"],
           where: {
-            $or: [{UserId: userId}, {UserId: teammateId}]
-            //todo: only select those challenge ids for records where 'success = true'
+            $or: [{UserId: userId}, {UserId: teammateId}],  // selects if id is user's or teammate's
+            success: true // only selects records that have not been solved
           }
       }),
       db.Challenge.findAll({
