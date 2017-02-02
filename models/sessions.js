@@ -5,15 +5,19 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             default: false
-        },
-        TeammateId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
         }
     }, {
         classMethods: {
             associate: function(models) {
                 Session.belongsTo(models.User, { 
+                    as: "User",
+                    onDelete: "cascade",
+                    foreignKey: {
+                        allowNull: false
+                    }
+                });
+                Session.belongsTo(models.User, { 
+                    as: "Teammate",
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false
