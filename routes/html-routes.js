@@ -27,11 +27,6 @@ module.exports = function(app) {
   });
 
   app.get("/challenge", function(req, res) {
-    // this page needs data:
-    // - all data for the session
-    // - all data for challenge
-    // - screen name or id for partner
-    // - screen name or id for logged in user
     db.Challenge.findOne({
       where: {
         id: req.body.id
