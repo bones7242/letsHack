@@ -1,30 +1,30 @@
 
 var db = require("../models");
 
-module.exports = function(app) {
-  
-  // route for returning challenge history (by user id)
-  app.get("/user/:userId/challengeHistory", function(req, res){
-    var userId = req.params.userId;
-    db.Session.findAll({
-      where: {
-        UserId: userId
-      },
-      include: [{
-        model: db.Challenge,
-        as: "Challenge"
-      }, {
-        model: db.User,
-        as: "Teammate"
-      }]
-    }).then(function(data){
-      // to do: parse the results into a summary easily consumed by the front end.
-      res.send(data);
-    })
-  });
+// helper function to remove duplicates
+function removeDuplicates(array){
+  for (var i = array.length; i > 0; i--){
+    if ((array.indexOf(array[i]) >= 0) && (array.indexOf(array[i]) < i)) {
+      array.splice(i,1);
+    };
+  };
+  return array;
+}
 
-  // --- routes for testing (might be usefull in production too) ---
-  // route for creating a user 
+// helper function to compare two arrays and return 
+function removeElements(startArray, removeArray){
+  for (var i = 0; i < startArray.length; i++){
+    if (removeArray.indexOf(startArray[i]) >= 0) {
+      startArray.splice(i, 1);
+    };
+  };
+  return startArray;
+}
+
+// routes to export 
+module.exports = function(app) {
+
+  // route for creating a new user 
   app.post("/user/create", function(req, res){  //route to create new user 
     db.User.create({
       email: req.body.email,
@@ -58,23 +58,92 @@ module.exports = function(app) {
       };
     });
   })
+  
+  // route for returning challenge history by user id
+  app.get("/user/:userId/challengeHistory", function(req, res){
+    var userId = req.params.userId;
+    db.Session.findAll({
+      where: {
+        UserId: userId
+      },
+      include: [{
+        model: db.Challenge,
+        as: "Challenge"
+      }, {
+        model: db.User,
+        as: "Teammate"
+      }]
+    }).then(function(data){
+      // to do: parse the results into a summary easily consumed by the front end.
+      res.send(data);
+    })
+  });
 
   // route for creating a session 
   app.post("/session/create", function(req, res){
-    //need to select a challenge ID that isn't in either user's challenge history.
-    var challengeSelected;
-    db.Session.create({
-      success: "false",  // will always be false when created 
-      teammateId: req.body.teammateId,
-      UserId: req.body.userId,  // note: must be an valid(existing) UserId
-      ChallengeId: challengeSelected  // note: must be an valid(existing) ChallengeId
-    }).then(function(newSession){
-      // this page needs data:
-      // - all data for the session
-      // - all data for challenge (test, starter code, instructions, etc)
-      // - screen name or id for logged in user
-      // - screen name or id for partner
-       res.render("challenge", {session: newSession});  // returns the new session information including "id", "updatedAt", and "createdAt"
+    var userId = req.body.userId;
+    var teammateId = req.body.teammateId;
+    // 1. select a challenge id that isn't in either user's challenge history.
+    db.sequelize.Promise.all([
+      db.Session.findAll({
+          attributes: ["ChallengeId"],
+          where: {
+            $or: [{UserId: userId}, {UserId: teammateId}],  // selects if id is user's or teammate's
+            success: true // only selects records that have not been solved
+          }
+      }),
+      db.Challenge.findAll({
+          attributes: ["id"],
+      })
+    ])
+    .spread(function(sessions, challenges) {
+      // parse the results to get an array of the used challenge ids
+      var usedChallengeIds = []; 
+      var jsonSessions = JSON.parse(JSON.stringify(sessions));
+      for (var i = 0; i < jsonSessions.length; i++){
+        usedChallengeIds.push(jsonSessions[i].ChallengeId); //note: for some reason it comes through with ID capitalized 
+      }
+      usedChallengeIds = removeDuplicates(usedChallengeIds);
+      console.log("used:", usedChallengeIds);
+      // parse the array of all possible challenge id 
+      var allChallengeIds = []; 
+      var jsonChallenges = JSON.parse(JSON.stringify(challenges));
+      for (var i = 0; i < jsonChallenges.length; i++){
+        allChallengeIds.push(jsonChallenges[i].id); //note: for some reason it comes through with ID capitalized 
+      }
+      console.log("total:", allChallengeIds)
+      // compare the arrays to and remove the used challenges from AllChallengeIds 
+      var possibleChallengeIds = removeElements(allChallengeIds, usedChallengeIds)
+      // select a challenge
+      var challengeToUse = possibleChallengeIds[0];
+      // 2. create the session and get the information 
+      db.sequelize.Promise.all([
+        db.Session.create({
+            success: "false",  // will always be false when created 
+            ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
+            UserId: userId,  // note: must be an valid(existing) UserId
+            TeammateId: teammateId,  // note: must be an valid(existing) UserId 
+          }),
+          db.Challenge.findOne({
+              where: {
+                id: challengeToUse
+              }
+          })
+        ])
+        .spread(function(sessionData, challengeData) {
+          // 3. return the information 
+          // this page needs the following data:
+          // - all data for the session
+          // - all data for challenge (test, starter code, instructions, etc)
+          // - screen name or id for logged in user  >> located at sessionData.UserId
+          // - screen name or id for partner  >> located at sessionData.TeammateId
+          var newSession = {
+            sessionData: JSON.parse(JSON.stringify(sessionData)),
+            challengeData: JSON.parse(JSON.stringify(challengeData)),
+          };
+          console.log("newSession:", newSession);
+          res.render("Challenge", {session: newSession});
+        });
     });
   });
 

@@ -1,4 +1,3 @@
-
 // model for the users table
 module.exports = function(sequelize, DataTypes) {
     var User = sequelize.define("User", {
@@ -23,10 +22,10 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                User.hasMany(models.Session);  // adds key to Sessions for UserID
+                User.hasMany(models.Session);
                 User.hasMany(models.Session, {
                     as: "Teammate"
-                });  // adds key to Sessions as 
+                });
             },
         }
     });
