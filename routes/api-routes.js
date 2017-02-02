@@ -60,7 +60,7 @@ module.exports = function(app) {
   })
 
   // route for creating a session 
-  app.post("/session/create", function(req, res){  //route to create a session
+  app.post("/session/create", function(req, res){
     //need to select a challenge ID that isn't in either user's challenge history.
     var challengeSelected;
     db.Session.create({
@@ -78,8 +78,8 @@ module.exports = function(app) {
     });
   });
 
-  // route for updating a session 
-  app.put("/session/update", function(req, res){  //route to update a session (based on session Id)
+  // route to update a session (based on session Id)
+  app.put("/session/update", function(req, res){  
     db.Session.update({
       success: req.body.success,
       teammateId: req.body.teammateId,
