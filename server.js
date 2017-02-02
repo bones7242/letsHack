@@ -3,7 +3,9 @@ var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var path = require('path');
 var passport = require('passport');
+var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy;
+var passportRoutes = require('./routes/passport-routes.js');
 
 
 var PORT = process.env.PORT || 3000;
@@ -11,15 +13,17 @@ var PORT = process.env.PORT || 3000;
 var db = require("./models");
 
 //Setting the local authetication strategy, may want to move this to a separate document in future
-passport.use(new LocalStrategy({
-  usernameField: 'email'
-  },
-  function(email, password, done) {
+passport.use('local', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+},
+  function(req, email, password, done) {
     db.User.findOne({ where: {email: email}}).then(function(user) {
       if (!user) {
-        return done(null, false);
-      } else if (password != user.password) {
-        return done(null, false);
+        return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
+      } else if (password !== user.password) {
+        return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
       } else {
         return done(null, user);
       }
@@ -27,6 +31,7 @@ passport.use(new LocalStrategy({
       return done(err);
     });
 }));
+
 
   passport.serializeUser(function(user, cb) {
     console.log("serialized: " + user.id);
@@ -38,10 +43,11 @@ passport.use(new LocalStrategy({
       where: {
         'id': id
       }
-    }, function (err, user) {
-      if (err) { return cb(err); }
+    }).then(function(user) {
       console.log("deserialize: " + user);
       cb(null, user);
+    }).catch(function(error){
+      console.log(error);
     });
   });
 
@@ -62,6 +68,7 @@ app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(flash());
 
 
 
@@ -70,8 +77,10 @@ app.use(passport.session());
 
 
 // require("./routes/api-routes.js")(app);
-require("./routes/html-routes.js")(app);
-require("./routes/passport-routes.js")(app, passport);
+// require("./routes/html-routes.js")(app);
+
+
+app.use('/', passportRoutes(passport));
 
 
 db.sequelize.sync().then(function(){

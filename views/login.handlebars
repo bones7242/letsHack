@@ -6,7 +6,7 @@
 		<p>
 			<form method="POST" action="/signup">
 				Choose a Username:<br>
-				<input type="text" name="username"><br>
+				<input type="text" name="displayName"><br>
 				Your Email:<br>
 				<input type="text" name="email"><br>
 				Choose a Password:<br>
@@ -28,6 +28,9 @@
 				<input type="submit" value="Submit"/>
 			</form>
 		</p>
+		{{#if message}}
+		<h2>{{message}}</h2>
+		{{/if}}
 	</div>
 </div>
 </div>
