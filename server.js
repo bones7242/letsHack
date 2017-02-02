@@ -22,7 +22,7 @@ passport.use('local', new LocalStrategy({
     db.User.findOne({ where: {email: email}}).then(function(user) {
       if (!user) {
         return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
-      } else if (password !== user.password) {
+      } else if (!user.validatePassword(password)) {
         return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
       } else {
         return done(null, user);

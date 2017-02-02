@@ -23,8 +23,16 @@ module.exports = function(sequelize, DataTypes) {
         classMethods: {
             associate: function(models) {
                 User.hasMany(models.Session);  // Associating users with sessions
+            },
+            generateHash: function(password) {
+                return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+            },
+            validatePassword: function(password) {
+                return bcrypt.compareSync(password, this.password);
             }
         }
     });
+
+
     return User;
 };
