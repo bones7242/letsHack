@@ -1,6 +1,15 @@
 $(document).ready(function() {
-    function openModal(title, html){
-      $("#modal").show().find(".title").text(title).next("p").html(html);
+    function openModal(title, html, buttonText, buttonCallback){
+      $("#modal")
+      .show()
+      .find(".title")
+      .text(title)
+      .next("p.modal-text")
+      .html(html);
+      if (buttonText && buttonCallback){
+        $("#modal p.modal-text").append("<button>" + buttonText + "</button>");
+        $("#modal").click("button", buttonCallback);
+      }
     }
     function closeModal(){
       $("#modal").hide().find(".title").text("").next("p").html("");
