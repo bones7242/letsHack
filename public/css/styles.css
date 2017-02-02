@@ -31,6 +31,9 @@ input[type=text] {
     margin: 0 12px;
     background-position-y: -3px;
 }
+nav #icon {
+    cursor: pointer;
+}
 .login-page #icon {
     float: right;
     width: 150px;
@@ -95,7 +98,18 @@ input[type=text] {
     margin: 0;
     border-radius: 12px;
 }
-
+p.small {
+    font-size: .8em;
+}
+#joinQueue {
+    float: right;
+    background-color: blue;
+    color: white;
+    border: 0;
+    font-size: 1.5em;
+    padding: 9px;
+    margin: 6px;
+}
 .login-page .side-column {
     font-size: unset;
     margin-top: 20px;
@@ -108,6 +122,8 @@ input[type=text] {
     padding: 5px 10px;
     color: #F9CF00;
     background-color: black;
+    font-family: monospace;
+    white-space: pre;
 }
 #chat-history {
     background-color: #F9CF00;
@@ -146,6 +162,7 @@ nav .nav-right, nav .nav-item {
 }
 nav .nav-right {
     width: 50%;
+    display: none;
 }
 nav .nav-item {
     padding-right: 3%;
@@ -155,6 +172,7 @@ nav #logo {
     width: 20%;
     min-width: 120px;
     font-size: 1.5em;
+    cursor: pointer;
 }
 footer {
     text-align: center;
