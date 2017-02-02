@@ -1,4 +1,40 @@
+<div class="container" id="header-box">
+    <h1>User Profile</h1>
+    <p>View <!--and update - future development--> your user information</p>
+  </div>
 
-{{#if user}}
-<h1>Profile {{user.email}}</h1>
-{{/if}}
+  <div class="container" id="main-box">
+    <div class="container columns main-column">
+        {{#if user}}
+            <h2>{{user.displayName}}</h2>
+            <p>
+            email address: 
+            {{user.email}}
+            <br><br>
+            name: 
+            {{user.firstName}}{{user.firstName}}
+            </p>
+        {{else}}
+            <h2>Please Login</h2>
+            <p>
+                
+            </p>
+        {{/if}}
+        <br><br>
+        <p class="small">There are currently ***number of logged in users*** hackers online.</p>
+    </div>
+
+    <div class="container columns side-column">
+        <h3>Your Challenge History</h3>
+        {{#unless user}}
+        <p>Welcome! Please <a href="/login">log in</a>.</p>
+        {{/unless}}
+        <ul class="challenge-history">
+        <!-- this gets populated by the frontend function showChallengeHistory --> 
+        </ul>
+    </div>
+  </div>
+
+
+
+
