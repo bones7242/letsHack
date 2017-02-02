@@ -27,8 +27,7 @@ module.exports = function(app) {
     });
   });
 
-  // this one will not actually be used in production, 
-  // since challenges will be accessed after create session
+
   app.get("/challenge/:challengeid", function(req, res) {
     db.Challenge.findOne({
       where: {

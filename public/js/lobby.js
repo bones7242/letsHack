@@ -19,8 +19,8 @@ $(document).ready(function(){
             snapshot.forEach(function(userInQueue){
                 var waitingUser = userInQueue.val();
                 if (!foundMatch && waitingUser != user.displayName){
-                    createSession(waitingUser);
                     foundMatch = true;
+                    createSession(waitingUser);
                 }
             });
         });
@@ -34,6 +34,20 @@ $(document).ready(function(){
                 userId: user.displayName,
                 teammateId: partnerName
             }
+        }).done(function(sessionData){
+            //prompt user to confirm they want to enter this session
+            openModal("You've been matched", "You and " + partnerName + " have been given the challenge called <em>" +
+            sessionData.challengeName + ".</em> Ready? Set?", "Let's Hack!", function(){
+                //go to the challenge page
+                $.ajax("/challenge/"sessionData.challengeId, {
+                    data:{
+                        method: "POST",
+                        userId: user.displayName,
+                        teammateId: partnerName,
+                        sessionId: sessionData.Id
+                    }
+                });
+            });
         });
     }
     
