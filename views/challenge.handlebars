@@ -33,7 +33,7 @@
     };
     {{#if user}}
     var user = {
-        displayName: {{user.displayName}}, 
+        displayName: {{{user.displayName}}}, 
         id: {{user.id}}
     };
     {{/if}}
@@ -42,4 +42,5 @@
   <script src="/js/firebase-config.js" type="text/javascript"></script>
   <script src="/js/challenge.js" type="text/javascript"></script>
   <script src="/js/chat.js" type="text/javascript"></script>
+  <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}">
   

@@ -3,6 +3,13 @@ $(document).ready(function() {
     firebase.initializeApp(config);
 	var database = firebase.database();
     
+    //get logged in user data from server
+    var user = {
+        displayName: $(".dataHolder").data().displayname, 
+        id: $(".dataHolder").data().userid
+    };
+    //console.log(user);
+    
     var myPointer;
     var myRef;
     var partnerPresent = false;
