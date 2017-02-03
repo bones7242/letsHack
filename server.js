@@ -73,9 +73,12 @@ require("./routes/api-routes.js")(app);
 require("./routes/html-routes.js")(app);
 require("./routes/passport-routes.js")(app, passport);
 
-
-db.sequelize.sync().then(function(){
+db.sequelize.sync({force: true}).then(function(){
   app.listen(PORT, function() {
+    //create seeds testing
+    var seeds = require("./db/seeds.js");
+    seeds.createSeeds();
+    //log that you are on port 
     console.log("Listening on PORT " + PORT);
   });
 });
