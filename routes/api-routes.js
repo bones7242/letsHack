@@ -141,11 +141,6 @@ module.exports = function(app) {
         ])
         .spread(function(sessionData, challengeData) {
           // 3. return the information 
-          // this page needs the following data:
-          // - all data for the session
-          // - all data for challenge (test, starter code, instructions, etc)
-          // - screen name or id for logged in user  >> located at sessionData.UserId
-          // - screen name or id for partner  >> located at sessionData.TeammateId
           var newSession = {
             sessionData: JSON.parse(JSON.stringify(sessionData)),
             challengeData: JSON.parse(JSON.stringify(challengeData)),
@@ -159,20 +154,21 @@ module.exports = function(app) {
   // route to update a session (based on session Id)
   app.put("/session/update", function(req, res){  
     db.Session.update({
-      success: req.body.success,
-      teammateId: req.body.teammateId,
-      UserId: req.body.UserId,
-      ChallengeId: req.body.ChallengeId
+      success: req.body.success,  //update success regardless of case so that the updatedAt gets updated
     }, {
       where: {
         id: req.body.id  
       }
     }).then(function(result) {
-      // returns "1" for success and "0" for failure
       if (result[0] === 1){
-        res.send("session successfully updated");
+        console.log("user successfully updated");
+        if (req.body.success){  //case for instance where users succeeded
+          res.json(true);
+        } else {  // fase for instance where users failed 
+          res.json(false);
+        };
       } else if (result[0] === 0) {
-        res.send("session was not successfully updated");
+        res.send("user was not successfully updated");
       } else {
         res.send("and unknown error occured");
       };
