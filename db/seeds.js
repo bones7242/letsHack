@@ -3,27 +3,27 @@ var db = require("../models");
 module.exports = {
   createSeeds: function(){
     // create users 
-    db.User.create({
-      email: "johndoe@gmail.com",
-      password: "password",
-      displayName: "john-doe",
-      firstName: "John",
-      lastName: "Doe"
-    });
-    db.User.create({
-      email: "janedoe@gmail.com",
-      password: "password",
-      displayName: "jane-doe",
-      firstName: "Jan",
-      lastName: "Doe"
-    });
-    db.User.create({
-      email: "jimidoe@gmail.com",
-      password: "password",
-      displayName: "jimi-doe",
-      firstName: "Jimi",
-      lastName: "Doe"
-    });
+    // db.User.create({
+    //   email: "johndoe@gmail.com",
+    //   password: "password",
+    //   displayName: "john-doe",
+    //   firstName: "John",
+    //   lastName: "Doe"
+    // });
+    // db.User.create({
+    //   email: "janedoe@gmail.com",
+    //   password: "password",
+    //   displayName: "jane-doe",
+    //   firstName: "Jan",
+    //   lastName: "Doe"
+    // });
+    // db.User.create({
+    //   email: "jimidoe@gmail.com",
+    //   password: "password",
+    //   displayName: "jimi-doe",
+    //   firstName: "Jimi",
+    //   lastName: "Doe"
+    // });
     // create challenges 
     db.Challenge.create({
         difficulty: 1,
