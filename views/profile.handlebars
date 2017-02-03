@@ -34,17 +34,13 @@
   </div>
   
   <script lang="text/javascript">
-    //dummy data for testing
+    // get logged in user data from server
+    {{#if user}}
     var user = {
-      displayName : "HaroldProfileHbrs",
-      id : 90876
-    }
-    /*/get logged in user data from server
-    var user = {
-      displayName : {{user.displayName}},
-      userId : {{user.id}}
-    }
-    /*/
+        displayName: {{user.displayName}}, 
+        id: {{user.id}}
+    };
+    {{/if}}
   </script>
 
 

@@ -14,7 +14,15 @@ function closeModal(){
   $("#modal").hide().find(".title").text("").next("p").html("");
 }
 $(document).ready(function() {
-  if (typeof user != 'undefined'){
+  
+    //get logged in user data from server
+    var user = {
+        displayName: $(".dataHolder").data().displayname, 
+        id: $(".dataHolder").data().userid
+    };
+    //console.log(user);
+
+  if (typeof user.id != 'undefined'){
       var lobbyLink = $("nav .nav-right")
         .show()
         .find(".nav-item.lobby-link a");
