@@ -6,10 +6,6 @@ module.exports = function(app) {
     res.render("login");
   });
 
-  app.get("/signup", function(req, res) {
-    res.render("login");
-  });
-
   app.get("/login", function(req, res) {
     res.render("login");
   });
@@ -27,14 +23,4 @@ module.exports = function(app) {
     });
   });
 
-
-  app.get("/challenge/:challengeid", function(req, res) {
-    db.Challenge.findOne({
-      where: {
-        id: req.params.id
-      }
-    }).then(function(data){
-      res.render("challenge", {challege: data});
-    })
-  });
 }

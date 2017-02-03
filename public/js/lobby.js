@@ -9,20 +9,37 @@ $(document).ready(function(){
 
         // add user.displayName to queue
         var queueRef = database.ref("queue");
-        var meInQueueRef = queueRef.push(user.displayName);   
+        var meInQueueRef = queueRef.push({name: user.displayName, joinedTime: firebase.database.ServerValue.TIMESTAMP});   
         meInQueueRef.onDisconnect().remove();
 
         //check to see if you can pair the user with someone else in the queue
         queueRef.on("value", function(snapshot){
             console.log(snapshot.numChildren() + " users in the queue");
             var foundMatch = false;
-            snapshot.forEach(function(userInQueue){
-                var waitingUser = userInQueue.val();
-                if (!foundMatch && waitingUser != user.displayName){
-                    foundMatch = true;
-                    createSession(waitingUser);
-                }
-            });
+            var earlierTime;
+            var timeStamp1;
+            var timeStamp2;
+            if (snapshot.numChildren() > 1){
+                snapshot.forEach(function(userInQueue){
+                    var waitingUser = userInQueue.val();
+                    if (!foundMatch && waitingUser.name != user.displayName){
+                        // this is your match!
+                        foundMatch = true;
+                        timeStamp1 = waitingUser.joinedTime;
+                    } else if (waitingUser.name == user.displayName){
+                        // this is you!
+                        timeStamp2 = waitingUser.joinedTime;
+                    }
+                });    
+                // after looping through the queue,
+                // figure out who has the first timestamp in the queue
+                earlierTime = timeStamp1 < timeStamp2 ? timeStamp1 : timeStamp2;
+                console.log(earlierTime);
+                // send that number to createsession as shared "random" number
+                createSession(waitingUser, earlierTime);
+            } else {
+                console.log("waiting for a match to join...");
+            }
         });
     });
 
