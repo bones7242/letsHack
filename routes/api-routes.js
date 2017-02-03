@@ -94,6 +94,7 @@ module.exports = function(app) {
   app.post("/session/create", function(req, res){
     var userId = req.body.userId;
     var teammateId = req.body.teammateId;
+    var matchId = req.body.matchId;
     // 1. select a challenge id that isn't in either user's challenge history.
     db.sequelize.Promise.all([
       db.Session.findAll({
@@ -121,11 +122,17 @@ module.exports = function(app) {
         allChallengeIds.push(challenges[i].id); //note: for some reason it comes through with ID capitalized
       }
       console.log("total:", allChallengeIds)
-      // compare the arrays to and remove the used challenges from AllChallengeIds
+
+      // compare the arrays and remove the used challenges from AllChallengeIds
       var possibleChallengeIds = removeElements(allChallengeIds, usedChallengeIds)
       // select a challenge
-      var challengeToUse = possibleChallengeIds[0];
+      while (matchId < possibleChallengeIds.length){
+        matchId * 2;
+      };
+      var challengeIndex = matchId % possibleChallengeIds.length;
+      var challengeToUse = possibleChallengeIds[challengeIndex];
       // 2. create the session and get the information
+
       db.sequelize.Promise.all([
         db.Session.create({
             success: "false",  // will always be false when created
