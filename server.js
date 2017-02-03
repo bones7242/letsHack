@@ -12,23 +12,21 @@ var PORT = process.env.PORT || 3000;
 
 var db = require("./models");
 
-//Setting the local authetication strategy, may want to move this to a separate document in future
+//Setting the local authetication strategy
 passport.use('local', new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
 },
-  function(req, email, password, done) {
-    console.log("email: " + email);
-    db.User.findOne({ where: {email: email}}).then(function(user) {
-      console.log("user: " + user);
+  function(req, username, password, done) {
+    db.User.findOne({ where: {displayName: username}}).then(function(user) {
       if(user){
         var dbCheck = user.password;
-      }  
+      }
       if (!user) {
-        return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
+        return done(null, false, req.flash('loginMessage', 'Username is incorrect'));
       } else if (!this.validatePassword(password, dbCheck)) {
-        return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
+        return done(null, false, req.flash('loginMessage', 'Password is incorrect'));
       } else {
         return done(null, user);
       }
@@ -90,7 +88,7 @@ db.sequelize.sync({force: true}).then(function(){
     //create seeds testing
     var seeds = require("./db/seeds.js");
     seeds.createSeeds();
-    //log that you are on port 
+    //log that you are on port
     console.log("Listening on PORT " + PORT);
   });
 });

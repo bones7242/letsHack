@@ -23,10 +23,10 @@ function passportRoutes(passport){
   router.route('/user/create')
     .post(function(req,res, next){
 
-      db.User.findOne({ where: {email: req.body.email}}).then(function(user) {
-        console.log("user:" + user);
+      db.User.findOne({ where: {displayName: req.body.username}}).then(function(user) {
+
         if (user){
-          req.flash('loginMessage', 'This user is already exists');
+          req.flash('loginMessage', 'This user already exists');
           return res.redirect('/login');
         }
         else if (req.body.password !== req.body.passwordConfirm) {
@@ -38,7 +38,7 @@ function passportRoutes(passport){
           db.User.create({
             email: req.body.email,
             password: hash,
-            displayName: req.body.displayName
+            displayName: req.body.username
           }).then(function(user){
             passport.authenticate('local', {
               successRedirect: '/lobby',
@@ -74,6 +74,7 @@ function passportRoutes(passport){
     if (req.isAuthenticated()) {
       return next();
     }
+    req.flash('loginMessage', 'Please log in');
     res.redirect('/login');
     }
 

@@ -2,14 +2,14 @@ $(document).ready(function() {
     //console.log("ready");
     firebase.initializeApp(config);
 	var database = firebase.database();
-    
+
     //get logged in user data from server
     var user = {
-        displayName: $(".dataHolder").data().displayname, 
+        displayName: $(".dataHolder").data().displayname,
         id: $(".dataHolder").data().userid
     };
     //console.log(user);
-    
+
     var myPointer;
     var myRef;
     var partnerPresent = false;
@@ -62,30 +62,39 @@ $(document).ready(function() {
 
     createChatRoom(sessionData.sessionId, 2, user.displayName, database);
 
-  /*
-  // code to execute tests 
-  on submit (
-    if (
-      var inputA = eval(codeA-input.val); 
-      var inputB = eval(codeB-input.val);
- 
- // OR
+    $(".submitBtn").on("click", function(){
+      var userACode = $("#userACode").val().trim();
+      console.log("userACode before " + userACode);
+      console.log("user code eval: " + userACode.eval());
+      var checkAnswer = userACode.eval()
+    })
 
-      {{inputA}}
-            
-      {{inputB}}
+// Onclick of test button take the code inside of the textarea, code.eval, check in firebase to see if other person has finsihed. If the test passes, then push to firebase to say finished (switch)
+// On sessionRef create lofic to check for finished user first
 
-    var test = function(){
-      {{test}}
-    };
-    
-    if (test)
-      {
-        showTestSuccess();
-      }
-      else {
-        showTestFail();
-      }
-
-    */
+//   // code to execute tests
+//   on submit (
+//     if (
+//       var inputA = eval(codeA-input.val);
+//       var inputB = eval(codeB-input.val);
+//
+//  // OR
+//
+//       {{inputA}}
+//
+//       {{inputB}}
+//
+//     var test = function(){
+//       {{test}}
+//     };
+//
+//     if (test)
+//       {
+//         showTestSuccess();
+//       }
+//       else {
+//         showTestFail();
+//       }
+//
+//     */
 });
