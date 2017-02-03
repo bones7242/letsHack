@@ -2,7 +2,7 @@
 
 # private credentials
 public/js/firebase-config.js
-config/config.json
+# config/config.json
 
 # Logs
 logs
