@@ -56,24 +56,20 @@ $(document).ready(function(){
     function createSession(partnerName, sharedKey){
         //console.log("create a session with user ", partnerName)
         $.ajax("/session/create", {
-            data:{
-                method: "POST",
-                userId: user.displayName,
-                teammateId: partnerName,
-                matchId: sharedKey
-            }
+            method: "POST",
+            userId: user.displayname,
+            teammateId: partnerName,
+            matchId: sharedKey
         }).done(function(sessionData){
             //prompt user to confirm they want to enter this session
             openModal("You've been matched", "You and " + partnerName + " have been given the challenge called <em>" +
             sessionData.challengeName + ".</em> Ready? Set?", "Let's Hack!", function(){
                 //go to the challenge page
                 $.ajax("/challenge/" + sessionData.challengeId, {
-                    data:{
-                        method: "POST",
-                        userId: user.displayName,
-                        teammateId: partnerName,
-                        sessionId: sessionData.Id
-                    }
+                    method: "POST",
+                    userId: user.displayName,
+                    teammateId: partnerName,
+                    sessionId: sessionData.Id
                 });
             });
         });
