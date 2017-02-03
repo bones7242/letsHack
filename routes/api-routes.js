@@ -11,7 +11,7 @@ function removeDuplicates(array){
   return array;
 }
 
-// helper function to compare two arrays and return 
+// helper function to compare two arrays and return
 function removeElements(startArray, removeArray){
   for (var i = 0; i < startArray.length; i++){
     if (removeArray.indexOf(startArray[i]) >= 0) {
@@ -21,22 +21,22 @@ function removeElements(startArray, removeArray){
   return startArray;
 }
 
-// routes to export 
+// routes to export
 module.exports = function(app) {
 
-  // route for creating a new user 
-  app.post("/user/create", function(req, res){  //route to create new user 
-    db.User.create({
-      email: req.body.email,
-      password: req.body.password
-      // note: left out "displayName", "firstName", and "lastName"
-    }).then(function(newUser){
-      res.render("lobby", {user: newUser});  //returns the new user information (that isn't null) as well as "id", "updatedAt", and "createdAt"
-    });
-  });
+  // route for creating a new user
+  // app.post("/user/create", function(req, res){  //route to create new user
+  //   db.User.create({
+  //     email: req.body.email,
+  //     password: req.body.password
+  //     // note: left out "displayName", "firstName", and "lastName"
+  //   }).then(function(newUser){
+  //     res.render("lobby", {user: newUser});  //returns the new user information (that isn't null) as well as "id", "updatedAt", and "createdAt"
+  //   });
+  // });
 
-  // route for updating a user 
-  app.put("/user/update", function(req, res){  //route to update a user 
+  // route for updating a user
+  app.put("/user/update", function(req, res){  //route to update a user
     db.User.update({
       email: req.body.email,
       password: req.body.password,
@@ -45,7 +45,7 @@ module.exports = function(app) {
       lastName: req.body.lastName
     }, {
       where: {
-        id: req.body.id  // can change this to displayName or email if that is better 
+        id: req.body.id  // can change this to displayName or email if that is better
       }
     }).then(function(result) {
       // returns "1" for success and "0" for failure
@@ -58,7 +58,7 @@ module.exports = function(app) {
       };
     });
   })
-  
+
   // route for returning challenge history by user id
   app.get("/user/:userId/challengeHistory", function(req, res){
     var userId = req.params.userId;
@@ -73,7 +73,7 @@ module.exports = function(app) {
         model: db.User,
         as: "Teammate"
       }]
-      // to do: order the results by challengeId and then by date updated 
+      // to do: order the results by challengeId and then by date updated
     }).then(function(data){
       data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
       var mappedData = data.map(function(session){
@@ -90,7 +90,7 @@ module.exports = function(app) {
     })
   });
 
-  // route for creating a session 
+  // route for creating a session
   app.post("/session/create", function(req, res){
     var userId = req.body.userId;
     var teammateId = req.body.teammateId;
@@ -109,29 +109,29 @@ module.exports = function(app) {
     ])
     .spread(function(sessions, challenges) {
       // parse the results to get an array of the used challenge ids
-      var usedChallengeIds = []; 
+      var usedChallengeIds = [];
       for (var i = 0; i < sessions.length; i++){
-        usedChallengeIds.push(sessions[i].ChallengeId); //note: for some reason it comes through with ID capitalized 
+        usedChallengeIds.push(sessions[i].ChallengeId); //note: for some reason it comes through with ID capitalized
       }
       usedChallengeIds = removeDuplicates(usedChallengeIds);
       console.log("used:", usedChallengeIds);
-      // parse the array of all possible challenge id 
-      var allChallengeIds = []; 
+      // parse the array of all possible challenge id
+      var allChallengeIds = [];
       for (var i = 0; i < challenges.length; i++){
-        allChallengeIds.push(challenges[i].id); //note: for some reason it comes through with ID capitalized 
+        allChallengeIds.push(challenges[i].id); //note: for some reason it comes through with ID capitalized
       }
       console.log("total:", allChallengeIds)
-      // compare the arrays to and remove the used challenges from AllChallengeIds 
+      // compare the arrays to and remove the used challenges from AllChallengeIds
       var possibleChallengeIds = removeElements(allChallengeIds, usedChallengeIds)
       // select a challenge
       var challengeToUse = possibleChallengeIds[0];
-      // 2. create the session and get the information 
+      // 2. create the session and get the information
       db.sequelize.Promise.all([
         db.Session.create({
-            success: "false",  // will always be false when created 
+            success: "false",  // will always be false when created
             ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
             UserId: userId,  // note: must be an valid(existing) UserId
-            TeammateId: teammateId,  // note: must be an valid(existing) UserId 
+            TeammateId: teammateId,  // note: must be an valid(existing) UserId
           }),
           db.Challenge.findOne({
               where: {
@@ -140,7 +140,7 @@ module.exports = function(app) {
           })
         ])
         .spread(function(sessionData, challengeData) {
-          // 3. return the information 
+          // 3. return the information
           var newSession = {
             sessionData: JSON.parse(JSON.stringify(sessionData)),
             challengeData: JSON.parse(JSON.stringify(challengeData)),
@@ -152,19 +152,19 @@ module.exports = function(app) {
   });
 
   // route to update a session (based on session Id)
-  app.put("/session/update", function(req, res){  
+  app.put("/session/update", function(req, res){
     db.Session.update({
       success: req.body.success,  //update success regardless of case so that the updatedAt gets updated
     }, {
       where: {
-        id: req.body.id  
+        id: req.body.id
       }
     }).then(function(result) {
       if (result[0] === 1){
         console.log("user successfully updated");
         if (req.body.success){  //case for instance where users succeeded
           res.json(true);
-        } else {  // fase for instance where users failed 
+        } else {  // fase for instance where users failed
           res.json(false);
         };
       } else if (result[0] === 0) {
@@ -175,8 +175,8 @@ module.exports = function(app) {
     });
   });
 
-  // route for creating a challenge 
-  app.post("/challenge/create", function(req, res){  //route to create a challenge 
+  // route for creating a challenge
+  app.post("/challenge/create", function(req, res){  //route to create a challenge
     db.Challenge.create({
       difficulty: req.body.difficulty,
       name: req.body.name,
@@ -191,8 +191,8 @@ module.exports = function(app) {
     });
   });
 
-  // route for updating a challenge 
-  app.put("/challenge/update", function(req, res){  //route to update a challenge 
+  // route for updating a challenge
+  app.put("/challenge/update", function(req, res){  //route to update a challenge
     db.Challenge.update({
       difficulty: req.body.difficulty,
       name: req.body.name,
@@ -205,7 +205,7 @@ module.exports = function(app) {
     }, {
       where: {
         id: req.body.id
-      } 
+      }
     }).then(function(newChallenge){
       res.json(newChallenge);
     });

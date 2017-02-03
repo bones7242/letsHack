@@ -19,9 +19,12 @@ passport.use('local', new LocalStrategy({
     passReqToCallback: true
 },
   function(req, email, password, done) {
+    console.log("email: " + email);
     db.User.findOne({ where: {email: email}}).then(function(user) {
-      var dbCheck = user.password;
-
+      console.log("user: " + user);
+      if(user){
+        var dbCheck = user.password;
+      }  
       if (!user) {
         return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
       } else if (!this.validatePassword(password, dbCheck)) {
@@ -79,7 +82,6 @@ app.use(passport.session());
 
 
 require("./routes/api-routes.js")(app);
-require("./routes/html-routes.js")(app);
 app.use('/', passportRoutes(passport));
 
 
