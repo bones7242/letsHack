@@ -7,7 +7,7 @@ function passportRoutes(passport){
 
   router.route('/')
   .get(function(req, res) {
-      res.render('hometest',  { user: req.user });
+      res.redirect('/login');
     });
 
   router.route('/login')
@@ -15,15 +15,12 @@ function passportRoutes(passport){
       res.render('login', {message: req.flash('loginMessage')});
     })
     .post(passport.authenticate('local', {
-      successRedirect: '/profile',
+      successRedirect: '/lobby',
       failureRedirect: '/login',
       failureFlash: true
     }));
 
-  router.route('/signup')
-    // .get(function(req, res){
-    //   res.render('signup');
-    // })
+  router.route('/user/create')
     .post(function(req,res, next){
 
       db.User.findOne({ where: {email: req.body.email}}).then(function(user) {
@@ -44,7 +41,7 @@ function passportRoutes(passport){
             displayName: req.body.displayName
           }).then(function(user){
             passport.authenticate('local', {
-              successRedirect: '/profile',
+              successRedirect: '/lobby',
               failureRedirect: '/login',
               failireFlash: true
             })(req, res, next)});
@@ -64,6 +61,14 @@ function passportRoutes(passport){
     req.logout();
     res.redirect('/login');
   });
+
+
+  router.route('/lobby')
+    .get(isLoggedIn, function(req, res) {
+      res.render("lobby", {user: req.user});
+    });
+
+
 
   function isLoggedIn(req, res, next){
     if (req.isAuthenticated()) {
