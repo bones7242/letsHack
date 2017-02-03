@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Let's Hack!</title>
+  <link href="https://fonts.googleapis.com/css?family=Concert+One" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css" media="screen" title="no title">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/3.6.7/firebase.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Concert+One" rel="stylesheet">
+  <script src="/js/common.js"></script>
+  <link rel="stylesheet" href="/css/styles.css" media="screen" title="main styles for app">
 </head>
 <body>
   <nav>
@@ -18,7 +19,7 @@
       <div class="nav-item user-name">{{username}}</div>
       <div class="nav-item"><a href="/logout">Logout</a></div>
       <div class="nav-item"><a href="/profile">Profile</a></div>
-      <div class="nav-item"><a href="/lobby">Lobby</a></div>
+      <div class="nav-item lobby-link"><a href="/lobby">Lobby</a></div>
     </div>
   </nav>
 		{{{ body }}}
@@ -26,5 +27,13 @@
       Let's Hack!
       &copy; 2017 Bill Bittner, Eric Hirschfield, Jesse Harold
   </footer>
+  <div id="modal">
+    <div class="modal-background"></div>
+    <div class="modal-container">
+      <div class="modal-close">X</div>
+      <h2 class="title"></h2>
+      <p class="modal-text"></p>
+    </div>
+  </div>
   </body>
 </html>

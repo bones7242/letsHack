@@ -22,8 +22,11 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                User.hasMany(models.Session);  // Associating users with sessions
-            }
+                User.hasMany(models.Session);
+                User.hasMany(models.Session, {
+                    as: "Teammate"
+                });
+            },
         }
     });
     return User;
