@@ -16,6 +16,7 @@ $(document).ready(function(){
         queueRef.on("value", function(snapshot){
             console.log(snapshot.numChildren() + " users in the queue");
             var foundMatch = false;
+            var matchName;
             var earlierTime;
             var timeStamp1;
             var timeStamp2;
@@ -26,6 +27,7 @@ $(document).ready(function(){
                         // this is your match!
                         foundMatch = true;
                         timeStamp1 = waitingUser.joinedTime;
+                        matchName = waitingUser.name
                     } else if (waitingUser.name == user.displayName){
                         // this is you!
                         timeStamp2 = waitingUser.joinedTime;
@@ -34,22 +36,23 @@ $(document).ready(function(){
                 // after looping through the queue,
                 // figure out who has the first timestamp in the queue
                 earlierTime = timeStamp1 < timeStamp2 ? timeStamp1 : timeStamp2;
-                console.log(earlierTime);
+                console.log("earlier Time: ", earlierTime);
                 // send that number to createsession as shared "random" number
-                createSession(waitingUser, earlierTime);
+                createSession(matchName, earlierTime);
             } else {
                 console.log("waiting for a match to join...");
             }
         });
     });
 
-    function createSession(partnerName){
+    function createSession(partnerName, sharedKey){
         //console.log("create a session with user ", partnerName)
         $.ajax("/session/create", {
             data:{
                 method: "POST",
                 userId: user.displayName,
-                teammateId: partnerName
+                teammateId: partnerName,
+                matchId: sharedKey
             }
         }).done(function(sessionData){
             //prompt user to confirm they want to enter this session
