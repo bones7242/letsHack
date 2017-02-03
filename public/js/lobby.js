@@ -39,7 +39,7 @@ $(document).ready(function(){
             openModal("You've been matched", "You and " + partnerName + " have been given the challenge called <em>" +
             sessionData.challengeName + ".</em> Ready? Set?", "Let's Hack!", function(){
                 //go to the challenge page
-                $.ajax("/challenge/"sessionData.challengeId, {
+                $.ajax("/challenge/" + sessionData.challengeId, {
                     data:{
                         method: "POST",
                         userId: user.displayName,
@@ -61,20 +61,17 @@ $(document).ready(function(){
             console.log(history);
             var list = $("ul.challenge-history");
             var listItem;
-            if (!history){
-                listItem = "<li>You have not completed any challenges yet.</li>";
-            } else {
-                for (session in history){
-                    var listItem = "<li>";
-                    listItem += session.ChallengeId + ": " + session.ChallengeId.name;
-                    if (session.success){
-                        listItem += ", completed on "
-                    } else {
-                        listItem += ", last attempted on "
-                    }
-                    listItem += session.lastModified;
-                    listItem += "</li>";
+            for (var i = 0; i < history.length; i++){
+                var listItem = "<li>";
+                listItem += session.ChallengeId + ": " + session.ChallengeName;
+                if (session.success){
+                    listItem += ", completed on "
+                } else {
+                    listItem += ", last attempted on "
                 }
+                listItem += session.updatedAt;
+                listItem += " with " + session.TeammateDisplayName;
+                listItem += "</li>";
             }
             list.append(listItem);
         });
