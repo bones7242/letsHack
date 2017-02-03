@@ -79,7 +79,6 @@ app.use(passport.session());
 
 
 require("./routes/api-routes.js")(app);
-require("./routes/html-routes.js")(app);
 app.use('/', passportRoutes(passport));
 
 
