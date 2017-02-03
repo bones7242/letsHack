@@ -1,3 +1,5 @@
+var bcrypt = require('bcrypt-nodejs');
+
 // model for the users table
 module.exports = function(sequelize, DataTypes) {
     var User = sequelize.define("User", {
@@ -27,8 +29,9 @@ module.exports = function(sequelize, DataTypes) {
             generateHash: function(password) {
                 return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
             },
-            validatePassword: function(password) {
-                return bcrypt.compareSync(password, this.password);
+            validatePassword: function(password, dbCheck) {
+
+                return bcrypt.compareSync(password, dbCheck);
             }
         }
     });
