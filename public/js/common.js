@@ -25,9 +25,8 @@ $(document).ready(function() {
   if (typeof user.id != 'undefined'){
       var lobbyLink = $("nav .nav-right")
         .show()
-        .find(".nav-item.lobby-link a");
-      var lobbyHref = lobbyLink.attr("href");
-      lobbyLink.attr("href", lobbyHref + "?userId=" + user.id);
+        .find(".nav-item.user-name")
+        .text(user.displayName);
   }
 
   $("#modal .modal-close, #modal modal-background").click(closeModal);
