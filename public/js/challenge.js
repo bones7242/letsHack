@@ -69,10 +69,9 @@ $(document).ready(function() {
       var checkAnswer = userACode.eval()
     })
 
-Onclick of test button take the code inside of the textarea, code.eval, check in firebase to see if other person has finsihed. If the test passes, then push to firebase to say finished (switch)
-On sessionRef create lofic to check for finished user first
+// Onclick of test button take the code inside of the textarea, code.eval, check in firebase to see if other person has finsihed. If the test passes, then push to firebase to say finished (switch)
+// On sessionRef create lofic to check for finished user first
 
-// /*
 //   // code to execute tests
 //   on submit (
 //     if (
