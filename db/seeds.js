@@ -24,13 +24,6 @@ module.exports = {
       firstName: "Jimi",
       lastName: "Doe"
     });
-    db.User.create({
-      email: "johndoe@gmail.com",
-      password: "password",
-      displayName: "john-doe",
-      firstName: "John",
-      lastName: "Doe"
-    });
     // create challenges 
     db.Challenge.create({
         difficulty: 1,
