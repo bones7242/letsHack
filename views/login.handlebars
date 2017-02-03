@@ -2,9 +2,10 @@
 <div class="container" id="login-box">
 	<div id="logo">Let's Hack!<div id="icon"></div></div>
 	<div class="columns main-column">
+
 		{{#if user}}
 			<h2>Welcome back, {{user.displayName}}</h2>
-			<p>You're currently logged in. To start hacking, head over 
+			<p>You're currently logged in. To start hacking, head over
 				to the <a href="/lobby?userId={{user.id}}">Lobby</a>.</p>
 				<p>Done hacking for now? <a href="/logout">Logout</a>.
 		{{else}}
@@ -12,7 +13,7 @@
 			<p>
 				<form method="POST" action="/user/create">
 					Choose a Username:<br>
-					<input type="text" name="username"><br>
+					<input type="text" name="displayName"><br>
 					Your Email:<br>
 					<input type="text" name="email"><br>
 					Choose a Password:<br>
@@ -34,6 +35,10 @@
 					<input type="submit" value="Submit"/>
 				</form>
 			</p>
+
+		{{/if}}
+		{{#if message}}
+			<h4>{{message}}</h4>
 		{{/if}}
 	</div>
 </div>
