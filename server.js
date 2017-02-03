@@ -12,7 +12,7 @@ var PORT = process.env.PORT || 3000;
 
 var db = require("./models");
 
-//Setting the local authetication strategy, may want to move this to a separate document in future
+//Setting the local authetication strategy
 passport.use('local', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
@@ -24,9 +24,9 @@ passport.use('local', new LocalStrategy({
         var dbCheck = user.password;
       }
       if (!user) {
-        return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
+        return done(null, false, req.flash('loginMessage', 'Username is incorrect'));
       } else if (!this.validatePassword(password, dbCheck)) {
-        return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
+        return done(null, false, req.flash('loginMessage', 'Password is incorrect'));
       } else {
         return done(null, user);
       }
