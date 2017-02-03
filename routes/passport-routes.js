@@ -37,9 +37,10 @@ function passportRoutes(passport){
           return res.redirect('/login');
         }
         else {
+          var hash = db.User.generateHash(req.body.password);
           db.User.create({
             email: req.body.email,
-            password: req.body.password,
+            password: hash,
             displayName: req.body.displayName
           }).then(function(user){
             passport.authenticate('local', {

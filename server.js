@@ -20,9 +20,11 @@ passport.use('local', new LocalStrategy({
 },
   function(req, email, password, done) {
     db.User.findOne({ where: {email: email}}).then(function(user) {
+      var dbCheck = user.password;
+
       if (!user) {
         return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
-      } else if (password !== user.password) {
+      } else if (!this.validatePassword(password, dbCheck)) {
         return done(null, false, req.flash('loginMessage', 'Username/Password is incorrect'));
       } else {
         return done(null, user);
