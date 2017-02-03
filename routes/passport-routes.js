@@ -23,8 +23,8 @@ function passportRoutes(passport){
   router.route('/user/create')
     .post(function(req,res, next){
 
-      db.User.findOne({ where: {email: req.body.email}}).then(function(user) {
-        console.log("user:" + user);
+      db.User.findOne({ where: {displayName: req.body.displayName}}).then(function(user) {
+  
         if (user){
           req.flash('loginMessage', 'This user is already exists');
           return res.redirect('/login');
