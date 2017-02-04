@@ -39,14 +39,6 @@ $(document).ready(function() {
         var passedTest = false;
 
         //try { 
-            // execute the users's function, see if it matches the test case
-            // user function is a function declaration
-            // test calls that function, which returns a value
-            // then we compare the return value to a pre defined test value.
-            
-            //var userFunction = ;
-            //var testFunction = eval("(" + challengeTest + ")");
-            
             if (eval("(" + userCode + ")()") == challengeTest){
                 passedTest = true;
             }
@@ -88,6 +80,8 @@ $(document).ready(function() {
     var sessionRef = database.ref("activeSessions/" + matchId);
     var myRef = sessionRef.push(user);
     myRef.onDisconnect().remove();
+    //put the starter code into the textarea
+    $("#userCode").val($(".dataHolder").data().startCode);
 
     // when this firebase challenge changes value
     sessionRef.on("value", function(snapshot){
