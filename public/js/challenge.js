@@ -7,6 +7,7 @@ $(document).ready(function() {
     }
 
     function challengeSuccess(){
+        console.log("calling challenge success");
         // update the session record to show success
         $.ajax({
             type: "PUT",
@@ -19,6 +20,8 @@ $(document).ready(function() {
                 if (response){
                     console.log("session updated! ", response);
                     openModal("Success!", "You both passed your challenge, nice team work, you guys! Head back to the lobby for more challenge fun!", "Lobby", function(){window.location = "/lobby"});
+                } else {
+                    console.log("not able to update session", sessionData.sessionId);
                 }
             }
         });
@@ -30,16 +33,21 @@ $(document).ready(function() {
         console.log("userCode: " + userCode);
 
         //Test for user, should not matter as each user is loaded a different test
-        var test = $("input#myTest").attr("value");
-        console.log("my test: " + test);
+        var challengeTest = $("input#myTest").attr("value");
+        console.log("my test: " + challengeTest);
 
         var passedTest = false;
 
         try { 
-            //if(x == "") throw "is empty";
-            // run the user's code
-            //var checkAnswer = eval(userCode);
-            //Compare checkAnswer to test, set passedTest to true if they're the same
+            // execute the users's function, see if it matches the test case
+            // user function is a function declaration
+            // test calls that function, which returns a value
+            // then we compare the return value to a pre defined test value.
+            var runTest = eval(userCode + challengeTest);
+            console.log("runTest: ", runTest);
+            if (runTest === true){
+                passedTest = true;
+            }
         }
         catch (err) {
             openModal("Your code threw an error", err, "OK", closeModal);
