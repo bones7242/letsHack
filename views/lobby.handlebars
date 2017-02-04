@@ -19,12 +19,14 @@
 
     <div class="container columns side-column">
         <h3>Your Challenge History</h3>
-        {{#unless user}}
-        <p>Welcome! Please <a href="/login">log in</a>.</p>
-        {{/unless}}
-        <ul class="challenge-history">
-        <!-- this gets populated by the frontend function showChallengeHistory --> 
-        </ul>
+        <div class="scroller">
+            {{#unless user}}
+            <p>Welcome! Please <a href="/login">log in</a>.</p>
+            {{/unless}}
+            <ul class="challenge-history">
+            <!-- this gets populated by the frontend function showChallengeHistory --> 
+            </ul>
+        </div>
     </div>
   </div>
   <div class="container">
