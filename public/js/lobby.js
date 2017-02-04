@@ -19,6 +19,8 @@ $(document).ready(function(){
     $("#joinQueue").click(function(){
         $(this).hide().next("p").text("Please wait...pairing you with someone...");
 
+        openModal("Please wait...", "Pairing you with another hacker...");
+
         // add user.displayName to queue
         var queueRef = database.ref("queue");
         var meInQueueRef = queueRef.push({name: user.displayName, joinedTime: firebase.database.ServerValue.TIMESTAMP});   
@@ -69,18 +71,8 @@ $(document).ready(function(){
             userId: user.displayName,
             teammateId: partnerName,
             matchId: sharedKey
-        }).done(function(sessionData){
-            //prompt user to confirm they want to enter this session
-            openModal("You've been matched", "You and " + partnerName + " have been given the challenge called <em>" +
-            sessionData.challengeName + ".</em> Ready? Set?", "Let's Hack!", function(){
-                //go to the challenge page
-                $.ajax("/challenge/" + sessionData.challengeId, {
-                    method: "POST",
-                    userId: user.displayName,
-                    teammateId: partnerName,
-                    sessionId: sessionData.Id
-                });
-            });
+        }).done(function(response){
+            console.log("response from create session route: ", response);
         });
     }
     
