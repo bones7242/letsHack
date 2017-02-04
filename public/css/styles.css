@@ -110,18 +110,17 @@ p.small {
     padding: 9px;
     margin: 6px;
 }
-.largeButton.noFloat {
-    float: none;
-}
-.profileSection .smallButton {
-    display: none;
-    /* these are commented out until profile edit feature can be added */
+.smallButton {
     background-color: #2f2fa9;
     color: white;
     border: 0;
     font-size: 1em;
     padding: 4px;
-    margin: 4px;
+    margin: 10px 4px;
+}
+.profileSection .smallButton {
+    display: none;
+    /* these are commented out until profile edit feature can be added */
 }
 .login-page .side-column {
     font-size: unset;
