@@ -66,11 +66,16 @@ module.exports = function(app) {
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
     var matchId = req.query.matchId;
-    var isPlayerA = req.query.isPlayerA;  // i need this from Harold 
+    if (req.query.isPlayerA == "true") {
+      var isPlayerA = true;
+    } else {
+      var isPlayerA = false;
+    };  // i need this from Harold 
     console.log("userId:", userId);
     console.log("teammateId:", teammateId);
     console.log("matchId:", matchId);
     console.log("isPlayerA:", isPlayerA);
+    console.log(typeof(isPlayerA));
     // 1. select a challenge id that isn't in either user's challenge history.
     db.sequelize.Promise.all([
       db.Session.findAll({
