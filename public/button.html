@@ -13,7 +13,12 @@
     <a href="/dinosaurs/create">link</a>
     <script lang="text/javascript">
         $("button").click(function(){
-            $.ajax("/dinosaurs/create");
+            $.get("/dinosaurs/create");//, function( data ) {
+            //$( ".result" ).html( data );
+            //alert( "Load was performed." );
+            //});
+
+            //$.ajax("/dinosaurs/create");
                 // data: {
                 //     userId: user.id,
                 //     teammateId: partnerId,
