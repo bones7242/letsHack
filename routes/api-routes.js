@@ -144,9 +144,9 @@ module.exports = function(app) {
 
     //route to update a user
     db.User.update({
-      email: req.body.email || db.User.email,
-      firstName: req.body.firstName || db.User.firstName,
-      lastName: req.body.lastName || db.User.lastName
+      email: req.body.email || req.email,
+      firstName: req.body.firstName || req.firstName,
+      lastName: req.body.lastName || req.lastName
     }, {
       where: {
 
