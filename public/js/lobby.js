@@ -56,10 +56,9 @@ $(document).ready(function(){
                     // after looping through the queue,
                     // figure out who has the first timestamp in the queue
                     earlierTime = timeStamp1 < timeStamp2 ? timeStamp1 : timeStamp2;
-                    var iAmPlayerA = timeStamp1 < timeStamp2;
-                    //console.log("earlier Time: ", earlierTime);
                     // send that number to createsession as shared "random" number
-                    createSession(matchName, matchId, earlierTime);
+                    var iAmPlayerA = timeStamp1 < timeStamp2;
+                    createSession(matchName, matchId, earlierTime, iAmPlayerA);
                     sessionCreated = true;
                     // the above makes sure this matching process doesn't run again
                     // for this user until they load this page again
@@ -70,7 +69,7 @@ $(document).ready(function(){
         });
     });
 
-    function createSession(partnerName, partnerId, sharedKey){
+    function createSession(partnerName, partnerId, sharedKey, iAmPlayerA){
         // console.log("create a session with user ", partnerName);
         $.ajax({
             type: "GET",
