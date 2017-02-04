@@ -67,7 +67,7 @@ function createChatRoom(chatRoomName, maxUsers, myUserName, database){
 function convertTime(unix_timestamp){
     // Create a new JavaScript Date object based on the timestamp
     // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-    var date = new Date(unix_timestamp*1000);
+    var date = new Date(unix_timestamp);
     // Hours part from the timestamp
     var hours = date.getHours();
     // Minutes part from the timestamp

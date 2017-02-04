@@ -157,6 +157,12 @@ p.small {
 .chatter {
     font-style: italic;
 }
+.chatTime {
+    font-size: small;
+    font-style: italic;
+    color: #666;
+    margin-left: 14px;
+}
 nav {
     background-color: #4484CE;
     color: white;
