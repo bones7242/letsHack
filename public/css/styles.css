@@ -239,4 +239,5 @@ div.scroller {
     max-height: 280px;
     overflow-y: auto;
     overflow-x: hidden;
+    padding: 0 7px 0 0;
 }
