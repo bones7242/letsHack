@@ -159,8 +159,8 @@ module.exports = function(app) {
         .spread(function(sessionData, challengeData) {
           // 3. return the information
           var newSession = {
-            sessionData: JSON.parse(JSON.stringify(sessionData)),
-            challengeData: JSON.parse(JSON.stringify(challengeData)),
+            session: JSON.parse(JSON.stringify(sessionData)),
+            challenge: JSON.parse(JSON.stringify(challengeData)),
           };
           console.log("newSession:", newSession);
           res.render("challenge", {session: newSession});
