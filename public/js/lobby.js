@@ -55,6 +55,7 @@ $(document).ready(function(){
 
     function createSession(partnerName, sharedKey){
         //console.log("create a session with user ", partnerName)
+        console.log("sending create session request with userId: " + user.displayname + " teammateId: " + partnerName + " matchId: " + sharedKey);
         $.ajax("/session/create", {
             method: "POST",
             userId: user.displayname,
