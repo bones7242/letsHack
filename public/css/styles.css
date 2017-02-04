@@ -110,6 +110,10 @@ p.small {
     padding: 9px;
     margin: 6px;
 }
+.profileSection .smallButton {
+    display: none;
+    /* these are commented out until profile edit feature can be added */
+}
 .login-page .side-column {
     font-size: unset;
     margin-top: 20px;
