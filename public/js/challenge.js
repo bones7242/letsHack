@@ -1,7 +1,13 @@
 $(document).ready(function() {
     
     function addBRTags(input){
-        return input.split("\n").join("<br />");
+        if (input && typeof input === "string" && input.length > 1){
+            return input.split("\n").join("<br />");
+        }
+    }
+
+    function challengeSuccess(){
+        openModal("Success!", "You both passed your challenge, nice team work, you guys! Head back to the lobby for more challenge fun!", "Lobby", function(){window.location = "/lobby"});
     }
 
     firebase.initializeApp(config);
@@ -12,6 +18,8 @@ $(document).ready(function() {
     var matchId = $(".dataHolder").data().matchid;
     var myPointer;
     var partnerPresent = false;
+    var iPassedTest = false;
+    var partnerPassedTest = false;
     var sessionRef = database.ref("activeSessions/" + matchId);
     var myRef = sessionRef.push(user);
     myRef.onDisconnect().remove();
@@ -19,31 +27,26 @@ $(document).ready(function() {
     // when this session changes value
     sessionRef.on("value", function(snapshot){
         myPointer = myRef.getKey();
-        console.log("myRef: " + myRef);
-        console.log("myPointer: " + myPointer);
         var usersConnected  = snapshot.numChildren();
         //console.log("users connected:", usersConnected);
         if (usersConnected === 2 && myPointer) {
             // game has started, loop through users on change
             for (user in snapshot.val()){
-                if (user === myPointer && snapshot.child("user/finished").val() === 1){
+                if (user === myPointer){
                     //console.log("found myself");
-                    //Check the other user to see if they finished the challenge, move from there
-                    for (user in snapshot.val()){
-                      if (user === myPointer) {
-                        //console.log("Same thing, its me")
-                      }
-                      else {
-                        if (snapshot.child("user/finished").val() === 1) {
-                          //Other player is done too. Woohoo!!
-                        }
-                      }
-                    }
                 } else {
                     // watch for partner's typing
                     partnerPresent = true;
                     var partnersCode = snapshot.child(user).val().codeSoFar;
                     $("#partner-code .code-input").html(addBRTags(partnersCode));
+                    // watch for partner passed test
+                    if (snapshot.child(user).val().finished === 1){
+                        partnerPassedTest = true;
+                        if (iPassedTest){
+                            //we both passed yay!
+                            challengeSuccess();
+                        }
+                    }
                 }
             }
         } else if (usersConnected < 2 && partnerPresent === true){
@@ -74,21 +77,24 @@ $(document).ready(function() {
       console.log("userCode before: " + userCode);
 
       //Test for user, should not matter as each user is loaded a different test
-      var test = req.body.test;
-
-      //Figure out which user is which to choose which test to run with
+      var test = $("input#myTest").attr("value");
+      console.log("my test: " + test);
+      var passedTest = false;
 
       // console.log("user code eval: " + eval(userACode);
       //Store and evaluate the code
-      var checkAnswer = eval(userCode + test);
+      //var checkAnswer = eval(userCode + test);
       //Compare checkAnswer to the db answer
-      if (checkAnswer) {
-        sessionRef.child("user").update({
-          finished: 1
-        });
 
-        //Alert the user to please wait for the other player to finish BUT still keep the chat functioning to help other player
-        
+      if (passedTest) {
+        sessionRef.child("user").update({
+            finished: 1
+        });
+        iPassedTest = true;
+        if (partnerPassedTest){
+            //we both passed yay!
+            challengeSuccess();
+        }
       } else {
         openModal("Your code didn't return the expected result.", "Keep trying!");
       }
