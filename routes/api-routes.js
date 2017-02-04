@@ -122,14 +122,14 @@ module.exports = function(app) {
       // parse the results to get an array of the used challenge ids
       var usedChallengeIds = [];
       for (var i = 0; i < sessions.length; i++){
-        usedChallengeIds.push(sessions[i].ChallengeId); //note: for some reason it comes through with ID capitalized
+        usedChallengeIds.push(sessions[i].ChallengeId);
       }
       usedChallengeIds = removeDuplicates(usedChallengeIds);
       console.log("used:", usedChallengeIds);
       // parse the array of all possible challenge id
       var allChallengeIds = [];
       for (var i = 0; i < challenges.length; i++){
-        allChallengeIds.push(challenges[i].id); //note: for some reason it comes through with ID capitalized
+        allChallengeIds.push(challenges[i].id);
       }
       console.log("total:", allChallengeIds)
 
@@ -163,7 +163,7 @@ module.exports = function(app) {
             challengeData: JSON.parse(JSON.stringify(challengeData)),
           };
           console.log("newSession:", newSession);
-          res.render("Challenge", {session: newSession});
+          res.render("challenge", {session: newSession});
         }).catch(function (err) { 
           console.log("** error occured.  Sent to client as JSON")
           res.json(err);
