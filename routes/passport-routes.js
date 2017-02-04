@@ -42,7 +42,6 @@ function passportRoutes(passport){
           difficulty: challengeData.difficulty,
           name: challengeData.name,
           instructionsAll: challengeData.instructionsAll,
-          partnerName: sessionData.Teammate.displayName
         };
         if (sessionData.isPlayerA){
           tailoredChallengeData.instructions = challengeData.instructionsA;
@@ -56,7 +55,7 @@ function passportRoutes(passport){
           tailoredChallengeData.test = challengeData.testB;
         }
         console.log("tailoredChallengeData");
-        res.render("challenge", {session: sessionData, challenge: tailoredChallenge, user: userData});  //note: can we re-authenticate?
+        res.render("challenge", {session: sessionData, challenge: tailoredChallenge, user: userData, partner: sessionData.Teammate});  //note: can we re-authenticate?
       });
     });
 
