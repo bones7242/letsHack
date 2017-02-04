@@ -6,6 +6,7 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy;
 var passportRoutes = require('./routes/passport-routes.js');
+var methodOverride = require('method-override');
 
 
 var PORT = process.env.PORT || 3000;
@@ -63,6 +64,7 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static(path.join(__dirname, '/public')));
 
+app.use(methodOverride("_method"));
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 
