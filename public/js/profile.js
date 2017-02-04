@@ -1,6 +1,7 @@
 $(document).ready(function(){
     showChallengeHistory();
     
-    $("#joinQueue").click(function(){
-    }
+    $(".profileSection button").click(function(){
+        $(this).parent(".profileSection").find("input.profileEdit").show();
+    });
 });

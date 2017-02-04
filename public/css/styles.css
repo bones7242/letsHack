@@ -119,8 +119,11 @@ p.small {
     margin: 10px 4px;
 }
 .profileSection .smallButton {
+    /*     display: none;
+these are commented out until profile edit feature can be added */
+}
+.profileSection .profileEdit {
     display: none;
-    /* these are commented out until profile edit feature can be added */
 }
 .login-page .side-column {
     font-size: unset;
