@@ -30,10 +30,11 @@ module.exports = {
             name: "Hello World",
             instructionsAll: "Say 'Hello World!'",
             instructionsA: "Create a function that returns the string 'Hello'",
-            instructionsB: "Create a function that returns the string 'World!'",
+            instructionsB: "Create a function that returns the string 'world!'",
             startCodeA: "function sayHello(){ \m// A your code goes here \n};",
             startCodeB: "function sayWorld(){ \m// B your code goes here \n};",
-            test: "function(){var hello = sayHello(); var world = sayWorld(); return hello + world}"
+            testA: "if (sayHello() === 'Hello') {return true} else {return false}",
+            testA: "if (sayWorld() === 'world!') {return true} else {return false}",
     });
     db.Challenge.create({
         difficulty: 2,
