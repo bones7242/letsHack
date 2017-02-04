@@ -75,15 +75,26 @@ $(document).ready(function(){
             + user.displayName + "(" + user.id + ") and " 
             + partnerName + "(" + partnerId + "). matchId: " 
             + sharedKey);
-        $.ajax("/session/create/", {
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: success,
+            dataType: dataType
+        });    
+
+        $.ajax({
+            type: "POST",
+            url:"/session/create/",
             data: {
-                type: "POST",
                 userId: user.id,
                 teammateId: partnerId,
                 matchId: sharedKey
+            },
+            success: function(response){
+                console.log("response from create session route: ", response);
             }
-        }).done(function(response){
-            console.log("response from create session route: ", response);
         });
     }
 });
