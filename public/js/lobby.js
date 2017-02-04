@@ -70,14 +70,15 @@ $(document).ready(function(){
     });
 
     function createSession(partnerName, partnerId, sharedKey, iAmPlayerA){
-        // console.log("create a session with user ", partnerName);
+        console.log("Who am I? Am I player A?", iAmPlayerA);
         $.ajax({
             type: "GET",
             url:"/session/create",
             data: {
                 userId: user.id,
                 teammateId: partnerId,
-                matchId: sharedKey
+                matchId: sharedKey,
+                isPlayerA: iAmPlayerA
             },
             success: function(response){
                 console.log("session created! ", response);
@@ -86,7 +87,6 @@ $(document).ready(function(){
                     window.location = 
                     "/challenge/?sessionId=" + response.id 
                     + "&challengeId=" + response.ChallengeId  
-                    + "&isPlayerA=" + iAmPlayerA
                     + "&userId=" + user.id;
                 }
             }
