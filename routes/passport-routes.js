@@ -12,7 +12,10 @@ function passportRoutes(passport){
 
   router.route('/login')
     .get(function(req, res){
-      res.render('login', {message: req.flash('loginMessage')});
+      res.render('login', {
+        message: req.flash('loginMessage'), 
+        user: req.user
+      });
     })
     .post(passport.authenticate('local', {
       successRedirect: '/lobby',
@@ -38,7 +41,9 @@ function passportRoutes(passport){
           db.User.create({
             email: req.body.email,
             password: hash,
-            displayName: req.body.username
+            displayName: req.body.username,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName
           }).then(function(user){
             passport.authenticate('local', {
               successRedirect: '/lobby',

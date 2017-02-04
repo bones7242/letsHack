@@ -1,17 +1,23 @@
 <div class="container" id="header-box">
     <h1>User Profile</h1>
-    <p>View <!--and update - future development--> your user information</p>
   </div>
   <div class="container" id="main-box">
     <div class="container columns main-column">
         {{#if user}}
-            <h2>{{user.displayname}}</h2>
+            <h2>{{user.displayName}}</h2>
             <p>
-            email address: 
-            {{user.email}}
-            <br><br>
-            screenname: 
-            {{user.displayname}}
+                <div class="profileSection" id="emailAddress">
+                    email address: 
+                    {{user.email}} <button class="smallButton">Edit</button>
+                </div>
+                <div class="profileSection" id="firstName">
+                    First Name: 
+                    {{user.firstName}} <button class="smallButton">Edit</button>
+                </div>
+                <div class="profileSection" id="lastName">
+                    Last Name: 
+                    {{user.lastName}} <button class="smallButton">Edit</button>
+                </div>
             </p>
         {{else}}
             <h2>Please Login</h2>
@@ -24,12 +30,13 @@
 
     <div class="container columns side-column">
         <h3>Your Challenge History</h3>
-        {{#unless user}}
-        <p>You must <a href="/login">login</a> to see your profile information.</p>
-        {{/unless}}
-        <ul class="challenge-history">
-        <!-- this gets populated by the frontend function showChallengeHistory --> 
-        </ul>
+        {{#if user}}
+            <ul class="challenge-history">
+            <!-- this gets populated by the frontend function showChallengeHistory --> 
+            </ul>
+        {{else}}
+            <p>You must <a href="/login">login</a> to see your profile information.</p>
+        {{/if}}
     </div>
   </div>
   <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}">

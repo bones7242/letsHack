@@ -46,7 +46,9 @@ function createChatRoom(chatRoomName, maxUsers, myUserName, database){
     // make chat send on enter keypress
     $("input#chatbox").on("focus", function(){
         $("body").on("keypress", function(event){
-            if (event.charCode === 13) {
+            // firefox doesn't recognize event.keyCode
+            var keyPressed = event.which || event.keyCode;
+            if (keyPressed === 13) {
                 // if enter key is pressed
                 $("button#submit-chat").trigger("click");
             }
