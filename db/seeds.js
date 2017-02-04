@@ -12,7 +12,7 @@ module.exports = {
             startCodeA: "function sayHello(){ // A your code goes here };",
             startCodeB: "function sayWorld(){ // B your code goes here };",
             testA: "Hello",
-            testA: "world!",
+            testB: "world!",
     });
     db.Challenge.create({
         difficulty: 1,
@@ -23,7 +23,7 @@ module.exports = {
             startCodeA: "function sayHello(){ // A your code goes here };",
             startCodeB: "function sayWorld(){ // B your code goes here };",
             testA: "Hello",
-            testA: "world!",
+            testB: "world!",
     });
     // create users
         // db.User.create({
