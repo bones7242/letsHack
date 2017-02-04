@@ -5,7 +5,7 @@ var router = express.Router();
 
 function passportRoutes(passport){
 
-  // route for 
+  // route for
   router.route('/challenge')
     .get(function(req, res){
       //receive session ID
@@ -68,7 +68,7 @@ function passportRoutes(passport){
   router.route('/login')
     .get(function(req, res){
       res.render('login', {
-        message: req.flash('loginMessage'), 
+        message: req.flash('loginMessage'),
         user: req.user
       });
     })

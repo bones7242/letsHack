@@ -31,6 +31,7 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.0",
     "handlebars": "^4.0.6",
+    "method-override": "^2.3.7",
     "morgan": "^1.7.0",
     "mysql": "^2.13.0",
     "passport": "^0.3.2",
