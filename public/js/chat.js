@@ -9,7 +9,12 @@ function createChatRoom(chatRoomName, maxUsers, myUserName, database){
             chatOwner = "user-" + screenname;
         }
         var timeStamp = new Date();
-        database.ref("chatLog/" + chatRoom).push({screenname:chatter, message:msg, owner:chatOwner, timestamp:timeStamp});
+        database.ref("chatLog/" + chatRoom).push({
+            screenname:chatter, 
+            message:msg, 
+            owner:chatOwner,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
     };
     var displayChats = function (snapshot){
         $("#chat-history").empty();
@@ -21,6 +26,7 @@ function createChatRoom(chatRoomName, maxUsers, myUserName, database){
             }
             var txt = '<span class="chatter">' + chat.screenname + ": </span>";
             txt += chat.message;
+            var chatTime = "<span class='chatTime'>" + chat.timestamp + "</span>";
             div.html(txt);
             $("#chat-history").prepend(div);	
         }
