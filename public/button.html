@@ -13,9 +13,7 @@
     <a href="/dinosaurs/create">link</a>
     <script lang="text/javascript">
         $("button").click(function(){
-            $.ajax({
-                type: "GET",
-                url:"/dinosaurs/create"
+            $.ajax("/dinosaurs/create");
                 // data: {
                 //     userId: user.id,
                 //     teammateId: partnerId,
@@ -27,7 +25,7 @@
                 //       //getChalllenge(response);
                 //   //}
                 // }
-            });
+
         });
     </script>
 </body>
