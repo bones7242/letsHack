@@ -7,22 +7,22 @@
             <h2>{{user.displayName}}</h2>
             <form method="POST" action="/user/update">
                 <div class="profileSection" id="emailAddress">
-                     <button class="smallButton">Edit</button> 
-                     email address: 
-                    {{user.email}} 
-                    <input class="profileEdit" name="emailAddress" type="text" size="20" value="Email Address" />
+                     <button class="smallButton">Edit</button>
+                     email address:
+                    {{user.email}}
+                    <input class="profileEdit" name="emailAddress" type="text" size="20" placeholder="Email Address" />
                 </div>
                 <div class="profileSection" id="firstName">
-                     <button class="smallButton">Edit</button> 
-                     First Name: 
+                     <button class="smallButton">Edit</button>
+                     First Name:
                     {{user.firstName}}
-                    <input class="profileEdit" name="firstName" type="text" size="20" value="First Name" />
+                    <input class="profileEdit" name="firstName" type="text" size="20" placeholder="First Name" />
                 </div>
                 <div class="profileSection" id="lastName">
-                    <button class="smallButton">Edit</button> 
-                    Last Name: 
-                    {{user.lastName}} 
-                    <input class="profileEdit" name="lastName" type="text" size="20" value="Last Name" />
+                    <button class="smallButton">Edit</button>
+                    Last Name:
+                    {{user.lastName}}
+                    <input class="profileEdit" name="lastName" type="text" size="20" placeholder="Last Name" />
                 </div>
                 <input class="smallButton" type="submit">
             </form>
@@ -39,7 +39,7 @@
         <h3>Your Challenge History</h3>
         {{#if user}}
             <ul class="challenge-history">
-            <!-- this gets populated by the frontend function showChallengeHistory --> 
+            <!-- this gets populated by the frontend function showChallengeHistory -->
             </ul>
         {{else}}
             <p>You must <a href="/login">login</a> to see your profile information.</p>
@@ -48,6 +48,3 @@
   </div>
   <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}"></div>
   <script src="/js/profile.js" type="text/javascript"></script>
-
-
-
