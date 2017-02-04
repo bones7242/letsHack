@@ -29,11 +29,11 @@ $(document).ready(function() {
 
     function testMyCode(){
         //Take the player's code
-        var userCode = $("#userCode").val().trim();
+        var userCode = $("#userCode").text().trim();
         console.log("userCode: " + userCode);
 
         //Test for user, should not matter as each user is loaded a different test
-        var challengeTest = $("input#myTest").attr("value");
+        var challengeTest = $("input#myTest").attr("value").trim();
         console.log("my test: " + challengeTest);
 
         var passedTest = false;
@@ -43,7 +43,8 @@ $(document).ready(function() {
             // user function is a function declaration
             // test calls that function, which returns a value
             // then we compare the return value to a pre defined test value.
-            var runTest = eval(userCode + challengeTest);
+            var textToRun = "function(){" + userCode + challengeTest + "}();";
+            var runTest = eval(textToRun);
             console.log("runTest: ", runTest);
             if (runTest === true){
                 passedTest = true;
