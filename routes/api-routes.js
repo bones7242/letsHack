@@ -64,12 +64,11 @@ module.exports = function(app) {
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
     var matchId = req.query.matchId;
-    
-    //var isPlayerA = req.query.isPlayerA;
-
+    var isPlayerA = req.query.isPlayerA;  // i need this from Harold 
     console.log("userId:", userId);
     console.log("teammateId:", teammateId);
     console.log("matchId:", matchId);
+    console.log("isPlayerA", isPlayerA);
     // 1. select a challenge id that isn't in either user's challenge history.
     db.sequelize.Promise.all([
       db.Session.findAll({
@@ -108,8 +107,8 @@ module.exports = function(app) {
       // 2. create the session and get the information
       db.Session.create({
         success: "false",  // will always be false when created
-        playerA: false,
-        playerB: false,
+        playerA: isPlayerA,
+        playerB: !isPlayerA,
         matchId: matchId,
         ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
         UserId: userId,  // note: must be an valid(existing) UserId
@@ -139,7 +138,7 @@ module.exports = function(app) {
       lastName: req.body.lastName
     }, {
       where: {
-        id: req.body.id  // can change this to displayName or email if that is better
+        id: req.body.id
       }
     }).then(function(result) {
       // returns "1" for success and "0" for failure
@@ -193,7 +192,8 @@ module.exports = function(app) {
       instructionsB: req.body.instructionsB,
       startCodeA: req.body.startCodeA,
       startCodeB: req.body.startCodeB,
-      test: req.body.test
+      testA: req.body.testA,
+      testB: req.body.testB
     }).then(function(newChallenge){
       res.json(newChallenge);
     }).catch(function (err) {
@@ -212,7 +212,8 @@ module.exports = function(app) {
       instructionsB: req.body.instructionsB,
       startCodeA: req.body.startCodeA,
       startCodeB: req.body.startCodeB,
-      test: req.body.test
+      testA: req.body.testA,
+      testB: req.body.testB
     }, {
       where: {
         id: req.body.id
