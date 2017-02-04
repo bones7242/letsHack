@@ -9,7 +9,7 @@ $(document).ready(function() {
     console.log(user);
 
     //use this shared key as the firebase container
-    var matchId = $(".dataHolder").data().matchId;
+    var matchId = $(".dataHolder").data().matchid;
     var myPointer;
     var partnerPresent = false;
     var sessionRef = database.ref("activeSessions/" + matchId);
