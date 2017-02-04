@@ -97,7 +97,7 @@ module.exports = function(app) {
   });
 
   // route for creating a session
-  app.get("/session/create", function(req, res){
+  app.post("/session/create", function(req, res){
     console.log("** post request received on /session/create."); 
     var userId = req.body.userId;
     var teammateId = req.body.teammateId;
@@ -141,8 +141,8 @@ module.exports = function(app) {
       };
       var challengeIndex = matchId % possibleChallengeIds.length;
       var challengeToUse = possibleChallengeIds[challengeIndex];
-      // 2. create the session and get the information
 
+      // 2. create the session and get the information
       db.sequelize.Promise.all([
         db.Session.create({
             success: "false",  // will always be false when created
@@ -163,7 +163,7 @@ module.exports = function(app) {
             challenge: JSON.parse(JSON.stringify(challengeData)),
           };
           console.log("newSession:", newSession);
-          res.render("challenge", {session: newSession});
+          res.json(newSession);
         }).catch(function (err) { 
           console.log("** error occured.  Sent to client as JSON")
           res.json(err);
@@ -173,6 +173,14 @@ module.exports = function(app) {
       res.json(err);
     });
   });
+
+  // route to render the challenge page
+  app.get("/challenge", function(req, res){
+    // parse the body
+    
+    // render the page
+    res.render("challenge", {session: newSession});
+  }
 
   // route to update a session (based on session Id)
   app.put("/session/update", function(req, res){
