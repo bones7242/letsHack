@@ -11,11 +11,11 @@ $(document).ready(function() {
     var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
     myRef = sessionRef.push(user, function(err){
         if (err) console.err(err);
+        console.log(myRef);
         myPointer = myRef.getKey();
+        console.log(myPointer);
     });
     myRef.onDisconnect().remove();
-
-    console.log("my pointer", myPointer);
     
     function addBRTags(input){
         return input.split("\n").join("<br />");
