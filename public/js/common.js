@@ -50,7 +50,7 @@ $(document).ready(function() {
       $("nav .nav-right")
         .show()
         .find(".nav-item.user-name")
-        .text("Welcome " + user.displayName + "!");
+        .text("Welcome, " + user.displayName + "!");
   } else {
       $("nav .nav-right")
         .hide()
