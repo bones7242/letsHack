@@ -36,7 +36,7 @@ function passportRoutes(passport){
         })
       ])
       .spread(function(sessionData, challengeData, userData) {
-        console.log("sessionData", sessionData);
+        console.log("sessionData", JSON.parse(JSON.stringify(sessionData)));
         tailoredChallengeData = {
           id: challengeData.id,
           difficulty: challengeData.difficulty,
@@ -54,8 +54,8 @@ function passportRoutes(passport){
           tailoredChallengeData.startCode = challengeData.startCodeB;
           tailoredChallengeData.test = challengeData.testB;
         }
-        console.log("tailoredChallengeData");
-        res.render("challenge", {session: sessionData, challenge: tailoredChallenge, user: userData, partner: sessionData.Teammate});  //note: can we re-authenticate?
+        console.log("tailoredChallengeData", JSON.parse(JSON.stringify(tailoredChallengeData)));
+        res.render("challenge", {session: sessionData, challenge: tailoredChallengeData, user: userData, partner: sessionData.Teammate});  //note: can we re-authenticate?
       });
     });
 
