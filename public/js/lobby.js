@@ -56,7 +56,7 @@ $(document).ready(function(){
                     // after looping through the queue,
                     // figure out who has the first timestamp in the queue
                     earlierTime = timeStamp1 < timeStamp2 ? timeStamp1 : timeStamp2;
-                    console.log("earlier Time: ", earlierTime);
+                    //console.log("earlier Time: ", earlierTime);
                     // send that number to createsession as shared "random" number
                     createSession(matchName, matchId, earlierTime);
                     sessionCreated = true;

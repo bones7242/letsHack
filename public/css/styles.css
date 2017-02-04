@@ -158,11 +158,10 @@ p.small {
     font-style: italic;
 }
 .chatTime {
-    display: none;
     font-size: small;
     font-style: italic;
     color: #666;
-    margin-left: 14px;
+    margin-right: 14px;
 }
 nav {
     background-color: #4484CE;
