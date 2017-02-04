@@ -17,7 +17,7 @@ $(document).ready(function() {
     //use this shared key as the firebase container
     var matchId = $(".dataHolder").data().matchid;
     var myPointer;
-    var partnerName = "partnerplaceholdername";
+    var partnerName = $(".dataHolder").data().partnername;
     var partnerPresent = false;
     var iPassedTest = false;
     var partnerPassedTest = false;

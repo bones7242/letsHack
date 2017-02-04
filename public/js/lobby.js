@@ -56,6 +56,7 @@ $(document).ready(function(){
                     // after looping through the queue,
                     // figure out who has the first timestamp in the queue
                     earlierTime = timeStamp1 < timeStamp2 ? timeStamp1 : timeStamp2;
+                    var iAmPlayerA = timeStamp1 < timeStamp2;
                     //console.log("earlier Time: ", earlierTime);
                     // send that number to createsession as shared "random" number
                     createSession(matchName, matchId, earlierTime);
@@ -85,7 +86,7 @@ $(document).ready(function(){
                     //get challenge page
                     window.location = "/challenge/?sessionId=" 
                     + response.id + "&challengeId=" + response.ChallengeId
-                    + "&userId=" + user.id;
+                    + "&userId=" + user.id + "&isPlayerA=" + iAmPlayerA;
                 }
             }
         });
