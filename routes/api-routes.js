@@ -124,8 +124,8 @@ module.exports = function(app) {
             challenge: JSON.parse(JSON.stringify(challengeData)),
           };
           console.log("newSession:", newSession);
-          res.render("challenge", {session: newSession});
-        }).catch(function (err) {
+          res.render("challenge", {session: sessionData, challenge: challengeData});
+        }).catch(function (err) { 
           console.log("** error occured.  Sent to client as JSON")
           res.json(err);
         });
