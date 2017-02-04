@@ -20,8 +20,7 @@ function showChallengeHistory(){
             method: "GET"
         }
     }).done(function(history){
-        console.log("showing challenge history for user ", user.id);
-        console.log(history);
+        //console.log("showing challenge history for user ", user.id);
         var list = $("ul.challenge-history");
         var listItem = "";
         for (var i = 0; i < history.length; i++){
