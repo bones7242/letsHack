@@ -92,6 +92,8 @@ module.exports = function(app) {
 
   // route for creating a session
   app.post("/session/create", function(req, res){
+    console.log("post request received on /session/create");
+    console.log("body:", req.body)
     var userId = req.body.userId;
     var teammateId = req.body.teammateId;
     var matchId = req.body.matchId;
