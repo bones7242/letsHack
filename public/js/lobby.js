@@ -70,7 +70,7 @@ $(document).ready(function(){
     });
 
     function createSession(partnerName, partnerId, sharedKey, iAmPlayerA){
-        // console.log("create a session with user ", partnerName);
+        console.log("Who am I? Am I player A?", iAmPlayerA);
         $.ajax({
             type: "GET",
             url:"/session/create",
