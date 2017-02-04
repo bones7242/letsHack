@@ -61,6 +61,7 @@ module.exports = function(app) {
   // route for creating a session
   app.get("/session/create", function(req, res){
     console.log("** post request received on /session/create.");
+    console.log("query", req.query);
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
     var matchId = req.query.matchId;
@@ -68,7 +69,7 @@ module.exports = function(app) {
     console.log("userId:", userId);
     console.log("teammateId:", teammateId);
     console.log("matchId:", matchId);
-    console.log("isPlayerA", isPlayerA);
+    console.log("isPlayerA:", isPlayerA);
     // 1. select a challenge id that isn't in either user's challenge history.
     db.sequelize.Promise.all([
       db.Session.findAll({
