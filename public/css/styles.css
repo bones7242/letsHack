@@ -235,3 +235,7 @@ footer {
 ul.challenge-history li{
     margin: 10px 0;
 }
+div.scroller {    
+    max-height: 280px;
+    overflow: scroll;
+}
