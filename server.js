@@ -80,9 +80,7 @@ app.use(passport.session());
 
 app.use('/', passportRoutes(passport));
 require("./routes/api-routes.js")(app);
-// app.get("/challenge", function(request, response){
-//   response.render('challenge');
-// });
+require("./routes/html-routes.js")(app);
 
 db.sequelize.sync(/*{force: true}*/).then(function(){
   app.listen(PORT, function() {
