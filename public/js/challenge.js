@@ -89,7 +89,7 @@ $(document).ready(function() {
 
       // console.log("user code eval: " + eval(userACode);
       //Store and evaluate the code
-      var checkAnswer = eval(userACode + test);
+      var checkAnswer = eval(userCode + test);
       //Compare checkAnswer to the db answer
       if (checkAnswer) {
         myRef.update({
