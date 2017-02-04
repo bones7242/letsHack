@@ -77,7 +77,7 @@ $(document).ready(function(){
             + sharedKey);
         $.ajax("/session/create/", {
             data: {
-                method: "POST",
+                type: "POST",
                 userId: user.id,
                 teammateId: partnerId,
                 matchId: sharedKey
