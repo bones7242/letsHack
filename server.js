@@ -82,10 +82,10 @@ app.use('/', passportRoutes(passport));
 require("./routes/api-routes.js")(app);
 require("./routes/html-routes.js")(app);
 
-db.sequelize.sync({force: true}).then(function(){
+db.sequelize.sync(/*{force: true}*/).then(function(){
   app.listen(PORT, function() {
     //create seeds testing
-    require("./db/seeds.js").createSeeds();
+    //require("./db/seeds.js").createSeeds();
     //log that you are on port
     console.log("Listening on PORT " + PORT);
   });

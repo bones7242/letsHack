@@ -9,6 +9,7 @@ function passportRoutes(passport){
   router.route('/challenge')
     .get(function(req, res){
       //receive session ID
+      var userId = req.query.userId;
       var sessionId = req.query.sessionId;
       var challengeId = req.query.challengeId;
       //render handlebars with session info and challenge info
@@ -22,10 +23,16 @@ function passportRoutes(passport){
           where: {
             id: challengeId
           }
+        }),
+        db.User.findOne({
+          attributes: ["id", "displayName"],
+          where: {
+            id: userId
+          }
         })
       ])
-      .spread(function(sessionData, challengeData) {
-        res.render("challenge", {session: sessionData, challenge: challengeData, user: req.user});  //note: might need to re-authenticate
+      .spread(function(sessionData, challengeData, userData) {
+        res.render("challenge", {session: sessionData, challenge: challengeData, user: userData});  //note: might need to re-authenticate
       });
     });
 
