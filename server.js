@@ -79,9 +79,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-require("./routes/api-routes.js")(app);
 app.use('/', passportRoutes(passport));
-
+require("./routes/api-routes.js")(app);
+// app.get("/challenge", function(request, response){
+//   response.render('challenge');
+// });
 
 db.sequelize.sync(/*{force: true}*/).then(function(){
   app.listen(PORT, function() {
