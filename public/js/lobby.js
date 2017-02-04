@@ -78,7 +78,7 @@ $(document).ready(function(){
 
         $.ajax({
             type: "GET",
-            url:"/session/create/",
+            url:"/dinosaurs/create",
             data: {
                 userId: user.id,
                 teammateId: partnerId,
