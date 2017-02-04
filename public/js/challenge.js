@@ -95,6 +95,8 @@ $(document).ready(function() {
         myRef.update({
           finished: 1
         })
+
+        
         //Alert the user to please wait for the other player to finish BUT still keep the chat functioning to help other player
 
 
