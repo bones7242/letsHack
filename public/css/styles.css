@@ -229,3 +229,9 @@ footer {
     vertical-align: middle;
     background-color: #4484CE;
 }
+.profileSection {
+    margin: 10px 0;
+}
+ul.challenge-history li{
+    margin: 10px 0;
+}
