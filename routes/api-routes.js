@@ -65,6 +65,7 @@ module.exports = function(app) {
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
     var matchId = req.query.matchId;
+
     if (req.query.isPlayerA == "true") {
       var isPlayerA = true;
       var isPlayerB = false;
@@ -77,6 +78,7 @@ module.exports = function(app) {
     //console.log("matchId:", matchId);
     console.log("isPlayerA:", isPlayerA);
     //console.log(typeof(isPlayerA));
+
     // 1. select a challenge id that isn't in either user's challenge history.
     db.sequelize.Promise.all([
       db.Session.findAll({
@@ -125,7 +127,7 @@ module.exports = function(app) {
         // 3. return the information
         console.log("newSession:", JSON.parse(JSON.stringify(sessionData)));
         res.json(sessionData);
-      }).catch(function (err) { 
+      }).catch(function (err) {
         console.log("** error occured.  Sent to client as JSON")
         res.json(err);
       });
@@ -137,30 +139,36 @@ module.exports = function(app) {
 
   // general API routes for future dev
   // route for updating a user
-  app.put("/user/update", function(req, res){  //route to update a user
+  app.put("/user/update", function(req, res){
+
+    //route to update a user
     db.User.update({
       email: req.body.email,
-      password: req.body.password,
-      displayName: req.body.displayName,
       firstName: req.body.firstName,
       lastName: req.body.lastName
     }, {
       where: {
-        id: req.body.id
+
+        displayName: req.body.displayName  // can change this to displayName or email if that is better
+
       }
-    }).then(function(result) {
+    }).then(function(result){
+        // console.log("this is user: " + user);
+        // res.redirect("/profile");
       // returns "1" for success and "0" for failure
       if (result[0] === 1){
-        res.send("user successfully updated");
+        console.log("user successfully updated");
+        res.redirect("/profile");
       } else if (result[0] === 0) {
         res.send("user was not successfully updated");
       } else {
-        res.send("and unknown error occured");
+        res.send("an unknown error occured");
       };
+
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON")
       res.json(err);
-    });
+    })
   })
 
   // route to update a session (based on session Id)

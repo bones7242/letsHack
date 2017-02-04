@@ -42,7 +42,7 @@ function showChallengeHistory(){
 $(document).ready(function() {
   //get logged in user data from server
   user = {
-      displayName: $(".dataHolder").data().displayname, 
+      displayName: $(".dataHolder").data().displayname,
       id: $(".dataHolder").data().userid
   };
   //console.log(user);

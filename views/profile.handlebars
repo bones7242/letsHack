@@ -5,12 +5,13 @@
     <div class="container columns main-column">
         {{#if user}}
             <h2>{{user.displayName}}</h2>
-            <form method="POST" action="/user/update">
+            <form method="POST" action="/user/update?_method=PUT">
                 <div class="profileSection" id="emailAddress">
                      <button class="smallButton">Edit</button>
-                     email address:
+                     Email Address:
                     {{user.email}}
-                    <input class="profileEdit" name="emailAddress" type="text" size="20" placeholder="Email Address" />
+                    <input class="profileEdit" name="email" type="text" size="20" placeholder="Email Address" />
+                    <input type="hidden" name="displayName" value={{{user.displayName}}}>
                 </div>
                 <div class="profileSection" id="firstName">
                      <button class="smallButton">Edit</button>
