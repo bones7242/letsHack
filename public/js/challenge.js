@@ -6,7 +6,8 @@ $(document).ready(function() {
     //get logged in user data from server
     var user = {
         displayName: $(".dataHolder").data().displayname,
-        id: $(".dataHolder").data().userid
+        id: $(".dataHolder").data().userid,
+        finished: 0
     };
     //console.log(user);
 
@@ -32,8 +33,19 @@ $(document).ready(function() {
         if (usersConnected === 2 && myPointer) {
             // game has started, loop through users on change
             for (user in snapshot.val()){
-                if (user === myPointer){
+                if (user === myPointer && snapshot.child("user/finished").val() === 1){
                     //console.log("found myself");
+                    //Check the other user to see if they finished the challenge, move from there
+                    for (user in snapshot.val()){
+                      if (user === myPointer) {
+                        //console.log("Same thing, its me")
+                      }
+                      else {
+                        if (snapshot.child("user/finished").val() === 1) {
+                          //Other player is done too. Woohoo!!
+                        }
+                      }
+                    }
                 } else {
                     // watch for partner's typing
                     partnerPresent = true;
@@ -62,14 +74,42 @@ $(document).ready(function() {
 
     createChatRoom(sessionData.sessionId, 2, user.displayName, database);
 
-    $(".submitBtn").on("click", function(){
-      var userACode = $("#userACode").val().trim();
-      console.log("userACode before " + userACode);
-      console.log("user code eval: " + userACode.eval());
-      var checkAnswer = userACode.eval()
-    })
 
-// Onclick of test button take the code inside of the textarea, code.eval, check in firebase to see if other person has finsihed. If the test passes, then push to firebase to say finished (switch)
+
+    $(".submitBtn").on("click", function(){
+      //Take the player's code
+      var userCode = $("#userCode").val().trim();
+      console.log("userCode before: " + userCode);
+
+      //Test for user, should not matter as each user is loaded a different test
+      var test = req.body.test;
+
+      //Figure out which user is which to choose which test to run with
+
+
+      // console.log("user code eval: " + eval(userACode);
+      //Store and evaluate the code
+      var checkAnswer = eval(userCode + test);
+      //Compare checkAnswer to the db answer
+      if (checkAnswer) {
+        myRef.update({
+          finished: 1
+        })
+
+        
+        //Alert the user to please wait for the other player to finish BUT still keep the chat functioning to help other player
+
+
+      } else {
+        alert("keep trying!");
+        //openModal("Room is Full", "Hm, something went wrong, that challenge is already full. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby?userId=" + user.id;});
+      }
+
+    });
+
+
+
+// Onclick of test button take the code inside of the textarea, code.eval, check in firebase to see if other person has finished. If the test passes, then push to firebase to say finished (switch)
 // On sessionRef create lofic to check for finished user first
 
 //   // code to execute tests
