@@ -56,6 +56,9 @@ module.exports = function(app) {
       } else {
         res.send("and unknown error occured");
       };
+    }).catch(function (err) { 
+      console.log("** error occured.  Sent to client as JSON")
+      res.json(err);
     });
   })
 
@@ -87,13 +90,15 @@ module.exports = function(app) {
         return newObject;
       })
       res.json(mappedData);
-    })
+    }).catch(function (err) { 
+      console.log("** error occured.  Sent to client as JSON")
+      res.json(err);
+    });
   });
 
   // route for creating a session
   app.post("/session/create", function(req, res){
-    console.log("post request received on /session/create");
-    console.log("body:", req.body)
+    console.log("** post request received on /session/create.  Req.body:", JSON.stringify(req.body));
     var userId = req.body.userId;
     var teammateId = req.body.teammateId;
     var matchId = req.body.matchId;
@@ -156,7 +161,13 @@ module.exports = function(app) {
           };
           console.log("newSession:", newSession);
           res.render("Challenge", {session: newSession});
+        }).catch(function (err) { 
+          console.log("** error occured.  Sent to client as JSON")
+          res.json(err);
         });
+    }).catch(function (err) { 
+      console.log("** error occured.  Sent to client as JSON")
+      res.json(err);
     });
   });
 
@@ -181,6 +192,9 @@ module.exports = function(app) {
       } else {
         res.send("and unknown error occured");
       };
+    }).catch(function (err) { 
+      console.log("** error occured.  Sent to client as JSON")
+      res.json(err);
     });
   });
 
@@ -197,6 +211,9 @@ module.exports = function(app) {
       test: req.body.test
     }).then(function(newChallenge){
       res.json(newChallenge);
+    }).catch(function (err) { 
+      console.log("** error occured.  Sent to client as JSON.")
+      res.json(err);
     });
   });
 
@@ -217,6 +234,9 @@ module.exports = function(app) {
       }
     }).then(function(newChallenge){
       res.json(newChallenge);
+    }).catch(function (err) { 
+      console.log("** error occured.  Sent to client as JSON.")
+      res.json(err);
     });
   });
 
