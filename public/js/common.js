@@ -20,7 +20,7 @@ $(document).ready(function() {
       id: $(".dataHolder").data().userid
   };
   //console.log(user);
-  if (user.displayname){
+  if (user.displayName){
       $("nav .nav-right")
         .show()
         .find(".nav-item.user-name")
