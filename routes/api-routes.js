@@ -73,7 +73,7 @@ module.exports = function(app) {
     } else {
       var isPlayerA = false;
       var isPlayerB = true;
-    };  // i need this from Harold 
+    };  // i need this from Harold
     //console.log("userId:", userId);
     //console.log("teammateId:", teammateId);
     //console.log("matchId:", matchId);
@@ -144,9 +144,9 @@ module.exports = function(app) {
 
     //route to update a user
     db.User.update({
-      email: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName
+      email: req.body.email || db.User.email,
+      firstName: req.body.firstName || db.User.firstName,
+      lastName: req.body.lastName || db.User.lastName
     }, {
       where: {
 
