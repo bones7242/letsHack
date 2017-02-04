@@ -1,6 +1,7 @@
 $(document).ready(function(){
     showChallengeHistory();
     
-    $("#joinQueue").click(function(){
+    $(".profileSection button").click(function(){
+        $(this).after("<input type='text' size='20'>");
     }
 });
