@@ -84,30 +84,4 @@ $(document).ready(function(){
             console.log("response from create session route: ", response);
         });
     }
-    
-    function showChallengeHistory(){
-        $.ajax("/user/" + user.id + "/challengeHistory", {
-            data:{
-                method: "GET"
-            }
-        }).done(function(history){
-            console.log("showing challenge history for user ", user.id);
-            console.log(history);
-            var list = $("ul.challenge-history");
-            var listItem;
-            for (var i = 0; i < history.length; i++){
-                var listItem = "<li>";
-                listItem += session.ChallengeId + ": " + session.ChallengeName;
-                if (session.success){
-                    listItem += ", completed on "
-                } else {
-                    listItem += ", last attempted on "
-                }
-                listItem += session.updatedAt;
-                listItem += " with " + session.TeammateDisplayName;
-                listItem += "</li>";
-            }
-            list.append(listItem);
-        });
-    }
 });

@@ -13,6 +13,33 @@ function openModal(title, html, buttonText, buttonCallback){
 function closeModal(){
   $("#modal").hide().find(".title").text("").next("p").html("");
 }
+
+function showChallengeHistory(){
+    $.ajax("/user/" + user.id + "/challengeHistory", {
+        data:{
+            method: "GET"
+        }
+    }).done(function(history){
+        console.log("showing challenge history for user ", user.id);
+        console.log(history);
+        var list = $("ul.challenge-history");
+        var listItem;
+        for (var i = 0; i < history.length; i++){
+            var listItem = "<li>";
+            listItem += history[i].ChallengeId + ": " + history[i].ChallengeName;
+            if (history[i].success){
+                listItem += ", completed on "
+            } else {
+                listItem += ", last attempted on "
+            }
+            listItem += history[i].updatedAt;
+            listItem += " with " + history[i].TeammateDisplayName;
+            listItem += "</li>";
+        }
+        list.append(listItem);
+    });
+}
+
 $(document).ready(function() {
   //get logged in user data from server
   var user = {
