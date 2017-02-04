@@ -14,19 +14,22 @@ function closeModal(){
   $("#modal").hide().find(".title").text("").next("p").html("");
 }
 $(document).ready(function() {
-  
-    //get logged in user data from server
-    var user = {
-        displayName: $(".dataHolder").data().displayname, 
-        id: $(".dataHolder").data().userid
-    };
-    //console.log(user);
-
-  if (typeof user.id != 'undefined'){
-      var lobbyLink = $("nav .nav-right")
+  //get logged in user data from server
+  var user = {
+      displayName: $(".dataHolder").data().displayname, 
+      id: $(".dataHolder").data().userid
+  };
+  //console.log(user);
+  if (user.displayname){
+      $("nav .nav-right")
         .show()
         .find(".nav-item.user-name")
         .text(user.displayName);
+  } else {
+      $("nav .nav-right")
+        .hide()
+        .find(".nav-item.user-name")
+        .text("");
   }
 
   $("#modal .modal-close, #modal modal-background").click(closeModal);
