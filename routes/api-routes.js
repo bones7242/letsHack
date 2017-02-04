@@ -36,7 +36,7 @@ module.exports = function(app) {
   // });
 
   // route for updating a user
-  app.get("/user/update", function(req, res){  //route to update a user
+  app.put("/user/update", function(req, res){  //route to update a user
     db.User.update({
       email: req.body.email,
       password: req.body.password,
@@ -97,7 +97,7 @@ module.exports = function(app) {
   });
 
   // route for creating a session
-  app.post("/session/create", function(req, res){
+  app.get("/session/create", function(req, res){
     console.log("** post request received on /session/create."); 
     var userId = req.body.userId;
     var teammateId = req.body.teammateId;
