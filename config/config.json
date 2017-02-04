@@ -2,7 +2,11 @@
     "development": {
         "username": "root",
         "password": "password",
+<<<<<<< HEAD
         "database": "passport_lesson",
+=======
+        "database": "letsHack_db",
+>>>>>>> e2b0ecfbc80d0866d6afde2d63f86ccc26445229
         "host": "127.0.0.1",
         "dialect": "mysql"
     },

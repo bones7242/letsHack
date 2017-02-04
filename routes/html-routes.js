@@ -1,8 +1,10 @@
 
-module.exports = function(app) {
-  app.get("/challenge/", function(request, response){
+// var express = require('express');
+// var router = express.Router();
 
-  }).then(function(data){
-      response.render('challenge');
-  });
-};
+// module.exports = function(app) {
+//     router.route('/challenge')
+//     .get(function(req, res){
+//       res.render('challenge');
+//     });
+// };
