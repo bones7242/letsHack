@@ -23,7 +23,7 @@ function showChallengeHistory(){
         console.log("showing challenge history for user ", user.id);
         console.log(history);
         var list = $("ul.challenge-history");
-        var listItem;
+        var listItem = "";
         for (var i = 0; i < history.length; i++){
             listItem += "<li>";
             listItem += history[i].ChallengeId + ": " + history[i].ChallengeName;
