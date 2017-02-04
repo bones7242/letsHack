@@ -43,10 +43,10 @@ $(document).ready(function() {
             // user function is a function declaration
             // test calls that function, which returns a value
             // then we compare the return value to a pre defined test value.
-            var textToRun = "function(){" + userCode + challengeTest + "}();";
-            var runTest = eval(textToRun);
-            console.log("runTest: ", runTest);
-            if (runTest === true){
+            var userFunction = eval("(" + userCode + ")");
+            var testFunction = eval("(" + challengeTest + ")");
+            
+            if (userFunction() === testFunction()){
                 passedTest = true;
             }
         }
