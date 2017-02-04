@@ -1,7 +1,9 @@
 $(document).ready(function() {
     
     function addBRTags(input){
-        return input.split("\n").join("<br />");
+        if (input && typeof input === "string" && input.length > 1){
+            return input.split("\n").join("<br />");
+        }
     }
 
     firebase.initializeApp(config);
