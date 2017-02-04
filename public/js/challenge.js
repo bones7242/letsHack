@@ -29,16 +29,16 @@ $(document).ready(function() {
 
     function testMyCode(){
         //Take the player's code
-        var userCode = $("#userCode").text().trim();
+        var userCode = $("#userCode").val();
         console.log("userCode: " + userCode);
 
         //Test for user, should not matter as each user is loaded a different test
-        var challengeTest = $("input#myTest").attr("value").trim();
+        var challengeTest = $("input#myTest").val();
         console.log("my test: " + challengeTest);
 
         var passedTest = false;
 
-        try { 
+        //try { 
             // execute the users's function, see if it matches the test case
             // user function is a function declaration
             // test calls that function, which returns a value
@@ -49,11 +49,11 @@ $(document).ready(function() {
             if (userFunction() === testFunction()){
                 passedTest = true;
             }
-        }
-        catch (err) {
-            openModal("Your code threw an error", err, "OK", closeModal);
-        }
-        finally {
+  //      }
+  //      catch (err) {
+  //          openModal("Your code threw an error", err, "OK", closeModal);
+  //      }
+  //      finally {
             if (passedTest) {
                 myRef.update({
                     finished: 1
@@ -70,7 +70,7 @@ $(document).ready(function() {
                 //i didn't pass
                 openModal("Your code didn't return the expected result.", "Keep trying!", "OK", closeModal);
             }
-        }
+        //}
     }
 
     firebase.initializeApp(config);
