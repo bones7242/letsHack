@@ -43,7 +43,8 @@ function passportRoutes(passport){
           name: challengeData.name,
           instructionsAll: challengeData.instructionsAll,
         };
-        if (sessionData.PlayerA == "true"){
+        console.log(sessionData.playerA);
+        if (sessionData.playerA == "true"){
           tailoredChallengeData.instructions = challengeData.instructionsA;
           tailoredChallengeData.partnerInstructions = challengeData.instructionsB;
           tailoredChallengeData.startCode = challengeData.startCodeA;
