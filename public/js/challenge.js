@@ -12,7 +12,7 @@ $(document).ready(function() {
 
     firebase.initializeApp(config);
 	var database = firebase.database();
-    console.log(user);
+    //console.log(user);
 
     //use this shared key as the firebase container
     var matchId = $(".dataHolder").data().matchid;
@@ -69,7 +69,7 @@ $(document).ready(function() {
 		$("body").off("keyup");
 	});
 
-    createChatRoom(sessionData.sessionId, 2, user.displayName, database);
+    createChatRoom(matchId, 2, user.displayName, database);
 
 
     $("button.testMyCode").on("click", function(){
