@@ -92,11 +92,11 @@ $(document).ready(function() {
       var checkAnswer = eval(userCode + test);
       //Compare checkAnswer to the db answer
       if (checkAnswer) {
-        myRef.update({
+        sessionRef.child("user").update({
           finished: 1
         })
 
-        
+
         //Alert the user to please wait for the other player to finish BUT still keep the chat functioning to help other player
 
 
