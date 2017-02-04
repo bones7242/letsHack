@@ -5,6 +5,29 @@ var router = express.Router();
 
 function passportRoutes(passport){
 
+  // route for 
+  router.route('/challenge')
+    .get(function(req, res){
+      //receive session ID
+      var sessionId = req.query.sessionId;
+      var challengeId = req.query.challengeId;
+      //render handlebars with session info and challenge info
+      db.sequelize.Promise.all([
+          db.Session.findOne({
+            where: {
+              id: sessionId
+            }
+          }),
+          db.Challenge.findOne({
+            where: {
+              id: challengeId
+            }
+          })
+        ])
+        .spread(function(sessionData, challengeData) {
+          res.render("challenge", {session: sessionData, challenge: challengeData, user: req.user});  //note: might need to re-authenticate
+    });
+
   router.route('/')
   .get(function(req, res) {
       res.redirect('/login');
