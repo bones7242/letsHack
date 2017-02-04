@@ -116,6 +116,12 @@ p.small {
 .profileSection .smallButton {
     display: none;
     /* these are commented out until profile edit feature can be added */
+    background-color: #2f2fa9;
+    color: white;
+    border: 0;
+    font-size: 1em;
+    padding: 4px;
+    margin: 4px;
 }
 .login-page .side-column {
     font-size: unset;
