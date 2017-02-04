@@ -17,6 +17,7 @@ $(document).ready(function() {
     //use this shared key as the firebase container
     var matchId = $(".dataHolder").data().matchid;
     var myPointer;
+    var partnerName = "partnerplaceholdername";
     var partnerPresent = false;
     var iPassedTest = false;
     var partnerPassedTest = false;
@@ -31,16 +32,16 @@ $(document).ready(function() {
         //console.log("users connected:", usersConnected);
         if (usersConnected === 2 && myPointer) {
             // game has started, loop through users on change
-            for (user in snapshot.val()){
-                if (user === myPointer){
+            for (record in snapshot.val()){
+                if (record === myPointer){
                     //console.log("found myself");
                 } else {
                     // watch for partner's typing
                     partnerPresent = true;
-                    var partnersCode = snapshot.child(user).val().codeSoFar;
+                    var partnersCode = snapshot.child(record).val().codeSoFar;
                     $("#partner-code .code-input").html(addBRTags(partnersCode));
                     // watch for partner passed test
-                    if (snapshot.child(user).val().finished === 1){
+                    if (snapshot.child(record).val().finished === 1){
                         partnerPassedTest = true;
                         if (iPassedTest){
                             //we both passed yay!
@@ -51,7 +52,7 @@ $(document).ready(function() {
             }
         } else if (usersConnected < 2 && partnerPresent === true){
             //partner was here, but they disconnected
-            openModal(myPartner + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby?userId=" + user.id;});
+            openModal(partnerName + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby?userId=" + user.id;});
         } else if (usersConnected > 2){
             //there are more than 2 people in this challenge... awkward!
             openModal("Room is Full", "Hm, something went wrong, that challenge is already full. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby?userId=" + user.id;});
@@ -87,7 +88,7 @@ $(document).ready(function() {
       //Compare checkAnswer to the db answer
 
       if (passedTest) {
-        sessionRef.child("user").update({
+        sessionRef.child(user).update({
             finished: 1
         });
         iPassedTest = true;
