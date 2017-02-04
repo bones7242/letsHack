@@ -23,7 +23,11 @@ $(document).ready(function(){
 
         // add user.displayName to queue
         var queueRef = database.ref("queue");
-        var meInQueueRef = queueRef.push({name: user.displayName, joinedTime: firebase.database.ServerValue.TIMESTAMP});   
+        var meInQueueRef = queueRef.push({
+            name: user.displayName, 
+            id: user.id,
+            joinedTime: firebase.database.ServerValue.TIMESTAMP
+        });
         meInQueueRef.onDisconnect().remove();
 
         //check to see if you can pair the user with someone else in the queue
@@ -31,6 +35,7 @@ $(document).ready(function(){
             console.log(snapshot.numChildren() + " users in the queue");
             if (!sessionCreated){
                 var matchName;
+                var matchId;
                 var earlierTime;
                 var timeStamp1;
                 var timeStamp2;
@@ -41,7 +46,8 @@ $(document).ready(function(){
                             // this is your match!
                             foundMatch = true;
                             timeStamp1 = waitingUser.joinedTime;
-                            matchName = waitingUser.name
+                            matchName = waitingUser.name;
+                            matchId = waitingUser.id;
                         } else if (waitingUser.name == user.displayName){
                             // this is you!
                             timeStamp2 = waitingUser.joinedTime;
@@ -52,7 +58,7 @@ $(document).ready(function(){
                     earlierTime = timeStamp1 < timeStamp2 ? timeStamp1 : timeStamp2;
                     console.log("earlier Time: ", earlierTime);
                     // send that number to createsession as shared "random" number
-                    createSession(matchName, earlierTime);
+                    createSession(matchName, matchId, earlierTime);
                     sessionCreated = true;
                     // the above makes sure this matching process doesn't run again
                     // for this user until they load this page again
@@ -63,13 +69,16 @@ $(document).ready(function(){
         });
     });
 
-    function createSession(partnerName, sharedKey){
+    function createSession(partnerName, partnerId, sharedKey){
         //console.log("create a session with user ", partnerName)
-        console.log("sending create session request with userId: " + user.displayName + " teammateId: " + partnerName + " matchId: " + sharedKey);
+        console.log("sending create session request with users: " 
+            + user.displayName + "(" + user.id + ") and " 
+            + partnerName + "(" + partnerId + "). matchId: " 
+            + sharedKey);
         $.ajax("/session/create", {
             method: "POST",
             userId: user.id,
-            teammateId: partnerName,
+            teammateId: partnerId,
             matchId: sharedKey
         }).done(function(response){
             console.log("response from create session route: ", response);

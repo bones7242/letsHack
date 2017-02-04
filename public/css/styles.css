@@ -215,7 +215,7 @@ footer {
     min-height: 200px;
     margin: 5% auto;
     padding: 8px 16px;
-    border-radius: 7;
+    border-radius: 7px;
 }
 #modal .modal-close {
     cursor: pointer;
