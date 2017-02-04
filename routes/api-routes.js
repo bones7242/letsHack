@@ -60,25 +60,16 @@ module.exports = function(app) {
 
   // route for creating a session
   app.get("/session/create", function(req, res){
-    //console.log("** post request received on /session/create.");
-    //console.log("url", req.url);
+    console.log("** post request received on /session/create.");
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
     var matchId = req.query.matchId;
 
-    if (req.query.isPlayerA == "true") {
-      var isPlayerA = true;
-      var isPlayerB = false;
-    } else {
-      var isPlayerA = false;
-      var isPlayerB = true;
-    };  // i need this from Harold 
-    //console.log("userId:", userId);
-    //console.log("teammateId:", teammateId);
-    //console.log("matchId:", matchId);
-    console.log("isPlayerA:", isPlayerA);
-    //console.log(typeof(isPlayerA));
+    //var isPlayerA = req.query.isPlayerA;
 
+    console.log("userId:", userId);
+    console.log("teammateId:", teammateId);
+    console.log("matchId:", matchId);
     // 1. select a challenge id that isn't in either user's challenge history.
     db.sequelize.Promise.all([
       db.Session.findAll({
@@ -117,8 +108,8 @@ module.exports = function(app) {
       // 2. create the session and get the information
       db.Session.create({
         success: "false",  // will always be false when created
-        playerA: isPlayerA,
-        playerB: isPlayerB,
+        playerA: false,
+        playerB: false,
         matchId: matchId,
         ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
         UserId: userId,  // note: must be an valid(existing) UserId
@@ -141,6 +132,10 @@ module.exports = function(app) {
   // route for updating a user
   app.put("/user/update", function(req, res){
 
+    if (req.body.email === ''){
+      
+    }
+
     //route to update a user
     db.User.update({
       email: req.body.email,
@@ -148,9 +143,7 @@ module.exports = function(app) {
       lastName: req.body.lastName
     }, {
       where: {
-
         displayName: req.body.displayName  // can change this to displayName or email if that is better
-
       }
     }).then(function(result){
         // console.log("this is user: " + user);
@@ -208,8 +201,7 @@ module.exports = function(app) {
       instructionsB: req.body.instructionsB,
       startCodeA: req.body.startCodeA,
       startCodeB: req.body.startCodeB,
-      testA: req.body.testA,
-      testB: req.body.testB
+      test: req.body.test
     }).then(function(newChallenge){
       res.json(newChallenge);
     }).catch(function (err) {
@@ -228,8 +220,7 @@ module.exports = function(app) {
       instructionsB: req.body.instructionsB,
       startCodeA: req.body.startCodeA,
       startCodeB: req.body.startCodeB,
-      testA: req.body.testA,
-      testB: req.body.testB
+      test: req.body.test
     }, {
       where: {
         id: req.body.id
