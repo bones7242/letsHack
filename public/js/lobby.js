@@ -86,7 +86,23 @@ $(document).ready(function(){
             },
             success: function(response){
               console.log("response from create session route: ", response);
-                //$('body').html(response);
+              //if (response){
+                  //getChalllenge(response);
+              //}
+            }
+        });
+    }
+    function getChallenge(data){
+        $.ajax({
+            type: "GET",
+            url:"/challenge/",
+            data: {
+                userId: user.id,
+                teammateId: partnerId,
+                matchId: sharedKey
+            },
+            success: function(response){
+              console.log("response from create session route: ", response);
             }
         });
     }

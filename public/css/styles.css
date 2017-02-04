@@ -158,6 +158,7 @@ p.small {
     font-style: italic;
 }
 .chatTime {
+    display: none;
     font-size: small;
     font-style: italic;
     color: #666;
