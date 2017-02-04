@@ -85,7 +85,8 @@ $(document).ready(function(){
                 matchId: sharedKey
             },
             success: function(response){
-                console.log("response from create session route: ", response);
+//              console.log("response from create session route: ", response);
+                $('body').html(response);
             }
         });
     }
