@@ -77,7 +77,7 @@ $(document).ready(function(){
             + sharedKey);  
 
         $.ajax({
-            type: "POST",
+            type: "GET",
             url:"/session/create/",
             data: {
                 userId: user.id,

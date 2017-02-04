@@ -36,7 +36,7 @@ module.exports = function(app) {
   // });
 
   // route for updating a user
-  app.put("/user/update", function(req, res){  //route to update a user
+  app.get("/user/update", function(req, res){  //route to update a user
     db.User.update({
       email: req.body.email,
       password: req.body.password,
