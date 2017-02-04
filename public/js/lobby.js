@@ -79,17 +79,17 @@ $(document).ready(function(){
         $.ajax({
             type: "GET",
             url:"/dinosaurs/create",
-            data: {
-                userId: user.id,
-                teammateId: partnerId,
-                matchId: sharedKey
-            },
-            success: function(response){
-              console.log("response from create session route: ", response);
-              //if (response){
-                  //getChalllenge(response);
-              //}
-            }
+            // data: {
+            //     userId: user.id,
+            //     teammateId: partnerId,
+            //     matchId: sharedKey
+            // },
+            // success: function(response){
+            //   console.log("response from create session route: ", response);
+            //   //if (response){
+            //       //getChalllenge(response);
+            //   //}
+            // }
         });
     }
     function getChallenge(data){
