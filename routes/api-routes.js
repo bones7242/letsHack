@@ -177,10 +177,10 @@ module.exports = function(app) {
   // route to render the challenge page
   app.get("/challenge", function(req, res){
     // parse the body
-    
+
     // render the page
     res.render("challenge", {session: newSession});
-  }
+  });
 
   // route to update a session (based on session Id)
   app.put("/session/update", function(req, res){
