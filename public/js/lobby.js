@@ -73,7 +73,7 @@ $(document).ready(function(){
         // console.log("create a session with user ", partnerName);
         $.ajax({
             type: "GET",
-            url:"/session/create"
+            url:"/session/create",
             data: {
                 userId: user.id,
                 teammateId: partnerId,
@@ -83,7 +83,7 @@ $(document).ready(function(){
                 console.log("session created! ", response);
                 if (response){
                     //get challenge page
-                    window.location = "/challenge/?sessionId=" + response.sessionId + "&challengeId=" + response.challengeId;
+                    window.location = "/challenge/?sessionId=" + response.id + "&challengeId=" + response.ChallengeId;
                 }
             }
         });
