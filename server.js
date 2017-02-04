@@ -80,6 +80,7 @@ app.use(passport.session());
 
 app.use('/', passportRoutes(passport));
 require("./routes/api-routes.js")(app);
+require("./routes/html-routes.js")(app);
 app.get("/challenge", function(request, response){
    response.render('challenge');
 });
