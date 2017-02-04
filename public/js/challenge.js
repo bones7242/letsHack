@@ -10,6 +10,46 @@ $(document).ready(function() {
         openModal("Success!", "You both passed your challenge, nice team work, you guys! Head back to the lobby for more challenge fun!", "Lobby", function(){window.location = "/lobby"});
     }
 
+    function testMyCode(){
+        //Take the player's code
+        var userCode = $("#userCode").val().trim();
+        console.log("userCode: " + userCode);
+
+        //Test for user, should not matter as each user is loaded a different test
+        var test = $("input#myTest").attr("value");
+        console.log("my test: " + test);
+
+        var passedTest = false;
+
+        try { 
+            //if(x == "") throw "is empty";
+            // run the user's code
+            //var checkAnswer = eval(userCode);
+            //Compare checkAnswer to test, set passedTest to true if they're the same
+        }
+        catch (err) {
+            openModal("Your code threw an error", err, "OK", closeModal);
+        }
+        finally {
+            if (passedTest) {
+                myRef.update({
+                    finished: 1
+                });
+                iPassedTest = true;
+                if (partnerPassedTest){
+                    //we both passed yay!
+                    challengeSuccess();
+                } else {
+                    // I passed, my parnter hasn't yet
+                    openModal("Nice work!", "Your partner is still working, see if you can help them out using the chat.", "OK", closeModal);
+                }
+            } else {
+                //i didn't pass
+                openModal("Your code didn't return the expected result.", "Keep trying!", "OK", closeModal);
+            }
+        }
+    }
+
     firebase.initializeApp(config);
 	var database = firebase.database();
     //console.log(user);
@@ -25,7 +65,7 @@ $(document).ready(function() {
     var myRef = sessionRef.push(user);
     myRef.onDisconnect().remove();
 
-    // when this session changes value
+    // when this firebase challenge changes value
     sessionRef.on("value", function(snapshot){
         myPointer = myRef.getKey();
         var usersConnected  = snapshot.numChildren();
@@ -52,12 +92,18 @@ $(document).ready(function() {
             }
         } else if (usersConnected < 2 && partnerPresent === true){
             //partner was here, but they disconnected
-            openModal(partnerName + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby?userId=" + user.id;});
+            openModal(partnerName + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby";});
         } else if (usersConnected > 2){
             //there are more than 2 people in this challenge... awkward!
-            openModal("Room is Full", "Hm, something went wrong, that challenge is already full. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby?userId=" + user.id;});
+            openModal("Room is Full", "Hm, something went wrong, that challenge is already full. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby";});
         }
     });
+
+    // start up chat
+    createChatRoom(matchId, 2, user.displayName, database);
+
+
+    // *** EVENT LISTENERS ***
 
     // send my code typing to db
     $("#your-code .code-input").on("focus", function(){
@@ -69,36 +115,5 @@ $(document).ready(function() {
 		$("body").off("keyup");
 	});
 
-    createChatRoom(matchId, 2, user.displayName, database);
-
-
-    $("button.testMyCode").on("click", function(){
-      //Take the player's code
-      var userCode = $("#userCode").val().trim();
-      console.log("userCode before: " + userCode);
-
-      //Test for user, should not matter as each user is loaded a different test
-      var test = $("input#myTest").attr("value");
-      console.log("my test: " + test);
-      var passedTest = false;
-
-      // console.log("user code eval: " + eval(userACode);
-      //Store and evaluate the code
-      //var checkAnswer = eval(userCode + test);
-      //Compare checkAnswer to the db answer
-
-      if (passedTest) {
-        sessionRef.child(user).update({
-            finished: 1
-        });
-        iPassedTest = true;
-        if (partnerPassedTest){
-            //we both passed yay!
-            challengeSuccess();
-        }
-      } else {
-        openModal("Your code didn't return the expected result.", "Keep trying!");
-      }
-    });
-
+    $("button.testMyCode").on("click", testMyCode);
 });
