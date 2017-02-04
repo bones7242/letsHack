@@ -7,7 +7,21 @@ $(document).ready(function() {
     }
 
     function challengeSuccess(){
-        openModal("Success!", "You both passed your challenge, nice team work, you guys! Head back to the lobby for more challenge fun!", "Lobby", function(){window.location = "/lobby"});
+        // update the session record to show success
+        $.ajax({
+            type: "PUT",
+            url:"/session/update",
+            data: {
+                success: true,
+                id: sessionData.sessionId
+            },
+            success: function(response){
+                if (response){
+                    console.log("session updated! ", response);
+                    openModal("Success!", "You both passed your challenge, nice team work, you guys! Head back to the lobby for more challenge fun!", "Lobby", function(){window.location = "/lobby"});
+                }
+            }
+        });
     }
 
     function testMyCode(){
