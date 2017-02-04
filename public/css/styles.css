@@ -188,6 +188,11 @@ nav .nav-right {
 nav .nav-item {
     padding-right: 3%;
 }
+.nav-item .user-name {
+    font-weight: bold;
+    color: #f9cf00;
+    font-style: italic;
+}
 nav #logo {
     float: left;
     width: 20%;
