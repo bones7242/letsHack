@@ -4,12 +4,6 @@ module.exports = function(app) {
     var teammateId = request.query.teammateId;
     var matchId = request.query.matchId;
     console.log(teammateId);
-   response.render('challenge', {
-     challenge:
-      {
-      id:666, 
-      name:"best challenge"
-      }
-    });
+   response.render('challenge');
   });
 };
