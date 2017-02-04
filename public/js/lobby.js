@@ -70,41 +70,21 @@ $(document).ready(function(){
     });
 
     function createSession(partnerName, partnerId, sharedKey){
-        //console.log("create a session with user ", partnerName)
-        console.log("sending create session request with users: " 
-            + user.displayName + "(" + user.id + ") and " 
-            + partnerName + "(" + partnerId + "). matchId: " 
-            + sharedKey);  
-        var queryString = "?userId=" + user.id + "&teammateId=" + partnerId + "&matchId=" + sharedKey;
-        window.location = "/session/create" + queryString;
-        
-        //$.ajax({
-            //type: "GET",
-            //url:"/dinosaurs/create"
-            // data: {
-            //     userId: user.id,
-            //     teammateId: partnerId,
-            //     matchId: sharedKey
-            // },
-            // success: function(response){
-            //   console.log("response from create session route: ", response);
-            //   //if (response){
-            //       //getChalllenge(response);
-            //   //}
-            // }
-        //});
-    }
-    function getChallenge(data){
+        // console.log("create a session with user ", partnerName);
         $.ajax({
             type: "GET",
-            url:"/challenge/",
+            url:"/session/create"
             data: {
                 userId: user.id,
                 teammateId: partnerId,
                 matchId: sharedKey
             },
             success: function(response){
-              console.log("response from create session route: ", response);
+                console.log("session created! ", response);
+                if (response){
+                    //get challenge page
+                    window.location = "/challenge/?sessionId=" + response.sessionId + "&challengeId=" + response.challengeId;
+                }
             }
         });
     }
