@@ -32,7 +32,7 @@ $(document).ready(function(){
 
         //check to see if you can pair the user with someone else in the queue
         queueRef.on("value", function(snapshot){
-            console.log(snapshot.numChildren() + " users in the queue");
+            //console.log(snapshot.numChildren() + " users in the queue");
             if (!sessionCreated){
                 var matchName;
                 var matchId;
@@ -70,7 +70,7 @@ $(document).ready(function(){
     });
 
     function createSession(partnerName, partnerId, sharedKey, iAmPlayerA){
-        console.log("Who am I? Am I player A?", iAmPlayerA);
+        //console.log("Who am I? Am I player A?", iAmPlayerA);
         $.ajax({
             type: "GET",
             url:"/session/create",
@@ -81,7 +81,7 @@ $(document).ready(function(){
                 isPlayerA: iAmPlayerA
             },
             success: function(response){
-                console.log("session created! ", response);
+                //console.log("session created! ", response);
                 if (response){
                     //get challenge page
                     window.location = 

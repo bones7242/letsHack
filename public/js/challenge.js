@@ -30,11 +30,9 @@ $(document).ready(function() {
     function testMyCode(){
         //Take the player's code
         var userCode = $("#userCode").val();
-        console.log("userCode: " + userCode);
 
         //Test for user, should not matter as each user is loaded a different test
         var challengeTest = $("input#myTest").val();
-        console.log("my test: " + challengeTest);
 
         var passedTest = false;
 
