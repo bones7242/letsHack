@@ -1,27 +1,22 @@
 $(document).ready(function() {
-    //console.log("ready");
     firebase.initializeApp(config);
 	var database = firebase.database();
     console.log("firebase: " + database);
-    //get logged in user data from server
-    // var user = {
-    //     displayName: $(".dataHolder").data().displayname,
-    //     id: $(".dataHolder").data().userid,
-    //     finished: 0
-    // };
-    //console.log(user);
+    console.log(user);
+    console.log("session id: " + sessionData.sessionId);
 
     var myPointer;
     var myRef;
     var partnerPresent = false;
-    console.log("session id: " + sessionData.sessionId);
     var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
     myRef = sessionRef.push(user, function(err){
         if (err) console.err(err);
         myPointer = myRef.getKey();
     });
     myRef.onDisconnect().remove();
+
     console.log("my pointer", myPointer);
+    
     function addBRTags(input){
         return input.split("\n").join("<br />");
     }
@@ -75,8 +70,7 @@ $(document).ready(function() {
     createChatRoom(sessionData.sessionId, 2, user.displayName, database);
 
 
-
-    $(".submitBtn").on("click", function(){
+    $("button.testMyCode").on("click", function(){
       //Take the player's code
       var userCode = $("#userCode").val().trim();
       console.log("userCode before: " + userCode);
@@ -86,7 +80,6 @@ $(document).ready(function() {
 
       //Figure out which user is which to choose which test to run with
 
-
       // console.log("user code eval: " + eval(userACode);
       //Store and evaluate the code
       var checkAnswer = eval(userCode + test);
@@ -94,47 +87,13 @@ $(document).ready(function() {
       if (checkAnswer) {
         sessionRef.child("user").update({
           finished: 1
-        })
-
+        });
 
         //Alert the user to please wait for the other player to finish BUT still keep the chat functioning to help other player
-
-
+        
       } else {
-        alert("keep trying!");
-        //openModal("Room is Full", "Hm, something went wrong, that challenge is already full. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby?userId=" + user.id;});
+        openModal("Your code didn't return the expected result.", "Keep trying!");
       }
-
     });
 
-
-
-// Onclick of test button take the code inside of the textarea, code.eval, check in firebase to see if other person has finished. If the test passes, then push to firebase to say finished (switch)
-// On sessionRef create lofic to check for finished user first
-
-//   // code to execute tests
-//   on submit (
-//     if (
-//       var inputA = eval(codeA-input.val);
-//       var inputB = eval(codeB-input.val);
-//
-//  // OR
-//
-//       {{inputA}}
-//
-//       {{inputB}}
-//
-//     var test = function(){
-//       {{test}}
-//     };
-//
-//     if (test)
-//       {
-//         showTestSuccess();
-//       }
-//       else {
-//         showTestFail();
-//       }
-//
-//     */
 });
