@@ -65,8 +65,8 @@ $(document).ready(function() {
     $(".submitBtn").on("click", function(){
       var userACode = $("#userACode").val().trim();
       console.log("userACode before " + userACode);
-      console.log("user code eval: " + userACode.eval());
-      var checkAnswer = userACode.eval()
+      console.log("user code eval: " + eval(userACode);
+      var checkAnswer = eval(userACode);
     })
 
 // Onclick of test button take the code inside of the textarea, code.eval, check in firebase to see if other person has finsihed. If the test passes, then push to firebase to say finished (switch)
