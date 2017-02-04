@@ -74,14 +74,20 @@ $(document).ready(function(){
         console.log("sending create session request with users: " 
             + user.displayName + "(" + user.id + ") and " 
             + partnerName + "(" + partnerId + "). matchId: " 
-            + sharedKey);
-        $.ajax("/session/create", {
-            method: "POST",
-            userId: user.id,
-            teammateId: partnerId,
-            matchId: sharedKey
-        }).done(function(response){
-            console.log("response from create session route: ", response);
+            + sharedKey);  
+
+        $.ajax({
+            type: "GET",
+            url:"/session/create/",
+            data: {
+                userId: user.id,
+                teammateId: partnerId,
+                matchId: sharedKey
+            },
+            success: function(response){
+              console.log("response from create session route: ", response);
+                //$('body').html(response);
+            }
         });
     }
 });

@@ -157,6 +157,12 @@ p.small {
 .chatter {
     font-style: italic;
 }
+.chatTime {
+    font-size: small;
+    font-style: italic;
+    color: #666;
+    margin-left: 14px;
+}
 nav {
     background-color: #4484CE;
     color: white;
@@ -228,4 +234,16 @@ footer {
     text-align: center;
     vertical-align: middle;
     background-color: #4484CE;
+}
+.profileSection {
+    margin: 10px 0;
+}
+ul.challenge-history li{
+    margin: 10px 0;
+}
+div.scroller {    
+    max-height: 280px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 7px 0 0;
 }

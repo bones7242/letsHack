@@ -25,12 +25,12 @@ function showChallengeHistory(){
         var list = $("ul.challenge-history");
         var listItem;
         for (var i = 0; i < history.length; i++){
-            var listItem = "<li>";
+            listItem += "<li>";
             listItem += history[i].ChallengeId + ": " + history[i].ChallengeName;
             if (history[i].success){
                 listItem += ", completed on "
             } else {
-                listItem += ", last attempted on "
+                listItem += ", attempted on "
             }
             listItem += history[i].updatedAt;
             listItem += " with " + history[i].TeammateDisplayName;
