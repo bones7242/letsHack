@@ -163,7 +163,7 @@ module.exports = function(app) {
             challenge: JSON.parse(JSON.stringify(challengeData)),
           };
           console.log("newSession:", newSession);
-          res.status(200).render("challenge", {session: newSession}).end();
+          res.render("challenge", {session: newSession});
         }).catch(function (err) { 
           console.log("** error occured.  Sent to client as JSON")
           res.json(err);
