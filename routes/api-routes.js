@@ -133,14 +133,14 @@ module.exports = function(app) {
   app.put("/user/update", function(req, res){
 
     if (req.body.email === ''){
-      
+
     }
 
     //route to update a user
     db.User.update({
-      email: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName
+      email: req.body.email || db.User.email,
+      firstName: req.body.firstName || db.User.firstName,
+      lastName: req.body.lastName || db.User.lastName
     }, {
       where: {
         displayName: req.body.displayName  // can change this to displayName or email if that is better
