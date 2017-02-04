@@ -211,10 +211,11 @@ footer {
 #modal .modal-container {
     position: relative;
     background-color: white;
-    width: 60%;
+    width: 50%;
     min-height: 200px;
     margin: 5% auto;
-    padding: 4px 12px;
+    padding: 8px 16px;
+    border-radius: 7;
 }
 #modal .modal-close {
     cursor: pointer;
