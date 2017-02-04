@@ -13,19 +13,20 @@ function passportRoutes(passport){
       var challengeId = req.query.challengeId;
       //render handlebars with session info and challenge info
       db.sequelize.Promise.all([
-          db.Session.findOne({
-            where: {
-              id: sessionId
-            }
-          }),
-          db.Challenge.findOne({
-            where: {
-              id: challengeId
-            }
-          })
-        ])
-        .spread(function(sessionData, challengeData) {
-          res.render("challenge", {session: sessionData, challenge: challengeData, user: req.user});  //note: might need to re-authenticate
+        db.Session.findOne({
+          where: {
+            id: sessionId
+          }
+        }),
+        db.Challenge.findOne({
+          where: {
+            id: challengeId
+          }
+        })
+      ])
+      .spread(function(sessionData, challengeData) {
+        res.render("challenge", {session: sessionData, challenge: challengeData, user: req.user});  //note: might need to re-authenticate
+      });
     });
 
   router.route('/')
