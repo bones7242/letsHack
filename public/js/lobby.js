@@ -83,9 +83,11 @@ $(document).ready(function(){
                 console.log("session created! ", response);
                 if (response){
                     //get challenge page
-                    window.location = "/challenge/?sessionId=" 
-                    + response.id + "&challengeId=" + response.ChallengeId
-                    + "&userId=" + user.id + "&isPlayerA=" + iAmPlayerA;
+                    window.location = 
+                    "/challenge/?sessionId=" + response.id 
+                    + "&challengeId=" + response.ChallengeId  
+                    + "&isPlayerA=" + iAmPlayerA
+                    + "&userId=" + user.id;
                 }
             }
         });
