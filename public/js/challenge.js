@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    
+    function addBRTags(input){
+        return input.split("\n").join("<br />");
+    }
+
     firebase.initializeApp(config);
 	var database = firebase.database();
     console.log("firebase: " + database);
@@ -6,23 +11,16 @@ $(document).ready(function() {
     console.log("session id: " + sessionData.sessionId);
 
     var myPointer;
-    var myRef;
     var partnerPresent = false;
     var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
-    myRef = sessionRef.push(user, function(err){
-        if (err) console.err(err);
-        myPointer = myRef.getKey();
-    });
+    var myRef = sessionRef.push(user);
     myRef.onDisconnect().remove();
-
-    console.log("my pointer", myPointer);
-    
-    function addBRTags(input){
-        return input.split("\n").join("<br />");
-    }
 
     // when this session changes value
     sessionRef.on("value", function(snapshot){
+        myPointer = myRef.getKey();
+        console.log("myRef: " + myRef);
+        console.log("myPointer: " + myPointer);
         var usersConnected  = snapshot.numChildren();
         //console.log("users connected:", usersConnected);
         if (usersConnected === 2 && myPointer) {
