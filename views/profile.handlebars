@@ -5,20 +5,27 @@
     <div class="container columns main-column">
         {{#if user}}
             <h2>{{user.displayName}}</h2>
-            <p>
+            <form method="POST" action="/user/update">
                 <div class="profileSection" id="emailAddress">
-                    email address: 
-                    {{user.email}} <button class="smallButton">Edit</button>
+                     <button class="smallButton">Edit</button> 
+                     email address: 
+                    {{user.email}} 
+                    <input class="profileEdit" name="emailAddress" type="text" size="20" value="Email Address" />
                 </div>
                 <div class="profileSection" id="firstName">
-                    First Name: 
-                    {{user.firstName}} <button class="smallButton">Edit</button>
+                     <button class="smallButton">Edit</button> 
+                     First Name: 
+                    {{user.firstName}}
+                    <input class="profileEdit" name="firstName" type="text" size="20" value="First Name" />
                 </div>
                 <div class="profileSection" id="lastName">
+                    <button class="smallButton">Edit</button> 
                     Last Name: 
-                    {{user.lastName}} <button class="smallButton">Edit</button>
+                    {{user.lastName}} 
+                    <input class="profileEdit" name="lastName" type="text" size="20" value="Last Name" />
                 </div>
-            </p>
+                <input class="smallButton" type="submit">
+            </form>
         {{else}}
             <h2>Please Login</h2>
             <p>
