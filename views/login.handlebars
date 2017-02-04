@@ -7,7 +7,7 @@
 			<h2>Welcome back, {{user.displayName}}</h2>
 			<p>You're currently logged in. To start hacking, head over
 				to the <a href="/lobby?userId={{user.id}}">Lobby</a>.</p>
-				<p>Done hacking for now? <a href="/logout">Logout</a>.
+				<p>Done hacking for now? <a class="largeButton" href="/logout">Logout</a>.
 		{{else}}
 			<h2>Sign Up</h2>
 			<p>
@@ -16,11 +16,15 @@
 					<input type="text" name="username"><br>
 					Your Email:<br>
 					<input type="text" name="email"><br>
+					First Name:<br>
+					<input type="text" name="firstName"><br>
+					Last Name:<br>
+					<input type="text" name="LastName"><br>
 					Choose a Password:<br>
 					<input type="password" name="password"><br>
 					Confirm Password:
 					<input type="password" name="passwordConfirm"><br>
-					<input type="submit" value="Submit"/>
+					<input type="submit" class="largeButton" value="Submit"/>
 				</form>
 			</p>
 		</div>
@@ -32,7 +36,7 @@
 					<input type="text" name="username"><br>
 					Password:<br>
 					<input type="password" name="password"><br>
-					<input type="submit" value="Submit"/>
+					<input type="submit" class="largeButton" value="Submit"/>
 				</form>
 			</p>
 
