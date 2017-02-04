@@ -2,26 +2,26 @@ $(document).ready(function() {
     //console.log("ready");
     firebase.initializeApp(config);
 	var database = firebase.database();
-
+    console.log("firebase: " + database);
     //get logged in user data from server
-    var user = {
-        displayName: $(".dataHolder").data().displayname,
-        id: $(".dataHolder").data().userid,
-        finished: 0
-    };
+    // var user = {
+    //     displayName: $(".dataHolder").data().displayname,
+    //     id: $(".dataHolder").data().userid,
+    //     finished: 0
+    // };
     //console.log(user);
 
     var myPointer;
     var myRef;
     var partnerPresent = false;
-
+    console.log("session id: " + sessionData.sessionId);
     var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
     myRef = sessionRef.push(user, function(err){
         if (err) console.err(err);
         myPointer = myRef.getKey();
     });
     myRef.onDisconnect().remove();
-
+    console.log("my pointer", myPointer);
     function addBRTags(input){
         return input.split("\n").join("<br />");
     }
