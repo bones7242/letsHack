@@ -75,11 +75,13 @@ $(document).ready(function(){
             + user.displayName + "(" + user.id + ") and " 
             + partnerName + "(" + partnerId + "). matchId: " 
             + sharedKey);
-        $.ajax("/session/create", {
-            method: "POST",
-            userId: user.id,
-            teammateId: partnerId,
-            matchId: sharedKey
+        $.ajax("/session/create/", {
+            data: {
+                method: "POST",
+                userId: user.id,
+                teammateId: partnerId,
+                matchId: sharedKey
+            }
         }).done(function(response){
             console.log("response from create session route: ", response);
         });
