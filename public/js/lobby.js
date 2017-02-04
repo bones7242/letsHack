@@ -56,9 +56,9 @@ $(document).ready(function(){
                     // after looping through the queue,
                     // figure out who has the first timestamp in the queue
                     earlierTime = timeStamp1 < timeStamp2 ? timeStamp1 : timeStamp2;
-                    //console.log("earlier Time: ", earlierTime);
                     // send that number to createsession as shared "random" number
-                    createSession(matchName, matchId, earlierTime);
+                    var iAmPlayerA = timeStamp1 < timeStamp2;
+                    createSession(matchName, matchId, earlierTime, iAmPlayerA);
                     sessionCreated = true;
                     // the above makes sure this matching process doesn't run again
                     // for this user until they load this page again
@@ -69,22 +69,24 @@ $(document).ready(function(){
         });
     });
 
-    function createSession(partnerName, partnerId, sharedKey){
-        // console.log("create a session with user ", partnerName);
+    function createSession(partnerName, partnerId, sharedKey, iAmPlayerA){
+        console.log("Who am I? Am I player A?", iAmPlayerA);
         $.ajax({
             type: "GET",
             url:"/session/create",
             data: {
                 userId: user.id,
                 teammateId: partnerId,
-                matchId: sharedKey
+                matchId: sharedKey,
+                isPlayerA: iAmPlayerA
             },
             success: function(response){
                 console.log("session created! ", response);
                 if (response){
                     //get challenge page
-                    window.location = "/challenge/?sessionId=" 
-                    + response.id + "&challengeId=" + response.ChallengeId
+                    window.location = 
+                    "/challenge/?sessionId=" + response.id 
+                    + "&challengeId=" + response.ChallengeId  
                     + "&userId=" + user.id;
                 }
             }

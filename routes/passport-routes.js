@@ -17,7 +17,11 @@ function passportRoutes(passport){
         db.Session.findOne({
           where: {
             id: sessionId
-          }
+          },
+          include: [{
+            model: db.User,
+            as: "Teammate"
+          }]
         }),
         db.Challenge.findOne({
           where: {
@@ -32,7 +36,27 @@ function passportRoutes(passport){
         })
       ])
       .spread(function(sessionData, challengeData, userData) {
-        res.render("challenge", {session: sessionData, challenge: challengeData, user: userData});  //note: might need to re-authenticate
+        console.log("sessionData", JSON.parse(JSON.stringify(sessionData)));
+        tailoredChallengeData = {
+          id: challengeData.id,
+          difficulty: challengeData.difficulty,
+          name: challengeData.name,
+          instructionsAll: challengeData.instructionsAll,
+        };
+        console.log("what is player A status:", sessionData.playerA);
+        if (sessionData.playerA === true || sessionData.playerA === "true"){
+          tailoredChallengeData.instructions = challengeData.instructionsA;
+          tailoredChallengeData.partnerInstructions = challengeData.instructionsB;
+          tailoredChallengeData.startCode = challengeData.startCodeA;
+          tailoredChallengeData.test = challengeData.testA;
+        } else {
+          tailoredChallengeData.instructions = challengeData.instructionsB;
+          tailoredChallengeData.partnerInstructions = challengeData.instructionsA;
+          tailoredChallengeData.startCode = challengeData.startCodeB;
+          tailoredChallengeData.test = challengeData.testB;
+        }
+        console.log("tailoredChallengeData", JSON.parse(JSON.stringify(tailoredChallengeData)));
+        res.render("challenge", {session: sessionData, challenge: tailoredChallengeData, user: userData, partner: sessionData.Teammate});  //note: can we re-authenticate?
       });
     });
 
