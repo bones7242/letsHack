@@ -5,6 +5,18 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             default: false
+        },
+        playerA: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        playerB: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        matchId:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
     }, {
         classMethods: {

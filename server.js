@@ -85,8 +85,7 @@ require("./routes/html-routes.js")(app);
 db.sequelize.sync({force: true}).then(function(){
   app.listen(PORT, function() {
     //create seeds testing
-    var seeds = require("./db/seeds.js");
-    seeds.createSeeds();
+    require("./db/seeds.js").createSeeds();
     //log that you are on port
     console.log("Listening on PORT " + PORT);
   });

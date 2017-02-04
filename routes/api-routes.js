@@ -64,6 +64,9 @@ module.exports = function(app) {
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
     var matchId = req.query.matchId;
+    
+    //var isPlayerA = req.query.isPlayerA;
+
     console.log("userId:", userId);
     console.log("teammateId:", teammateId);
     console.log("matchId:", matchId);
@@ -102,33 +105,23 @@ module.exports = function(app) {
       };
       var challengeIndex = matchId % possibleChallengeIds.length;
       var challengeToUse = possibleChallengeIds[challengeIndex];
-
       // 2. create the session and get the information
-      db.sequelize.Promise.all([
-        db.Session.create({
-            success: "false",  // will always be false when created
-            ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
-            UserId: userId,  // note: must be an valid(existing) UserId
-            TeammateId: teammateId,  // note: must be an valid(existing) UserId
-          }),
-          db.Challenge.findOne({
-              where: {
-                id: challengeToUse
-              }
-          })
-        ])
-        .spread(function(sessionData, challengeData) {
-          // 3. return the information
-          var newSession = {
-            session: JSON.parse(JSON.stringify(sessionData)),
-            challenge: JSON.parse(JSON.stringify(challengeData)),
-          };
-          console.log("newSession:", newSession);
-          res.render("challenge", {session: sessionData, challenge: challengeData});
-        }).catch(function (err) { 
-          console.log("** error occured.  Sent to client as JSON")
-          res.json(err);
-        });
+      db.Session.create({
+        success: "false",  // will always be false when created
+        playerA: false,
+        playerB: false,
+        matchId: matchId,
+        ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
+        UserId: userId,  // note: must be an valid(existing) UserId
+        TeammateId: teammateId,  // note: must be an valid(existing) UserId
+      }).then(function(sessionData) {
+        // 3. return the information
+        console.log("newSession:", JSON.parse(JSON.stringify(sessionData)));
+        res.json(sessionData);
+      }).catch(function (err) { 
+        console.log("** error occured.  Sent to client as JSON")
+        res.json(err);
+      });
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON")
       res.json(err);
