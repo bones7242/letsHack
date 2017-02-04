@@ -6,13 +6,13 @@ $(document).ready(function() {
 
     firebase.initializeApp(config);
 	var database = firebase.database();
-    console.log("firebase: " + database);
     console.log(user);
-    console.log("session id: " + sessionData.sessionId);
 
+    //use this shared key as the firebase container
+    var matchId = $(".dataHolder").data().matchId;
     var myPointer;
     var partnerPresent = false;
-    var sessionRef = database.ref("activeSessions/" + sessionData.sessionId);
+    var sessionRef = database.ref("activeSessions/" + matchId);
     var myRef = sessionRef.push(user);
     myRef.onDisconnect().remove();
 
