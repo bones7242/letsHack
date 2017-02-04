@@ -5,7 +5,7 @@
   <div class="container">
     <div class="container columns" id="your-code">
         <h2>Your Task</h2>
-        <p>{{challenge.instuctions}}</p>
+        <p>{{challenge.instructions}}</p>
         <textarea cols="50" class="code-input"  wrap="soft" id="userCode">{{challenge.startCode}}</textarea>
         <input type="hidden" id="myTest" value="{{challenge.test}}">
         <br clear="all">
@@ -36,4 +36,4 @@
   <script src="/js/firebase-config.js" type="text/javascript"></script>
   <script src="/js/challenge.js" type="text/javascript"></script>
   <script src="/js/chat.js" type="text/javascript"></script>
-  <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}" data-matchId="{{session.matchId}}" data-partnername="{{partner.displayName}}"></div>
+  <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}" data-matchId="{{session.matchId}}" data-partnername="{{partner.displayName}} data-instr={{challenge}}"></div>
