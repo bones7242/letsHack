@@ -17,7 +17,11 @@ function passportRoutes(passport){
         db.Session.findOne({
           where: {
             id: sessionId
-          }
+          },
+          include: [{
+            model: db.User,
+            as: "Teammate"
+          }]
         }),
         db.Challenge.findOne({
           where: {
@@ -38,21 +42,18 @@ function passportRoutes(passport){
           difficulty: challengeData.difficulty,
           name: challengeData.name,
           instructionsAll: challengeData.instructionsAll,
+          partnerName: sessionData.Teammate.displayName
         };
-        if (sessionData.isPlayerA === true){
+        if (sessionData.isPlayerA){
           tailoredChallengeData.instructions = challengeData.instructionsA;
           tailoredChallengeData.partnerInstructions = challengeData.instructionsB;
           tailoredChallengeData.startCode = challengeData.startCodeA;
-          tailoredChallengeData.partnerStartCode = challengeData.startCodeB;
           tailoredChallengeData.test = challengeData.testA;
-          tailoredChallengeData.partnerTest = challengeData.testB; 
         } else {
           tailoredChallengeData.instructions = challengeData.instructionsB;
           tailoredChallengeData.partnerInstructions = challengeData.instructionsA;
           tailoredChallengeData.startCode = challengeData.startCodeB;
-          tailoredChallengeData.partnerStartCode = challengeData.startCodeA;
           tailoredChallengeData.test = challengeData.testB;
-          tailoredChallengeData.partnerTest = challengeData.testA;  
         }
         console.log("tailoredChallengeData");
         res.render("challenge", {session: sessionData, challenge: tailoredChallenge, user: userData});  //note: can we re-authenticate?
