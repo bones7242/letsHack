@@ -1,7 +1,7 @@
 USE shw8eny4zlsjy27x;
 
-SELECT * FROM challenges;
+SELECT * FROM Challenges;
 
-SELECT * FROM sessions;
+SELECT * FROM Sessions;
 
-SELECT * FROM users;
+SELECT * FROM Users;
