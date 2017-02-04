@@ -110,6 +110,9 @@ p.small {
     padding: 9px;
     margin: 6px;
 }
+.largeButton.noFloat {
+    float: none;
+}
 .profileSection .smallButton {
     display: none;
     /* these are commented out until profile edit feature can be added */
