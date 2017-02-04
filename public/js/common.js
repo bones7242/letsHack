@@ -1,3 +1,4 @@
+var user;
 function openModal(title, html, buttonText, buttonCallback){
   $("#modal")
   .show()
@@ -13,7 +14,6 @@ function openModal(title, html, buttonText, buttonCallback){
 function closeModal(){
   $("#modal").hide().find(".title").text("").next("p").html("");
 }
-
 function showChallengeHistory(){
     $.ajax("/user/" + user.id + "/challengeHistory", {
         data:{
@@ -42,7 +42,7 @@ function showChallengeHistory(){
 
 $(document).ready(function() {
   //get logged in user data from server
-  var user = {
+  user = {
       displayName: $(".dataHolder").data().displayname, 
       id: $(".dataHolder").data().userid
   };
