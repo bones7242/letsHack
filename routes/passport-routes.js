@@ -32,7 +32,30 @@ function passportRoutes(passport){
         })
       ])
       .spread(function(sessionData, challengeData, userData) {
-        res.render("challenge", {session: sessionData, challenge: challengeData, user: userData});  //note: might need to re-authenticate
+        console.log("sessionData", sessionData);
+        tailoredChallengeData = {
+          id: challengeData.id,
+          difficulty: challengeData.difficulty,
+          name: challengeData.name,
+          instructionsAll: challengeData.instructionsAll,
+        };
+        if (sessionData.isPlayerA === true){
+          tailoredChallengeData.instructions = challengeData.instructionsA;
+          tailoredChallengeData.partnerInstructions = challengeData.instructionsB;
+          tailoredChallengeData.startCode = challengeData.startCodeA;
+          tailoredChallengeData.partnerStartCode = challengeData.startCodeB;
+          tailoredChallengeData.test = challengeData.testA;
+          tailoredChallengeData.partnerTest = challengeData.testB; 
+        } else {
+          tailoredChallengeData.instructions = challengeData.instructionsB;
+          tailoredChallengeData.partnerInstructions = challengeData.instructionsA;
+          tailoredChallengeData.startCode = challengeData.startCodeB;
+          tailoredChallengeData.partnerStartCode = challengeData.startCodeA;
+          tailoredChallengeData.test = challengeData.testB;
+          tailoredChallengeData.partnerTest = challengeData.testA;  
+        }
+        console.log("tailoredChallengeData");
+        res.render("challenge", {session: sessionData, challenge: tailoredChallenge, user: userData});  //note: can we re-authenticate?
       });
     });
 
