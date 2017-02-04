@@ -2,7 +2,7 @@ var db = require("../models");
 
 module.exports = {
   createSeeds: function(){
-    // create users 
+    // create users
     // db.User.create({
     //   email: "johndoe@gmail.com",
     //   password: "password",
@@ -24,7 +24,7 @@ module.exports = {
     //   firstName: "Jimi",
     //   lastName: "Doe"
     // });
-    // create challenges 
+    // create challenges
     db.Challenge.create({
         difficulty: 1,
             name: "Hello World",
@@ -55,30 +55,30 @@ module.exports = {
             startCodeB: "// B code goes here",
             test: "function(acode, bcode){return true;}"
     });
-    //create sessions 
-    db.Session.create({
-      success: true,
-      UserId: 1,
-      TeammateId: 2,
-      ChallengeId: 1
-    });
-    db.Session.create({
-      success: true,
-      UserId: 2,
-      TeammateId: 1,
-      ChallengeId: 1
-    });
-    db.Session.create({
-      success: false,
-      UserId: 1,
-      TeammateId: 2,
-      ChallengeId: 2
-    });
-    db.Session.create({
-      success: false,
-      UserId: 2,
-      TeammateId: 1,
-      ChallengeId: 2
-    });
+    //create sessions
+    // db.Session.create({
+    //   success: true,
+    //   UserId: 1,
+    //   TeammateId: 2,
+    //   ChallengeId: 1
+    // });
+    // db.Session.create({
+    //   success: true,
+    //   UserId: 2,
+    //   TeammateId: 1,
+    //   ChallengeId: 1
+    // });
+    // db.Session.create({
+    //   success: false,
+    //   UserId: 1,
+    //   TeammateId: 2,
+    //   ChallengeId: 2
+    // });
+    // db.Session.create({
+    //   success: false,
+    //   UserId: 2,
+    //   TeammateId: 1,
+    //   ChallengeId: 2
+    // });
   }
 }

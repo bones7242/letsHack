@@ -1,4 +1,3 @@
-
 var db = require("../models");
 
 // helper function to remove duplicates
@@ -53,7 +52,7 @@ module.exports = function(app) {
         return newObject;
       })
       res.json(mappedData);
-    }).catch(function (err) { 
+    }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON")
       res.json(err);
     });
@@ -61,7 +60,7 @@ module.exports = function(app) {
 
   // route for creating a session
   app.get("/session/create", function(req, res){
-    console.log("** post request received on /session/create."); 
+    console.log("** post request received on /session/create.");
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
     var matchId = req.query.matchId;
@@ -130,13 +129,13 @@ module.exports = function(app) {
           console.log("** error occured.  Sent to client as JSON")
           res.json(err);
         });
-    }).catch(function (err) { 
+    }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON")
       res.json(err);
     });
   });
 
-  // general API routes for future dev 
+  // general API routes for future dev
   // route for updating a user
   app.put("/user/update", function(req, res){  //route to update a user
     db.User.update({
@@ -158,7 +157,7 @@ module.exports = function(app) {
       } else {
         res.send("and unknown error occured");
       };
-    }).catch(function (err) { 
+    }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON")
       res.json(err);
     });
@@ -185,7 +184,7 @@ module.exports = function(app) {
       } else {
         res.send("and unknown error occured");
       };
-    }).catch(function (err) { 
+    }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON")
       res.json(err);
     });
@@ -204,7 +203,7 @@ module.exports = function(app) {
       test: req.body.test
     }).then(function(newChallenge){
       res.json(newChallenge);
-    }).catch(function (err) { 
+    }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")
       res.json(err);
     });
@@ -227,7 +226,7 @@ module.exports = function(app) {
       }
     }).then(function(newChallenge){
       res.json(newChallenge);
-    }).catch(function (err) { 
+    }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")
       res.json(err);
     });

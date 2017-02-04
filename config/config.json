@@ -1,7 +1,7 @@
 {
     "development": {
         "username": "root",
-        "password": "JW55cw04",
+        "password": "password",
         "database": "letsHack_db",
         "host": "127.0.0.1",
         "dialect": "mysql"
