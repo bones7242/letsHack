@@ -51,9 +51,10 @@ module.exports = function(app) {
         newObject.TeammateDisplayName = session.Teammate.displayName;
         return newObject;
       })
+      console.log("mapped Data:", mappedData);
       res.json(mappedData);
     }).catch(function (err) {
-      console.log("** error occured.  Sent to client as JSON")
+      console.log("** error occured on route /user/:userId/challengeHistory:", err);
       res.json(err);
     });
   });
