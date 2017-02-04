@@ -74,15 +74,7 @@ $(document).ready(function(){
         console.log("sending create session request with users: " 
             + user.displayName + "(" + user.id + ") and " 
             + partnerName + "(" + partnerId + "). matchId: " 
-            + sharedKey);
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            success: success,
-            dataType: dataType
-        });    
+            + sharedKey);  
 
         $.ajax({
             type: "POST",
