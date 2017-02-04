@@ -8,6 +8,10 @@ $(document).ready(function(){
         id: $(".dataHolder").data().userid
     };
     //console.log(user);
+    // keeping this value in the larger scope, so it doesn't get rewritten
+    // every time the que change listener fires
+    var foundMatch = false;
+    var sessionCreated = false;
 
     createChatRoom("lobby", 1000, user.displayName, database);
     showChallengeHistory();
@@ -23,30 +27,34 @@ $(document).ready(function(){
         //check to see if you can pair the user with someone else in the queue
         queueRef.on("value", function(snapshot){
             console.log(snapshot.numChildren() + " users in the queue");
-            var foundMatch = false;
-            var matchName;
-            var earlierTime;
-            var timeStamp1;
-            var timeStamp2;
-            if (snapshot.numChildren() > 1){
-                snapshot.forEach(function(userInQueue){
-                    var waitingUser = userInQueue.val();
-                    if (!foundMatch && waitingUser.name != user.displayName){
-                        // this is your match!
-                        foundMatch = true;
-                        timeStamp1 = waitingUser.joinedTime;
-                        matchName = waitingUser.name
-                    } else if (waitingUser.name == user.displayName){
-                        // this is you!
-                        timeStamp2 = waitingUser.joinedTime;
-                    }
-                });    
-                // after looping through the queue,
-                // figure out who has the first timestamp in the queue
-                earlierTime = timeStamp1 < timeStamp2 ? timeStamp1 : timeStamp2;
-                console.log("earlier Time: ", earlierTime);
-                // send that number to createsession as shared "random" number
-                createSession(matchName, earlierTime);
+            if (!sessionCreated){
+                var matchName;
+                var earlierTime;
+                var timeStamp1;
+                var timeStamp2;
+                if (snapshot.numChildren() > 1){
+                    snapshot.forEach(function(userInQueue){
+                        var waitingUser = userInQueue.val();
+                        if (!foundMatch && waitingUser.name != user.displayName){
+                            // this is your match!
+                            foundMatch = true;
+                            timeStamp1 = waitingUser.joinedTime;
+                            matchName = waitingUser.name
+                        } else if (waitingUser.name == user.displayName){
+                            // this is you!
+                            timeStamp2 = waitingUser.joinedTime;
+                        }
+                    });    
+                    // after looping through the queue,
+                    // figure out who has the first timestamp in the queue
+                    earlierTime = timeStamp1 < timeStamp2 ? timeStamp1 : timeStamp2;
+                    console.log("earlier Time: ", earlierTime);
+                    // send that number to createsession as shared "random" number
+                    createSession(matchName, earlierTime);
+                    sessionCreated = true;
+                    // the above makes sure this matching process doesn't run again
+                    // for this user until they load this page again
+                }
             } else {
                 console.log("waiting for a match to join...");
             }
