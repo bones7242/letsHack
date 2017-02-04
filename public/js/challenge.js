@@ -29,31 +29,24 @@ $(document).ready(function() {
 
     function testMyCode(){
         //Take the player's code
-        var userCode = $("#userCode").text().trim();
+        var userCode = $("#userCode").val();
         console.log("userCode: " + userCode);
 
         //Test for user, should not matter as each user is loaded a different test
-        var challengeTest = $("input#myTest").attr("value").trim();
+        var challengeTest = $("input#myTest").val();
         console.log("my test: " + challengeTest);
 
         var passedTest = false;
 
-        try { 
-            // execute the users's function, see if it matches the test case
-            // user function is a function declaration
-            // test calls that function, which returns a value
-            // then we compare the return value to a pre defined test value.
-            var textToRun = "function(){" + userCode + challengeTest + "}();";
-            var runTest = eval(textToRun);
-            console.log("runTest: ", runTest);
-            if (runTest === true){
+        //try { 
+            if (eval("(" + userCode + ")()") == challengeTest){
                 passedTest = true;
             }
-        }
-        catch (err) {
-            openModal("Your code threw an error", err, "OK", closeModal);
-        }
-        finally {
+  //      }
+  //      catch (err) {
+  //          openModal("Your code threw an error", err, "OK", closeModal);
+  //      }
+  //      finally {
             if (passedTest) {
                 myRef.update({
                     finished: 1
@@ -70,7 +63,7 @@ $(document).ready(function() {
                 //i didn't pass
                 openModal("Your code didn't return the expected result.", "Keep trying!", "OK", closeModal);
             }
-        }
+        //}
     }
 
     firebase.initializeApp(config);
@@ -87,6 +80,8 @@ $(document).ready(function() {
     var sessionRef = database.ref("activeSessions/" + matchId);
     var myRef = sessionRef.push(user);
     myRef.onDisconnect().remove();
+    //put the starter code into the textarea
+    $("#userCode").val($(".dataHolder").data().startCode);
 
     // when this firebase challenge changes value
     sessionRef.on("value", function(snapshot){
