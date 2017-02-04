@@ -60,8 +60,7 @@ module.exports = function(app) {
 
   // route for creating a session
   app.get("/session/create", function(req, res){
-    console.log("** post request received on /session/create.");
-    console.log("** query", req.query);
+    //console.log("** post request received on /session/create.");
     //console.log("url", req.url);
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
