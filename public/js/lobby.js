@@ -85,7 +85,7 @@ $(document).ready(function(){
                     //get challenge page
                     window.location = "/challenge/?sessionId=" 
                     + response.id + "&challengeId=" + response.ChallengeId
-                    + "&userId=" user.id;
+                    + "&userId=" + user.id;
                 }
             }
         });
