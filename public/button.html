@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+  <script src="https://code.jquery.com/jquery.js"></script>
+</head>
+<body>
+    <button>pushme</button>
+    <form method="GET" action="/dinosaurs/create">
+        <input type="submit">
+    </form>
+    <a href="/dinosaurs/create">link</a>
+    <script lang="text/javascript">
+        $("button").click(function(){
+            window.location = "/session/create?userId=1&teammateId=3&matchId=65278847563214";
+            
+            //, function( data ) {
+            //$( ".result" ).html( data );
+            //alert( "Load was performed." );
+            //});
+
+            //$.ajax("/dinosaurs/create");
+                // data: {
+                //     userId: user.id,
+                //     teammateId: partnerId,
+                //     matchId: sharedKey
+                // },
+                // success: function(response){
+                //   console.log("response from create session route: ", response);
+                //   //if (response){
+                //       //getChalllenge(response);
+                //   //}
+                // }
+
+        });
+    </script>
+</body>
+</html>

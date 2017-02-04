@@ -75,22 +75,24 @@ $(document).ready(function(){
             + user.displayName + "(" + user.id + ") and " 
             + partnerName + "(" + partnerId + "). matchId: " 
             + sharedKey);  
-
-        $.ajax({
-            type: "GET",
-            url:"/session/create/",
-            data: {
-                userId: user.id,
-                teammateId: partnerId,
-                matchId: sharedKey
-            },
-            success: function(response){
-              console.log("response from create session route: ", response);
-              //if (response){
-                  //getChalllenge(response);
-              //}
-            }
-        });
+        var queryString = "?userId=" + user.id + "&teammateId=" + partnerId + "&matchId=" + sharedKey;
+        window.location = "/session/create" + queryString;
+        
+        //$.ajax({
+            //type: "GET",
+            //url:"/dinosaurs/create"
+            // data: {
+            //     userId: user.id,
+            //     teammateId: partnerId,
+            //     matchId: sharedKey
+            // },
+            // success: function(response){
+            //   console.log("response from create session route: ", response);
+            //   //if (response){
+            //       //getChalllenge(response);
+            //   //}
+            // }
+        //});
     }
     function getChallenge(data){
         $.ajax({
