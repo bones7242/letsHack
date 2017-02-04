@@ -97,11 +97,11 @@ module.exports = function(app) {
   });
 
   // route for creating a session
-  app.post("/session/create", function(req, res){
+  app.get("/session/create", function(req, res){
     console.log("** post request received on /session/create."); 
-    var userId = req.body.userId;
-    var teammateId = req.body.teammateId;
-    var matchId = req.body.matchId;
+    var userId = req.params.userId;
+    var teammateId = req.params.teammateId;
+    var matchId = req.params.matchId;
     console.log("userId:", userId);
     console.log("teammateId:", teammateId);
     console.log("matchId:", matchId);
@@ -163,7 +163,7 @@ module.exports = function(app) {
             challenge: JSON.parse(JSON.stringify(challengeData)),
           };
           console.log("newSession:", newSession);
-          res.json(newSession);
+          res.render("challenge", {session: newSession});
         }).catch(function (err) { 
           console.log("** error occured.  Sent to client as JSON")
           res.json(err);
@@ -174,13 +174,12 @@ module.exports = function(app) {
     });
   });
 
-  // route to render the challenge page
-  app.get("/challenge", function(req, res){
-    // parse the body
-
-    // render the page
-    res.render("challenge", {session: newSession});
-  });
+  // // route to render the challenge page
+  // app.get("/challenge", function(req, res){
+  //   // parse the body
+  //   // render the page
+  //   res.render("challenge", {session: newSession});
+  // });
 
   // route to update a session (based on session Id)
   app.put("/session/update", function(req, res){
