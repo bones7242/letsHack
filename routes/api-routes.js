@@ -61,21 +61,23 @@ module.exports = function(app) {
   // route for creating a session
   app.get("/session/create", function(req, res){
     console.log("** post request received on /session/create.");
-    console.log("query", req.query);
-    console.log("url", req.url);
+    console.log("** query", req.query);
+    //console.log("url", req.url);
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
     var matchId = req.query.matchId;
     if (req.query.isPlayerA == "true") {
       var isPlayerA = true;
+      var isPlayerB = false;
     } else {
       var isPlayerA = false;
+      var isPlayerB = true;
     };  // i need this from Harold 
-    console.log("userId:", userId);
-    console.log("teammateId:", teammateId);
-    console.log("matchId:", matchId);
+    //console.log("userId:", userId);
+    //console.log("teammateId:", teammateId);
+    //console.log("matchId:", matchId);
     console.log("isPlayerA:", isPlayerA);
-    console.log(typeof(isPlayerA));
+    //console.log(typeof(isPlayerA));
     // 1. select a challenge id that isn't in either user's challenge history.
     db.sequelize.Promise.all([
       db.Session.findAll({
@@ -115,7 +117,7 @@ module.exports = function(app) {
       db.Session.create({
         success: "false",  // will always be false when created
         playerA: isPlayerA,
-        playerB: !isPlayerA,
+        playerB: isPlayerB,
         matchId: matchId,
         ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
         UserId: userId,  // note: must be an valid(existing) UserId
