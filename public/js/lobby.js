@@ -83,9 +83,6 @@ $(document).ready(function(){
                 userId: user.id,
                 teammateId: partnerId,
                 matchId: sharedKey
-            },
-            success: function(response){
-                console.log("response from create session route: ", response);
             }
         });
     }
