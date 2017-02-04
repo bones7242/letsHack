@@ -237,5 +237,6 @@ ul.challenge-history li{
 }
 div.scroller {    
     max-height: 280px;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
