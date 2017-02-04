@@ -1,4 +1,5 @@
 function createChatRoom(chatRoomName, maxUsers, myUserName, database){
+    var pageLoadTimestamp = Math.round((new Date()).getTime() / 1000);
     var chatRoom = chatRoomName;
     var sendChat = function (msg, screenname){
         // default values
@@ -20,15 +21,18 @@ function createChatRoom(chatRoomName, maxUsers, myUserName, database){
         $("#chat-history").empty();
         for (var key in snapshot) {
             var chat = snapshot[key];
-            var div = $("<div>").addClass("chat-message");
-            if (chat.owner){
-                div.addClass("chat-message-" + chat.owner)
+            if (chat.timestamp > pageLoadTimestamp) {
+                // only get chats that are new since the page loaded
+                var div = $("<div>").addClass("chat-message");
+                if (chat.owner){
+                    div.addClass("chat-message-" + chat.owner)
+                }
+                var txt = '<span class="chatter">' + chat.screenname + ": </span>";
+                txt += chat.message;
+                var chatTime = "<span class='chatTime'>(" + convertTime(chat.timestamp) + ")</span>";
+                div.html(chatTime + txt);
+                $("#chat-history").prepend(div);	
             }
-            var txt = '<span class="chatter">' + chat.screenname + ": </span>";
-            txt += chat.message;
-            var chatTime = "<span class='chatTime'>" + convertTime(chat.timestamp) + "</span>";
-            div.html(txt + chatTime);
-            $("#chat-history").prepend(div);	
         }
     };
     var clearChat = function (){
@@ -72,10 +76,8 @@ function convertTime(unix_timestamp){
     var hours = date.getHours();
     // Minutes part from the timestamp
     var minutes = "0" + date.getMinutes();
-    // Seconds part from the timestamp
-    var seconds = "0" + date.getSeconds();
 
     // Will display time in 10:30:23 format
-    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    var formattedTime = hours + ':' + minutes.substr(-2);
     return formattedTime;
 }
