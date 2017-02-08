@@ -5,9 +5,9 @@ letsHack is a collaborative coding web app that lets people get paired up random
 
 letsHack is written in JavaScript using Node, Express, Sequelize, Handlebars, and Firebase.
 
-(Application overiew - powerpoint presentation)[https://docs.google.com/presentation/d/1DJZedp5DKjjFjCM9r3zlsF3VLGBXBzzJzFoaZCIIs6s/edit?usp=sharing]
+[Application overiew - powerpoint presentation](https://docs.google.com/presentation/d/1DJZedp5DKjjFjCM9r3zlsF3VLGBXBzzJzFoaZCIIs6s/edit?usp=sharing)
 
-(Live application)[https://polar-sea-42102.herokuapp.com/]
+[Live application](https://polar-sea-42102.herokuapp.com/)
 
 ### Authors: 
 @jesseharold
