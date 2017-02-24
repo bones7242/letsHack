@@ -19,9 +19,8 @@ letsHack is written in JavaScript using Node, Express, Sequelize, Handlebars, an
 + Wrote entire front and back end of this full-stack application utilizing MVC structure
  * used MySQL database with Sequelize ORM
  * used express for the server
- * used handlebars 
-+ Wrote my own ORM to communicated between my model and database
-+ Wrote front end using HTML, Handlebars.js, CSS, and JavaScript
+ * used handlebars to render the View
++ Utilized passport.js for authentication
 
 ### Application flow
 
