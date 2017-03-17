@@ -7,6 +7,7 @@ var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy;
 var passportRoutes = require('./routes/passport-routes.js');
 var methodOverride = require('method-override');
+var session = require('express-session');
 
 
 var PORT = process.env.PORT || 3000;
