@@ -141,21 +141,16 @@ module.exports = function(app) {
   // general API routes for future dev
   // route for updating a user
   app.put("/user/update", function(req, res){
-
     //route to update a user
     db.User.update({
-      email: req.body.email || this.email,
-      firstName: req.body.firstName || this.firstName,
-      lastName: req.body.lastName || this.lastName
+      email: req.body.email || req.user.email,
+      firstName: req.body.firstName || req.user.firstName,
+      lastName: req.body.lastName || req.user.lastName
     }, {
       where: {
-
         displayName: req.body.displayName  // can change this to displayName or email if that is better
-
       }
     }).then(function(result){
-        // console.log("this is user: " + user);
-        // res.redirect("/profile");
       // returns "1" for success and "0" for failure
       if (result[0] === 1){
         console.log("user successfully updated");
