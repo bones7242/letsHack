@@ -3,6 +3,7 @@ $(document).ready(function(){
 
     $(".profileSection button").click(function(){
         $(this).parent(".profileSection").find("input.profileEdit").show();
+        $(".hiddenSubmit").show();
         return false;
     });
 });

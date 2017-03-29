@@ -7,7 +7,7 @@ var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy;
 var passportRoutes = require('./routes/passport-routes.js');
 var methodOverride = require('method-override');
-var session = require('express-session');
+var passportConfig = require("./config/passport.json")
 
 
 var PORT = process.env.PORT || 3000;
@@ -73,7 +73,7 @@ app.use(bodyParser.json());
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(require('express-session')(passportConfig));
 app.use(flash());
 
 
