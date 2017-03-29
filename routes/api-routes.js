@@ -62,7 +62,6 @@ module.exports = function(app) {
   // route for creating a session
   app.get("/session/create", function(req, res){
     //console.log("** post request received on /session/create.");
-    //console.log("url", req.url);
     var userId = req.query.userId;
     var teammateId = req.query.teammateId;
     var matchId = req.query.matchId;
@@ -73,12 +72,8 @@ module.exports = function(app) {
     } else {
       var isPlayerA = false;
       var isPlayerB = true;
-    };  // i need this from Harold
-    //console.log("userId:", userId);
-    //console.log("teammateId:", teammateId);
-    //console.log("matchId:", matchId);
+    };  
     console.log("isPlayerA:", isPlayerA);
-    //console.log(typeof(isPlayerA));
 
     // 1. select a challenge id that isn't in either user's challenge history.
     db.sequelize.Promise.all([
@@ -100,13 +95,13 @@ module.exports = function(app) {
         usedChallengeIds.push(sessions[i].ChallengeId);
       }
       usedChallengeIds = removeDuplicates(usedChallengeIds);
-      console.log("used:", usedChallengeIds);
+      //console.log("used:", usedChallengeIds);
       // parse the array of all possible challenge id
       var allChallengeIds = [];
       for (var i = 0; i < challenges.length; i++){
         allChallengeIds.push(challenges[i].id);
       }
-      console.log("total:", allChallengeIds);
+      //console.log("total:", allChallengeIds);
       // compare the arrays and remove the used challenges from AllChallengeIds
       var possibleChallengeIds = removeElements(allChallengeIds, usedChallengeIds)
       // select a challenge
@@ -129,16 +124,15 @@ module.exports = function(app) {
         console.log("newSession:", JSON.parse(JSON.stringify(sessionData)));
         res.json(sessionData);
       }).catch(function (err) {
-        console.log("** error occured.  Sent to client as JSON")
+        console.log("** error occured.  Sent to client as JSON");
         res.json(err);
       });
     }).catch(function (err) {
-      console.log("** error occured.  Sent to client as JSON")
+      console.log("** error occured.  Sent to client as JSON");
       res.json(err);
     });
   });
 
-  // general API routes for future dev
   // route for updating a user
   app.put("/user/update", function(req, res){
     //route to update a user
@@ -177,14 +171,14 @@ module.exports = function(app) {
       }
     }).then(function(result) {
       if (result[0] === 1){
-        console.log("user successfully updated");
-        if (req.body.success){  //case for instance where users succeeded
+        console.log("session successfully updated");
+        if (req.body.success){  
           res.json(true);
-        } else {  // fase for instance where users failed
+        } else {
           res.json(false);
         };
       } else if (result[0] === 0) {
-        res.send("user was not successfully updated");
+        res.send("session was not successfully updated");
       } else {
         res.send("and unknown error occured");
       };
@@ -207,6 +201,7 @@ module.exports = function(app) {
       testA: req.body.testA,
       testB: req.body.testB
     }).then(function(newChallenge){
+      console.log("challenge successfully created");
       res.json(newChallenge);
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")
@@ -231,6 +226,7 @@ module.exports = function(app) {
         id: req.body.id
       }
     }).then(function(newChallenge){
+      console.log("challenge successfully updated");
       res.json(newChallenge);
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")

@@ -154,12 +154,12 @@ input.hiddenSubmit {
     overflow-y: auto;
     overflow-x: hidden;
 }
-.chat-message-user-a {
-    color: black
+.chat-message {
+    color: #555;
 }
-.chat-message-user-b {
-    background-color: #77dc35;
-    color: black
+.chat-message-mine {
+    background-color: #e0fb03;
+    color: black;
 }
 .chatter {
     font-style: italic;
