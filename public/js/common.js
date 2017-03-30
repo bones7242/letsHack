@@ -35,6 +35,9 @@ function showChallengeHistory(){
             listItem += " with " + history[i].TeammateDisplayName;
             listItem += "</li>";
         }
+        if (history.length === 0){
+            listItem = "<li>You have not done any challenges yet.</li>"
+        }
         list.append(listItem);
     });
 }
