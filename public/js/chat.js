@@ -1,6 +1,9 @@
 function createChatRoom(chatRoomName, maxUsers, myUserName){
     var socket = io();
-    var chatRoom = chatRoomName;
+    socket.emit('userconnected', myUserName);
+    socket.on("allpresent", function(presentUsers){
+        $(".chatStats span.number").text(presentUsers.length);
+    });
 
     socket.on("chatmessage", function(message){
         displayChat(message, myUserName);

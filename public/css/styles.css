@@ -154,6 +154,13 @@ input.hiddenSubmit {
     overflow-y: auto;
     overflow-x: hidden;
 }
+.chatStats {    
+    position: absolute;
+    right: 20px;
+    top: 5px;
+    color: #999;
+    font-size: .8em;
+}
 .chat-message {
     color: #555;
 }
