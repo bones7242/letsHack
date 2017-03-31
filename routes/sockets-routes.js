@@ -1,4 +1,5 @@
 var db = require("../models");
+var chatFilters = require("./../config/chatfilters.json");
 
 function markAsPresent(user, isPresent, io){
     db.User.update({
@@ -151,14 +152,18 @@ module.exports = function(app) {
 
         socket.on("chatmessage", function(msg){
             // replace shrug with shrug emoji
-            var msgText = msg.text;
-            if (msgText.indexOf("shrug") > -1){
-                var emoji = '&nbsp;&#8315;&#92;_(&‌#12471;)_/&#8315;';
-                var array = msgText.split("shrug")
-                console.log(array);
-                var newText = array.join(emoji);
-                msg.text = newText;
+            // cause why the hell not
+            var filteredText = msg.text;
+            for (trigger in chatFilters){
+                // check each chat for the presence of a chat filter trigger
+                // defined in a config file, along with its replacement
+                if (filteredText.indexOf(trigger) > -1){
+                    var array = filteredText.split(trigger);
+                    var newText = array.join(chatFilters[trigger]);
+                    filteredText = newText;
+                }
             }
+            msg.text = filteredText;
             // send user's chat out to all connected users
             io.emit("chatmessage", msg);
         });
