@@ -67,6 +67,26 @@ function placeInQueue(user, isInQueue){
     });
 }
 
+// helper function to remove duplicates
+function removeDuplicates(array){
+  for (var i = array.length; i > 0; i--){
+    if ((array.indexOf(array[i]) >= 0) && (array.indexOf(array[i]) < i)) {
+      array.splice(i,1);
+    };
+  };
+  return array;
+}
+
+// helper function to compare two arrays and return
+function removeElements(startArray, removeArray){
+  for (var i = 0; i < startArray.length; i++){
+    if (removeArray.indexOf(startArray[i]) >= 0) {
+      startArray.splice(i, 1);
+    };
+  };
+  return startArray;
+}
+
 function createSession(userA, userB){
     // remove these people from the queue
     placeInQueue(userA.displayName, false);
@@ -77,7 +97,7 @@ function createSession(userA, userB){
       db.Session.findAll({
           attributes: ["ChallengeId"],
           where: {
-            $or: [{UserId: userId}, {UserId: teammateId}],  // selects if id is user's or teammate's
+            $or: [{UserId: userA.id}, {UserId: userB.id}],  // selects if id is user's or teammate's
             success: true // only selects records that have not been solved
           }
       }),
@@ -86,28 +106,33 @@ function createSession(userA, userB){
       })
     ])
     .spread(function(sessions, challenges) {
-      // parse the results to get an array of the used challenge ids
+      // parse the results to get an array of the challenge ids already completed by these users 
       var usedChallengeIds = [];
       for (var i = 0; i < sessions.length; i++){
         usedChallengeIds.push(sessions[i].ChallengeId);
       }
       usedChallengeIds = removeDuplicates(usedChallengeIds);
-      //console.log("used:", usedChallengeIds);
+      console.log("used:", usedChallengeIds);
       // parse the array of all possible challenge id
       var allChallengeIds = [];
       for (var i = 0; i < challenges.length; i++){
         allChallengeIds.push(challenges[i].id);
       }
-      //console.log("total:", allChallengeIds);
+      console.log("total:", allChallengeIds);
       // compare the arrays and remove the used challenges from AllChallengeIds
-      var possibleChallengeIds = removeElements(allChallengeIds, usedChallengeIds)
+      var possibleChallengeIds = removeElements(allChallengeIds, usedChallengeIds);
+      console.log("possible:", possibleChallengeIds);
+
+    //   var matchId;
       // select a challenge
-      while (matchId < possibleChallengeIds.length){
-        matchId * 2;
-      };
-      var challengeIndex = matchId % possibleChallengeIds.length;
+    //   while (matchId < possibleChallengeIds.length){
+    //     matchId * 2;
+    //   };
+    //  var challengeIndex = matchId % possibleChallengeIds.length;
+      var challengeIndex = Math.floor(Math.random() * possibleChallengeIds.length);
+      console.log("chosen index: ", challengeIndex);
       var challengeToUse = possibleChallengeIds[challengeIndex];
-      // 2. create the session and get the information
+      // 2. create the session and send the information back to front end
       db.Session.create({
         success: "false",  // will always be false when created
         playerA: isPlayerA,
