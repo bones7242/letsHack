@@ -135,12 +135,9 @@ function createSession(userA, userB){
       // 2. create the session and send the information back to front end
       db.Session.create({
         success: "false",  // will always be false when created
-        playerA: isPlayerA,
-        playerB: isPlayerB,
-        matchId: matchId,
+        playerA: userA,
+        playerB: userB,
         ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
-        UserId: userId,  // note: must be an valid(existing) UserId
-        TeammateId: teammateId,  // note: must be an valid(existing) UserId
       }).then(function(sessionData) {
         // 3. return the information
         console.log("newSession:", JSON.parse(JSON.stringify(sessionData)));

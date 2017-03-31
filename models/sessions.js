@@ -6,30 +6,24 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             default: false
         },
-        playerA: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-        },
-        playerB: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-        },
         matchId:{
             type: DataTypes.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            allowNull: false
         }
     }, {
         classMethods: {
             associate: function(models) {
                 Session.belongsTo(models.User, { 
-                    as: "User",
+                    as: "playerA",
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false
                     }
                 });
                 Session.belongsTo(models.User, { 
-                    as: "Teammate",
+                    as: "playerB",
                     onDelete: "cascade",
                     foreignKey: {
                         allowNull: false

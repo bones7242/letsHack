@@ -83,7 +83,6 @@ app.use(passport.session());
 
 app.use('/', passportRoutes(passport));
 require("./routes/api-routes.js")(app);
-require("./routes/html-routes.js")(app);
 
 // include socket.io functionality
 // this wraps the server in sockets, to intercept incoming sockets requests

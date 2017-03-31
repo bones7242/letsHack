@@ -24,23 +24,4 @@ $(document).ready(function(){
         + "&challengeId=" + sessionData.ChallengeId  
         + "&userId=" + user.id;
     });
-
-    // function createSession(partnerName, partnerId, sharedKey, iAmPlayerA){
-    //     //console.log("Who am I? Am I player A?", iAmPlayerA);
-    //     $.ajax({
-    //         type: "GET",
-    //         url:"/session/create",
-    //         data: {
-    //             userId: user.id,
-    //             teammateId: partnerId,
-    //             matchId: sharedKey,
-    //             isPlayerA: iAmPlayerA
-    //         },
-    //         success: function(response){
-    //             //console.log("session created! ", response);
-    //             if (response){
-    //             }
-    //         }
-    //     });
-    // }
 });
