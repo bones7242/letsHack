@@ -50,26 +50,26 @@ module.exports = {
     //create sessions
         // db.Session.create({
         //   success: true,
-        //   UserId: 1,
-        //   TeammateId: 2,
+        //   playerA: 1,
+        //   playerB: 2,
         //   ChallengeId: 1
         // });
         // db.Session.create({
         //   success: true,
-        //   UserId: 2,
-        //   TeammateId: 1,
+        //   playerA: 2,
+        //   playerB: 1,
         //   ChallengeId: 1
         // });
         // db.Session.create({
         //   success: false,
-        //   UserId: 1,
-        //   TeammateId: 2,
+        //   playerA: 1,
+        //   playerB: 2,
         //   ChallengeId: 2
         // });
         // db.Session.create({
         //   success: false,
-        //   UserId: 2,
-        //   TeammateId: 1,
+        //   playerA: 2,
+        //   playerB: 1,
         //   ChallengeId: 2
         // });
   }

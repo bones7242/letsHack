@@ -16,7 +16,7 @@ module.exports = function(app) {
         as: "Challenge"
       }, {
         model: db.User,
-        as: "Teammate"
+        as: "displayName"
       }]
       // to do: order the results by challengeId and then by date updated
     }).then(function(data){
@@ -27,8 +27,8 @@ module.exports = function(app) {
         newObject.ChallengeName = session.Challenge.name;
         newObject.success = session.success;
         newObject.updatedAt = session.updatedAt;
-        newObject.TeammateId = session.Teammate.id;
-        newObject.TeammateDisplayName = session.Teammate.displayName;
+        newObject.playerA = session.playerA.displayName;
+        newObject.playerB = session.playerB.displayName;
         return newObject;
       })
       console.log("mapped Data:", mappedData);
