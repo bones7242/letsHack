@@ -19,9 +19,9 @@ $(document).ready(function(){
     socket.on("matchmade", function(sessionData){
         console.log("match made: ", sessionData);
         //get challenge page
-        // window.location = 
-        // "/challenge/?sessionId=" + sessionData.id 
-        // + "&challengeId=" + sessionData.ChallengeId  
-        // + "&userId=" + user.id;
+        window.location = 
+        "/challenge/?sessionId=" + sessionData.id 
+        + "&challengeId=" + sessionData.ChallengeId  
+        + "&userId=" + user.id;
     });
 });
