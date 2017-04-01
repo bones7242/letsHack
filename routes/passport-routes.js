@@ -39,14 +39,14 @@ function passportRoutes(passport){
         })
       ])
       .spread(function(sessionData, challengeData, userData) {
-        console.log("sessionData", JSON.parse(JSON.stringify(sessionData)));
+        //console.log("sessionData", JSON.parse(JSON.stringify(sessionData)));
         tailoredChallengeData = {
           id: challengeData.id,
           difficulty: challengeData.difficulty,
           name: challengeData.name,
           instructionsAll: challengeData.instructionsAll,
         };
-        console.log("what is player A status:", sessionData.playerA);
+        //console.log("what is player A status:", sessionData.playerA);
         if (sessionData.playerA === true || sessionData.playerA === "true"){
           tailoredChallengeData.instructions = challengeData.instructionsA;
           tailoredChallengeData.partnerInstructions = challengeData.instructionsB;
@@ -58,7 +58,7 @@ function passportRoutes(passport){
           tailoredChallengeData.startCode = challengeData.startCodeB;
           tailoredChallengeData.test = challengeData.testB;
         }
-        console.log("tailoredChallengeData", JSON.parse(JSON.stringify(tailoredChallengeData)));
+        //console.log("tailoredChallengeData", JSON.parse(JSON.stringify(tailoredChallengeData)));
         res.render("challenge", {session: sessionData, challenge: tailoredChallengeData, playerB: sessionData.playerB, playerA: sessionData.playerA});  //note: can we re-authenticate?
       });
     });

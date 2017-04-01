@@ -38,7 +38,7 @@ passport.use('local', new LocalStrategy({
 
 
   passport.serializeUser(function(user, cb) {
-    console.log("serialized: " + user.id);
+    //console.log("serialized: " + user.id);
     cb(null, user.id);
   });
 
@@ -48,10 +48,10 @@ passport.use('local', new LocalStrategy({
         'id': id
       }
     }).then(function(user) {
-      console.log("deserialize: " + user);
+      //console.log("deserialize: " + user);
       cb(null, user);
     }).catch(function(error){
-      console.log(error);
+      console.error(error);
     });
   });
 

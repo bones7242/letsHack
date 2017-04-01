@@ -34,13 +34,11 @@ module.exports = function(app) {
         newObject.playerB = session.playerB.displayName;
         return newObject;
       })
-       console.log("mapped Data:", mappedData);
        res.json(mappedData);
     }).catch(function (err) {
-       console.log("** error occured on route /user/:userId/challengeHistory:", err);
+       console.error("** error occured on route /user/:userId/challengeHistory:", err);
        res.json(err);
     });
-    console.log("getting challenge history");
   });
 
   // route for updating a user
@@ -66,7 +64,7 @@ module.exports = function(app) {
       };
 
     }).catch(function (err) {
-      console.log("** error occured.  Sent to client as JSON")
+      console.error("** error occured.  Sent to client as JSON")
       res.json(err);
     })
   })
@@ -93,7 +91,7 @@ module.exports = function(app) {
         res.send("and unknown error occured");
       };
     }).catch(function (err) {
-      console.log("** error occured.  Sent to client as JSON")
+      console.error("** error occured.  Sent to client as JSON")
       res.json(err);
     });
   });

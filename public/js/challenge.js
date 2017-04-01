@@ -21,7 +21,7 @@ $(document).ready(function() {
                     console.log("session updated! ", response);
                     openModal("Success!", "You both passed your challenge, nice team work, you guys! Head back to the lobby for more challenge fun!", "Lobby", function(){window.location = "/lobby"});
                 } else {
-                    console.log("not able to update session", sessionData.sessionId);
+                    console.error("not able to update session", sessionData.sessionId);
                 }
             }
         });

@@ -90,7 +90,7 @@ module.exports = function(app) {
                         }
                     }
                 }).catch(function (err) {
-                    console.log("** error occured getting queued users: ", err);
+                    console.error("** error occured getting queued users: ", err);
                     return false;
                 });
             } else {
@@ -98,7 +98,7 @@ module.exports = function(app) {
                 return false;
             };
         }).catch(function (err) {
-        console.log("** error occured updating user: ", err);
+        console.error("** error occured updating user: ", err);
         });
     }
 
@@ -120,15 +120,15 @@ module.exports = function(app) {
                     data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
                     io.emit("allpresent", data);
                 }).catch(function (err) {
-                    console.log("** error occured getting all present users: ", err);
+                    console.error("** error occured getting all present users: ", err);
                     return false;
                 });
             } else {
-                console.log("user NOT updated: ", result);
+                //console.log("user NOT updated: ", result);
                 return false;
             };
         }).catch(function (err) {
-        console.log("** error occured updating user: ", err);
+        console.error("** error occured updating user: ", err);
         });
     }
 
@@ -149,7 +149,7 @@ module.exports = function(app) {
                 JSON.parse(JSON.stringify(sessionData));
                 io.emit("matchmade", sessionData);
             }).catch(function (err) {
-                console.log("** error occured creating a session.  Sent to client as JSON");
+                console.error("** error occured creating a session.  Sent to client as JSON");
                 io.emit("matchmade", err);
             });
         });

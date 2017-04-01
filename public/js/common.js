@@ -49,7 +49,6 @@ $(document).ready(function() {
       displayName: $(".dataHolder").data().displayname,
       id: $(".dataHolder").data().userid
   };
-  //console.log(user);
   if (user.displayName){
       $("nav .nav-right")
         .show()
