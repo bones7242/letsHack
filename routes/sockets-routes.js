@@ -66,59 +66,6 @@ module.exports = function(app) {
     });
 
 
-    function createSession(userA, userB){
-        // remove these people from the queue
-        placeInQueue(userA.displayName, false);
-        placeInQueue(userB.displayName, false);
-        
-        var challengeToUse = chooseChallenge(userA.id, userB.id);
-        
-        // 2. create the session and send the information back to front end
-        db.Session.create({
-            success: "false",  // will always be false when created
-            playerA: userA,
-            playerB: userB,
-            ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
-        }).then(function(sessionData) {
-            // 3. return the information
-            console.log("newSession:", JSON.parse(JSON.stringify(sessionData)));
-            io.emit("matchmade", sessionData);
-        }).catch(function (err) {
-            console.log("** error occured.  Sent to client as JSON");
-            io.emit("matchmade", err);
-        });
-    }
-
-    function markAsPresent(user, isPresent, io){
-        db.User.update({
-        present: isPresent
-        }, {
-        where: {
-            displayName: user
-        }
-        }).then(function(result){
-            if (result[0] === 1){
-                // user updated
-                db.User.findAll({
-                    where: {
-                        present: true
-                    }
-                }).then(function(data){
-                    data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
-                    io.emit("allpresent", data);
-                }).catch(function (err) {
-                    console.log("** error occured getting all present users: ", err);
-                    return false;
-                });
-            } else {
-                console.log("user NOT updated: ", result);
-                return false;
-            };
-        }).catch(function (err) {
-        console.log("** error occured updating user: ", err);
-        });
-    }
-
     function placeInQueue(user, isInQueue){
         db.User.update({
         inqueue: isInQueue
@@ -155,13 +102,66 @@ module.exports = function(app) {
         });
     }
 
-    function chooseChallenge(userAId, userBId){
+    function markAsPresent(user, isPresent, io){
+        db.User.update({
+        present: isPresent
+        }, {
+        where: {
+            displayName: user
+        }
+        }).then(function(result){
+            if (result[0] === 1){
+                // user updated
+                db.User.findAll({
+                    where: {
+                        present: true
+                    }
+                }).then(function(data){
+                    data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
+                    io.emit("allpresent", data);
+                }).catch(function (err) {
+                    console.log("** error occured getting all present users: ", err);
+                    return false;
+                });
+            } else {
+                console.log("user NOT updated: ", result);
+                return false;
+            };
+        }).catch(function (err) {
+        console.log("** error occured updating user: ", err);
+        });
+    }
+
+    function createSession(userA, userB){
+        // remove these people from the queue
+        placeInQueue(userA.displayName, false);
+        placeInQueue(userB.displayName, false);
+        
+        chooseChallenge(userA.id, userB.id, function(challengeToUse){
+            // 2. create the session and send the information back to front end
+            db.Session.create({
+                success: "false",  // will always be false when created
+                playerAId: userA.id,
+                playerBId: userB.id,
+                ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
+            }).then(function(sessionData) {
+                // 3. return the information
+                JSON.parse(JSON.stringify(sessionData));
+                io.emit("matchmade", sessionData);
+            }).catch(function (err) {
+                console.log("** error occured creating a session.  Sent to client as JSON");
+                io.emit("matchmade", err);
+            });
+        });
+    }
+
+    function chooseChallenge(userAId, userBId, callback){
         // 1. select a challenge id that isn't in either user's challenge history.
         db.sequelize.Promise.all([
             db.Session.findAll({
                 attributes: ["ChallengeId"],
                 where: {
-                    $or: [{UserId: userAId}, {UserId: userBId}],  // selects if id is user's or teammate's
+                    $or: [{UserId: userAId}, {UserId: userBId}],  // selects if id is user's or team mate's
                     success: true // only selects records that have not been solved
                 }
             }),
@@ -186,7 +186,7 @@ module.exports = function(app) {
 
             var challengeIndex = Math.floor(Math.random() * possibleChallengeIds.length);
             var challengeToUse = possibleChallengeIds[challengeIndex];
-            return challengeToUse;
+            callback(challengeToUse);
         });
     }
 

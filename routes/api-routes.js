@@ -16,7 +16,10 @@ module.exports = function(app) {
         as: "Challenge"
       }, {
         model: db.User,
-        as: "displayName"
+        as: "playerA"
+      }, {
+        model: db.User,
+        as: "playerB"
       }]
       // to do: order the results by challengeId and then by date updated
     }).then(function(data){
@@ -31,87 +34,14 @@ module.exports = function(app) {
         newObject.playerB = session.playerB.displayName;
         return newObject;
       })
-      console.log("mapped Data:", mappedData);
-      res.json(mappedData);
+       console.log("mapped Data:", mappedData);
+       res.json(mappedData);
     }).catch(function (err) {
-      console.log("** error occured on route /user/:userId/challengeHistory:", err);
-      res.json(err);
+       console.log("** error occured on route /user/:userId/challengeHistory:", err);
+       res.json(err);
     });
+    console.log("getting challenge history");
   });
-
-  // route for creating a session
-  // app.get("/session/create", function(req, res){
-  //   //console.log("** post request received on /session/create.");
-  //   var userId = req.query.userId;
-  //   var teammateId = req.query.teammateId;
-  //   var matchId = req.query.matchId;
-
-  //   if (req.query.isPlayerA == "true") {
-  //     var isPlayerA = true;
-  //     var isPlayerB = false;
-  //   } else {
-  //     var isPlayerA = false;
-  //     var isPlayerB = true;
-  //   };  
-  //   console.log("isPlayerA:", isPlayerA);
-
-  //   // 1. select a challenge id that isn't in either user's challenge history.
-  //   db.sequelize.Promise.all([
-  //     db.Session.findAll({
-  //         attributes: ["ChallengeId"],
-  //         where: {
-  //           $or: [{UserId: userId}, {UserId: teammateId}],  // selects if id is user's or teammate's
-  //           success: true // only selects records that have not been solved
-  //         }
-  //     }),
-  //     db.Challenge.findAll({
-  //         attributes: ["id"],
-  //     })
-  //   ])
-  //   .spread(function(sessions, challenges) {
-  //     // parse the results to get an array of the used challenge ids
-  //     var usedChallengeIds = [];
-  //     for (var i = 0; i < sessions.length; i++){
-  //       usedChallengeIds.push(sessions[i].ChallengeId);
-  //     }
-  //     usedChallengeIds = removeDuplicates(usedChallengeIds);
-  //     //console.log("used:", usedChallengeIds);
-  //     // parse the array of all possible challenge id
-  //     var allChallengeIds = [];
-  //     for (var i = 0; i < challenges.length; i++){
-  //       allChallengeIds.push(challenges[i].id);
-  //     }
-  //     //console.log("total:", allChallengeIds);
-  //     // compare the arrays and remove the used challenges from AllChallengeIds
-  //     var possibleChallengeIds = removeElements(allChallengeIds, usedChallengeIds)
-  //     // select a challenge
-  //     while (matchId < possibleChallengeIds.length){
-  //       matchId * 2;
-  //     };
-  //     var challengeIndex = matchId % possibleChallengeIds.length;
-  //     var challengeToUse = possibleChallengeIds[challengeIndex];
-  //     // 2. create the session and get the information
-  //     db.Session.create({
-  //       success: "false",  // will always be false when created
-  //       playerA: isPlayerA,
-  //       playerB: isPlayerB,
-  //       matchId: matchId,
-  //       ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
-  //       UserId: userId,  // note: must be an valid(existing) UserId
-  //       TeammateId: teammateId,  // note: must be an valid(existing) UserId
-  //     }).then(function(sessionData) {
-  //       // 3. return the information
-  //       console.log("newSession:", JSON.parse(JSON.stringify(sessionData)));
-  //       res.json(sessionData);
-  //     }).catch(function (err) {
-  //       console.log("** error occured.  Sent to client as JSON");
-  //       res.json(err);
-  //     });
-  //   }).catch(function (err) {
-  //     console.log("** error occured.  Sent to client as JSON");
-  //     res.json(err);
-  //   });
-  // });
 
   // route for updating a user
   app.put("/user/update", function(req, res){

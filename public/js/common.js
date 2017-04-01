@@ -32,7 +32,8 @@ function showChallengeHistory(){
                 listItem += ", attempted on "
             }
             listItem += history[i].updatedAt;
-            listItem += " with " + history[i].TeammateDisplayName;
+            listItem += " with " + history[i].playerA;
+            listItem += " and " + history[i].playerB;
             listItem += "</li>";
         }
         if (history.length === 0){

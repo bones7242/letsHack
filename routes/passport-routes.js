@@ -20,7 +20,10 @@ function passportRoutes(passport){
           },
           include: [{
             model: db.User,
-            as: "Teammate"
+            as: "playerA"
+          }, {
+            model: db.User,
+            as: "playerB"
           }]
         }),
         db.Challenge.findOne({
@@ -56,7 +59,7 @@ function passportRoutes(passport){
           tailoredChallengeData.test = challengeData.testB;
         }
         console.log("tailoredChallengeData", JSON.parse(JSON.stringify(tailoredChallengeData)));
-        res.render("challenge", {session: sessionData, challenge: tailoredChallengeData, user: userData, partner: sessionData.Teammate});  //note: can we re-authenticate?
+        res.render("challenge", {session: sessionData, challenge: tailoredChallengeData, playerB: sessionData.playerB, playerA: sessionData.playerA});  //note: can we re-authenticate?
       });
     });
 
