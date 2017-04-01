@@ -66,7 +66,6 @@ module.exports = function(app) {
         });
 
         socket.on("codeTyping", function(codeData){
-            console.log("someone is typing: ", codeData);
             io.emit("codeSharing", codeData);
         });
     });

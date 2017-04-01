@@ -17,7 +17,7 @@ $(document).ready(function() {
     socket.on("leftChallenge", function(leaverName){
         if (leaverName === partnerName){
             //partner was here, but they disconnected
-            openModal(leaverName + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby");
+            openModal(leaverName + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby"});
         }
     });
 
@@ -39,7 +39,9 @@ $(document).ready(function() {
         }
     });
 
+    // perform code test
     $("button.testMyCode").on("click", testMyCode);
+
     function addBRTags(input){
         if (input && typeof input === "string" && input.length > 1){
             return input.split("\n").join("<br />");
@@ -68,39 +70,38 @@ $(document).ready(function() {
     }
 
     function testMyCode(){
-        //Take the player's code
+        // Take the player's code
         var userCode = $("#userCode").val();
-
-        //Test for user, should not matter as each user is loaded a different test
+        // Get this user's test, as passed down from the db
         var challengeTest = $("input#myTest").val();
-
         var passedTest = false;
 
     //    try { 
-            if (eval("(" + userCode + ")()") == challengeTest){
-                passedTest = true;
-            }
+        var returnValue = eval("(" + userCode + ")()");
+        if (returnValue == challengeTest){
+            passedTest = true;
+        }
   //      }
   //      catch (err) {
   //          openModal("Your code threw an error", err, "OK", closeModal);
   //      }
   //      finally {
-            if (passedTest) {
-                myRef.update({
-                    finished: 1
-                });
-                iPassedTest = true;
-                if (partnerPassedTest){
-                    //we both passed yay!
-                    challengeSuccess();
-                } else {
-                    // I passed, my parnter hasn't yet
-                    openModal("Nice work!", "Your partner is still working, see if you can help them out using the chat.", "OK", closeModal);
-                }
+        if (passedTest) {
+            myRef.update({
+                finished: 1
+            });
+            iPassedTest = true;
+            if (partnerPassedTest){
+                //we both passed yay!
+                challengeSuccess();
             } else {
-                //i didn't pass
-                openModal("Your code didn't return the expected result.", "Keep trying!", "OK", closeModal);
+                // I passed, my parnter hasn't yet
+                openModal("Nice work!", "Your partner is still working, see if you can help them out using the chat.", "OK", closeModal);
             }
+        } else {
+            //i didn't pass
+            openModal("Your code didn't return the expected result.", "Keep trying!", "OK", closeModal);
+        }
         //}
     }
 
