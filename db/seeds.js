@@ -6,22 +6,22 @@ module.exports = {
     db.Challenge.create({
         difficulty: 1,
             name: "Hello World",
-            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello World!'",
+            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello world!'",
             instructionsA: "Create a function that returns the string 'Hello'",
             instructionsB: "Create a function that returns the string 'world!'",
-            startCodeA: "function sayHello(){ // A your code goes here };",
-            startCodeB: "function sayWorld(){ // B your code goes here };",
+            startCodeA: "function sayHello(){\n// A your code goes here\n};",
+            startCodeB: "function sayWorld(){\n// B your code goes here\n};",
             testA: "Hello",
             testB: "world!",
     });
     db.Challenge.create({
         difficulty: 1,
             name: "Hello World",
-            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello World!'",
+            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello world!'",
             instructionsA: "Create a function that returns the string 'Hello'",
             instructionsB: "Create a function that returns the string 'world!'",
-            startCodeA: "function sayHello(){ // A your code goes here };",
-            startCodeB: "function sayWorld(){ // B your code goes here };",
+            startCodeA: "function sayHello(){\n// A your code goes here\n};",
+            startCodeB: "function sayWorld(){\n// B your code goes here\n};",
             testA: "Hello",
             testB: "world!",
     });

@@ -40,6 +40,7 @@ module.exports = function(app) {
             // mark logged in user as no longer present, and no longer in queue
             placeInQueue(connectedUsername, false, io);
             markAsPresent(connectedUsername, false, io);
+            io.emit("leftChallenge", connectedUsername);
         });
 
         socket.on("chatmessage", function(msg){
@@ -62,6 +63,11 @@ module.exports = function(app) {
 
         socket.on("joinqueue", function(userInfo){
             placeInQueue(userInfo.displayName, true, io);
+        });
+
+        socket.on("codeTyping", function(codeData){
+            console.log("someone is typing: ", codeData);
+            io.emit("codeSharing", codeData);
         });
     });
 

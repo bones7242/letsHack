@@ -1,5 +1,45 @@
 $(document).ready(function() {
-    
+    var matchId = $(".dataHolder").data().matchid;
+    var partnerName = $(".dataHolder").data().partnername;
+    var iPassedTest = false;
+    var partnerPassedTest = false;
+    var myCodeSoFar = "";
+    // start up chat
+    createChatRoom(matchId, 2, user.displayName);
+    //put my starter code into the textarea
+    $("#userCode").val(addBRTags($(".dataHolder").data().startcode));
+
+    var socket = io();
+
+    // *** EVENT LISTENERS ***
+
+    // notify if your teammate disconnects
+    socket.on("leftChallenge", function(leaverName){
+        if (leaverName === partnerName){
+            //partner was here, but they disconnected
+            openModal(leaverName + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby");
+        }
+    });
+
+    // send my code typing to back end
+    $("#your-code .code-input").on("focus", function(){
+        $("body").on("keyup", function(event){
+            myCodeSoFar = $("#your-code .code-input").val().trim();
+            // emit socket event
+            socket.emit("codeTyping", {sessionId: matchId, userName: user.displayName, code: myCodeSoFar});
+		});
+    }).on("focusout", function(){
+		$("body").off("keyup");
+	});
+
+    // listen for my partner's typing
+    socket.on("codeSharing", function(someonesCode){
+        if (someonesCode.sessionId == matchId && someonesCode.userName == partnerName){
+            $("#partner-code .code-input").text(someonesCode.code);
+        }
+    });
+
+    $("button.testMyCode").on("click", testMyCode);
     function addBRTags(input){
         if (input && typeof input === "string" && input.length > 1){
             return input.split("\n").join("<br />");
@@ -64,39 +104,4 @@ $(document).ready(function() {
         //}
     }
 
-    //use this shared key as the firebase container
-    var matchId = $(".dataHolder").data().matchid;
-    var partnerName = $(".dataHolder").data().partnername;
-    var partnerPresent = false;
-    var iPassedTest = false;
-    var partnerPassedTest = false;
-    var myCodeSoFar = "";
-    // start up chat
-    createChatRoom(matchId, 2, user.displayName);
-
-    //put the starter code into the textarea
-    $("#userCode").val($(".dataHolder").data().startCode);
-
-
-    //         //partner was here, but they disconnected
-    //         openModal(partnerName + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby";
-
-    //         //there are more than 2 people in this challenge... awkward!
-    //         openModal("Room is Full", "Hm, something went wrong, that challenge is already full. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby";
-
-
-
-    // *** EVENT LISTENERS ***
-
-    // send my code typing to db
-    $("#your-code .code-input").on("focus", function(){
-        $("body").on("keyup", function(event){
-            myCodeSoFar = $("#your-code .code-input").val().trim();
-            // emit socket event
-		});
-    }).on("focusout", function(){
-		$("body").off("keyup");
-	});
-
-    $("button.testMyCode").on("click", testMyCode);
 });
