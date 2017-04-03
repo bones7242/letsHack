@@ -75,6 +75,10 @@ module.exports = function(app) {
         socket.on("codeTyping", function(codeData){
             io.emit("codeSharing", codeData);
         });
+
+        socket.on("oneChallengePassed", function(partialSuccess){
+            io.emit("challengeHalfDone", {session: partialSuccess.session, userName: partialSuccess.userName});
+        });
     });
 
 

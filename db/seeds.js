@@ -9,8 +9,8 @@ module.exports = {
             instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello world!'",
             instructionsA: "Create a function that returns the string 'Hello'",
             instructionsB: "Create a function that returns the string 'world!'",
-            startCodeA: "function sayHello(){\n// A your code goes here\n};",
-            startCodeB: "function sayWorld(){\n// B your code goes here\n};",
+            startCodeA: "function sayHello(){\n\t// A your code goes here\n}",
+            startCodeB: "function sayWorld(){\n\t// B your code goes here\n}",
             testA: "Hello",
             testB: "world!",
     });
@@ -20,8 +20,8 @@ module.exports = {
             instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello world!'",
             instructionsA: "Create a function that returns the string 'Hello'",
             instructionsB: "Create a function that returns the string 'world!'",
-            startCodeA: "function sayHello(){\n// A your code goes here\n};",
-            startCodeB: "function sayWorld(){\n// B your code goes here\n};",
+            startCodeA: "function sayHello(){\n\t// A your code goes here\n}",
+            startCodeB: "function sayWorld(){\n\t// B your code goes here\n}",
             testA: "Hello",
             testB: "world!",
     });
