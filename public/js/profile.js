@@ -19,7 +19,6 @@ $(document).ready(function(){
             type: "PUT",
             data: reportData,
             success: function(report) {
-                console.log("report submitted ", report);
                 $("#reportingForm").html("<h3>Thank you</h3>Your report was submitted and will be reviewed.");
             }
         });

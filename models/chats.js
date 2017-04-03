@@ -1,12 +1,9 @@
 //model for the challenges table 
 module.exports = function(sequelize, DataTypes) {
     var Chat = sequelize.define("Chat", {
-        text: {
-            type: DataTypes.TEXT,
-        },
-        userName: {
-            type: DataTypes.TEXT,
-        }
+        text: DataTypes.TEXT,
+        userName: DataTypes.TEXT,
+        chatRoom: DataTypes.TEXT
     });
     return Chat;
 };
