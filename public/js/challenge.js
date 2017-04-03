@@ -44,7 +44,8 @@ $(document).ready(function() {
 
     function addBRTags(input){
         if (input && typeof input === "string" && input.length > 1){
-            return input.split("\n").join("<br />");
+            return input.split("\n").join("\n");
+            return input.split("&#10;").join("\n");
         }
     }
 
