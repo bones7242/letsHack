@@ -172,7 +172,6 @@ module.exports = function(app) {
       limit: 15
     }).then(function(data){
       data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
-      console.log(data);
       res.json(data);
     }).catch(function (err) {
        console.error("** error occured on route /recentchats", err);

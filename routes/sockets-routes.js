@@ -27,19 +27,18 @@ module.exports = function(app) {
     var io = require("socket.io")(http);
 
     io.on("connection", function(socket){
-        var connectedUsername;
         
+        // manage presence
         socket.on("userconnected", function(username){
-            connectedUsername = username;
             // mark logged in user as present, get list of all users present
-            markAsPresent(connectedUsername, true, io);
-        });
+            markAsPresent(username, true, io);
 
-        socket.on("disconnect", function(){
-            // mark logged in user as no longer present, and no longer in queue
-            placeInQueue(connectedUsername, false, io);
-            markAsPresent(connectedUsername, false, io);
-            io.emit("leftChallenge", connectedUsername);
+            socket.on("disconnect", function(){
+                // mark logged in user as no longer present, and no longer in queue
+                placeInQueue(username, false, io);
+                markAsPresent(username, false, io);
+                io.emit("leftChallenge", username);
+            });
         });
 
         socket.on("chatmessage", function(msg){
@@ -126,6 +125,7 @@ module.exports = function(app) {
             if (result[0] === 1){
                 // user updated
                 db.User.findAll({
+                    attributes: ["displayName"],
                     where: {
                         present: true
                     }
