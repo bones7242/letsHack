@@ -1,6 +1,21 @@
 function createChatRoom(chatRoomName, maxUsers, myUserName){
     var socket = io();
+    
+    // display old chats for this chatroom that happened in the last 12 hours
+    // limit 15 chats pulled from db
+    $.get("/recentchats/", function(recentChats){
+        for (var i = 0; i < recentChats.length; i++){
+            var thisChat = {
+                chatter: recentChats[i].userName,
+                text: recentChats[i].text,
+                time: recentChats[i].createdAt,
+            };
+            displayChat(thisChat, myUserName);
+        }
+    });
+
     socket.emit('userconnected', myUserName);
+
     socket.on("allpresent", function(presentUsers){
         $(".chatStats span.number").text(presentUsers.length);
     });
@@ -15,12 +30,11 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
         if (screenname){
             chatter = screenname;
         }
-        var timeStamp = new Date();
         var thisChat = {
             text: msg,
             chatter: chatter,
-            time: timeStamp,
-            chatRoom: chatRoomName
+            chatRoom: chatRoomName,
+            time: new Date()
         };
         socket.emit("chatmessage", thisChat);
     };

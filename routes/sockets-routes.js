@@ -21,7 +21,6 @@ function removeElements(startArray, removeArray){
   return startArray;
 }
 
-
 // routes to export
 module.exports = function(app) {
     var http = require("http").Server(app);
@@ -44,6 +43,7 @@ module.exports = function(app) {
         });
 
         socket.on("chatmessage", function(msg){
+            //console.log("received a chat from ", msg);
             // replace shrug with shrug emoji
             // cause why the hell not
             var filteredText = msg.text;
@@ -59,6 +59,14 @@ module.exports = function(app) {
             msg.text = filteredText;
             // send user's chat out to all connected users
             io.emit("chatmessage", msg);
+            // add chat to the database for preserving chat history
+            db.Chat.create({
+                text: msg.text,
+                userName: msg.chatter,
+                chatRoom: msg.chatRoom
+            }).catch(function(err){
+                console.error("** there was an error adding a chat to the database: ", err);
+            });
         });
 
         socket.on("joinqueue", function(userInfo){
