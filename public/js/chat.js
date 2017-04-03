@@ -28,7 +28,6 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
             userList += "</a>";
         }
         $(".chatStats .user-list").html(userList);
-        console.log(presentUsers);
     });
 
     socket.on("chatmessage", function(message){

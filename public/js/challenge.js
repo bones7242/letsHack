@@ -4,6 +4,14 @@ $(document).ready(function() {
     var iPassedTest = false;
     var partnerPassedTest = false;
     var myCodeSoFar = "";
+
+    // create a CodeMirror editor window:
+    var cmcontainer = document.getElementById("code-mirror-container");
+    var myCodeMirror = CodeMirror(cmcontainer, {
+        value: "function myScript(){\n\treturn 100;\n}",
+        mode:  "javascript"
+    });
+
     // start up chat
     createChatRoom(matchId, 2, user.displayName);
     //put my starter code into the textarea
@@ -13,6 +21,13 @@ $(document).ready(function() {
 
     // *** EVENT LISTENERS ***
 
+    // send my code to the back end as I type it
+    myCodeMirror.on("change", function(){
+        myCodeSoFar = myCodeMirror.getValue();
+        // emit socket event
+        socket.emit("codeTyping", {sessionId: matchId, userName: user.displayName, code: myCodeSoFar});
+    });
+
     // notify if your teammate disconnects
     socket.on("leftChallenge", function(leaverName){
         if (leaverName === partnerName){
@@ -20,17 +35,6 @@ $(document).ready(function() {
             openModal(leaverName + " Disconnected", "Oops, it looks like your partner was disconnected. Get matched up with someone else to try another challenge.", "Go Back to Lobby", function(){window.location = "/lobby"});
         }
     });
-
-    // send my code typing to back end
-    $("#your-code .code-input").on("focus", function(){
-        $("body").on("keyup", function(event){
-            myCodeSoFar = $("#your-code .code-input").val().trim();
-            // emit socket event
-            socket.emit("codeTyping", {sessionId: matchId, userName: user.displayName, code: myCodeSoFar});
-		});
-    }).on("focusout", function(){
-		$("body").off("keyup");
-	});
 
     // listen for my partner's typing
     socket.on("codeSharing", function(someonesCode){
@@ -44,7 +48,6 @@ $(document).ready(function() {
 
     function addBRTags(input){
         if (input && typeof input === "string" && input.length > 1){
-            return input.split("\n").join("\n");
             return input.split("&#10;").join("\n");
         }
     }
