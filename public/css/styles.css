@@ -166,6 +166,22 @@ input.hiddenSubmit {
     color: #999;
     font-size: .8em;
 }
+.chatStats .user-list {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: -20px;
+    background-color: #eee;
+    padding: 10px;
+    text-align: right;
+}
+.chatStats .user-list a.online-user {
+    display: block;
+}
+.chatStats .trigger-user-list {
+    cursor: pointer;
+    text-decoration: underline;
+}
 .chat-message {
     color: #555;
 }

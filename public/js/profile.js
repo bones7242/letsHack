@@ -1,11 +1,14 @@
 $(document).ready(function(){
     showChallengeHistory();
 
+    // show the form field and submit button when someone says edit an item
     $(".profileSection button").click(function(){
         $(this).parent(".profileSection").find("input.profileEdit").show();
         $(".hiddenSubmit").show();
         return false;
     });
+
+    // if someone is viewing someone else's profile, they can submit a report
     $(".reportSubmit").click(function(e){
         e.preventDefault();
         var reportData = {

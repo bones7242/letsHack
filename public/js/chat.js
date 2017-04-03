@@ -1,8 +1,10 @@
 function createChatRoom(chatRoomName, maxUsers, myUserName){
     var socket = io();
+    socket.emit('userconnected', myUserName);
     
     // display old chats for this chatroom that happened in the last 12 hours
     // limit 15 chats pulled from db
+    // this fires immediately on doc ready
     $.get("/recentchats/", function(recentChats){
         for (var i = 0; i < recentChats.length; i++){
             var thisChat = {
@@ -14,10 +16,17 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
         }
     });
 
-    socket.emit('userconnected', myUserName);
-
+    // get number and list of present users
     socket.on("allpresent", function(presentUsers){
         $(".chatStats span.number").text(presentUsers.length);
+        var userList = "";
+        for (var i = 0; i < presentUsers.length; i++){
+            userList += "<a class='online-user' href='/user/" + presentUsers[i].displayName + "'>";
+            userList += presentUsers[i].displayName;
+            userList += "</a>";
+        }
+        $(".chatStats .user-list").html(userList);
+        console.log(presentUsers);
     });
 
     socket.on("chatmessage", function(message){
@@ -74,6 +83,14 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
         });
     }).on("focusout", function(){
         $("body").off("keyup");
+    });
+
+    $(".chatStats .trigger-user-list").on("mouseenter", function(){
+        $(".chatStats .user-list").show();
+    });
+    
+    $(".chatStats .user-list").on("mouseleave", function(){
+        $(".chatStats .user-list").hide();
     });
 }
 
