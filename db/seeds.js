@@ -6,22 +6,22 @@ module.exports = {
     db.Challenge.create({
         difficulty: 1,
             name: "Hello World",
-            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello World!'",
+            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello world!'",
             instructionsA: "Create a function that returns the string 'Hello'",
             instructionsB: "Create a function that returns the string 'world!'",
-            startCodeA: "function sayHello(){ // A your code goes here };",
-            startCodeB: "function sayWorld(){ // B your code goes here };",
+            startCodeA: "function sayHello(){\n// A your code goes here\n};",
+            startCodeB: "function sayWorld(){\n// B your code goes here\n};",
             testA: "Hello",
             testB: "world!",
     });
     db.Challenge.create({
         difficulty: 1,
             name: "Hello World",
-            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello World!'",
+            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello world!'",
             instructionsA: "Create a function that returns the string 'Hello'",
             instructionsB: "Create a function that returns the string 'world!'",
-            startCodeA: "function sayHello(){ // A your code goes here };",
-            startCodeB: "function sayWorld(){ // B your code goes here };",
+            startCodeA: "function sayHello(){\n// A your code goes here\n};",
+            startCodeB: "function sayWorld(){\n// B your code goes here\n};",
             testA: "Hello",
             testB: "world!",
     });
@@ -50,26 +50,26 @@ module.exports = {
     //create sessions
         // db.Session.create({
         //   success: true,
-        //   UserId: 1,
-        //   TeammateId: 2,
+        //   playerA: 1,
+        //   playerB: 2,
         //   ChallengeId: 1
         // });
         // db.Session.create({
         //   success: true,
-        //   UserId: 2,
-        //   TeammateId: 1,
+        //   playerA: 2,
+        //   playerB: 1,
         //   ChallengeId: 1
         // });
         // db.Session.create({
         //   success: false,
-        //   UserId: 1,
-        //   TeammateId: 2,
+        //   playerA: 1,
+        //   playerB: 2,
         //   ChallengeId: 2
         // });
         // db.Session.create({
         //   success: false,
-        //   UserId: 2,
-        //   TeammateId: 1,
+        //   playerA: 2,
+        //   playerB: 1,
         //   ChallengeId: 2
         // });
   }

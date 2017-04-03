@@ -32,8 +32,12 @@ function showChallengeHistory(){
                 listItem += ", attempted on "
             }
             listItem += history[i].updatedAt;
-            listItem += " with " + history[i].TeammateDisplayName;
+            listItem += " with " + history[i].playerA;
+            listItem += " and " + history[i].playerB;
             listItem += "</li>";
+        }
+        if (history.length === 0){
+            listItem = "<li>You have not done any challenges yet.</li>"
         }
         list.append(listItem);
     });
@@ -45,7 +49,6 @@ $(document).ready(function() {
       displayName: $(".dataHolder").data().displayname,
       id: $(".dataHolder").data().userid
   };
-  //console.log(user);
   if (user.displayName){
       $("nav .nav-right")
         .show()
