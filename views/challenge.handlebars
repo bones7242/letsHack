@@ -6,14 +6,20 @@
     <div class="container columns" id="your-code">
         <h2>Your Task</h2>
         <p>{{challenge.instructions}}</p>
+    </div>
+    <div class="container columns" id="partner-code">
+        <h2>{{challenge.partnerDisplayName}}'s Task</h2>
+        <p>{{challenge.partnerInstructions}}</p>
+    </div>
+  </div>
+  <div class="container bump-up">
+    <div class="container columns" id="your-code">
         <textarea cols="50" class="code-input"  wrap="soft" id="userCode"></textarea>
         <input type="hidden" id="myTest" value="{{challenge.test}}">
         <br clear="all">
         <button class="testMyCode">Test My Code</button>
     </div>
     <div class="container columns" id="partner-code">
-        <h2>{{challenge.partnerDisplayName}}'s Task</h2>
-        <p>{{challenge.partnerInstructions}}</p>
         <div class="code-input">
           <!-- partner's code will come from sockets -->
         </div>

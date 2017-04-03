@@ -123,6 +123,10 @@ p.small {
     margin: 20px 5px -5px 5px;
     color: #666;
 }
+.container.bump-up {
+    padding: 0 0 20px 0;
+    margin-top: -20px;
+}
 .profileSection .smallButton {
     background-color: #4484ec;
     font-size: .8em;
@@ -174,6 +178,7 @@ input.hiddenSubmit {
     background-color: #eee;
     padding: 10px;
     text-align: right;
+    border-radius: 10px 0 0 10px;
 }
 .chatStats .user-list a.online-user {
     display: block;
@@ -228,7 +233,7 @@ nav .nav-item {
 nav #logo {
     float: left;
     width: 20%;
-    min-width: 120px;
+    min-width: 145px;
     font-size: 1.5em;
     cursor: pointer;
 }

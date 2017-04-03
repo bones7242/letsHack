@@ -6,13 +6,15 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
     // limit 15 chats pulled from db
     // this fires immediately on doc ready
     $.get("/recentchats/", function(recentChats){
-        for (var i = 0; i < recentChats.length; i++){
-            var thisChat = {
-                chatter: recentChats[i].userName,
-                text: recentChats[i].text,
-                time: recentChats[i].createdAt,
-            };
-            displayChat(thisChat, myUserName);
+        if(chatRoomName === "lobby"){
+            for (var i = 0; i < recentChats.length; i++){
+                var thisChat = {
+                    chatter: recentChats[i].userName,
+                    text: recentChats[i].text,
+                    time: recentChats[i].createdAt,
+                };
+                displayChat(thisChat, myUserName);
+            }
         }
     });
 
