@@ -118,6 +118,11 @@ p.small {
     padding: 4px;
     margin: 10px 4px;
 }
+.smallInfo {
+    font-size: small;
+    margin: 20px 5px -5px 5px;
+    color: #666;
+}
 .profileSection .smallButton {
     background-color: #4484ec;
     font-size: .8em;

@@ -67,7 +67,7 @@ module.exports = function(app) {
       console.error("** error occured.  Sent to client as JSON")
       res.json(err);
     })
-  })
+  });
 
   // route to update a session (based on session Id)
   app.put("/session/update", function(req, res){
@@ -140,6 +140,22 @@ module.exports = function(app) {
       console.log("** error occured.  Sent to client as JSON.")
       res.json(err);
     });
+  });
+
+  // route for creating a report
+  app.put("/report/", function(req, res){
+    //route to update a user
+    db.Report.create({
+      reportedBy: req.body.reportedby || req.user.displayName,
+      userName: req.body.username || "unknown user",
+      reason: req.body.reason || "no reason specified"
+    }).then(function(result){
+        console.log("user successfully updated: ", result);
+        res.send(result);
+    }).catch(function (err) {
+      console.error("** error occured.  Sent to client as JSON")
+      res.json(err);
+    })
   });
 
 }
