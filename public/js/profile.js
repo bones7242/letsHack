@@ -1,4 +1,8 @@
 $(document).ready(function(){
+
+  
+
+
     showChallengeHistory();
 
     $(".profileSection button").click(function(){
@@ -6,4 +10,6 @@ $(document).ready(function(){
         $(".hiddenSubmit").show();
         return false;
     });
+
+
 });

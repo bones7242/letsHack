@@ -1,4 +1,14 @@
 var db = require("../models");
+var cloudinaryConfig = require("../config/cloudinary.json");
+var cloudinary = require("cloudinary");
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
+
+cloudinary.config({
+  cloud_name: cloudinaryConfig.cloud_name,
+  api_key: cloudinaryConfig.api_key,
+  api_secret: cloudinaryConfig.api_secret
+});
 
 // helper function to remove duplicates
 function removeDuplicates(array){
@@ -142,6 +152,7 @@ module.exports = function(app) {
   // route for updating a user
   app.put("/user/update", function(req, res){
     //route to update a user
+    console.log(req.user);
     db.User.update({
       email: req.body.email || req.user.email,
       firstName: req.body.firstName || req.user.firstName,
@@ -238,4 +249,14 @@ module.exports = function(app) {
     });
   });
 
+  app.post("/profile/upload", upload.single('avatar'), function(req, res, next){
+    console.log(req.user);
+    var profPicSrc = req.file.path;
+
+    cloudinary.uploader.upload(profPicSrc,
+        function(result) {
+          console.log(result);
+          res.render("profile", {profPic: result, user: req.user});
+        });
+  })
 }
