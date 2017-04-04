@@ -12,10 +12,13 @@
                 <img src="/img/ninja.png" height="100px" width="100px">
               {{/if}}
             </div>
+            {{#unless showUser.public}}
             <form method="POST" action="/profile/upload" enctype="multipart/form-data">
               <input name="avatar" type="file" class="smallButton"/>
               <input class="smallButton" value="Upload" type="submit">
             </form>
+            {{/unless}}
+
             <form method="POST" action="/user/update?_method=PUT">
                 {{#unless showUser.public}}
                 <div class="profileSection" id="emailAddress">
