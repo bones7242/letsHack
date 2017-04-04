@@ -21,28 +21,28 @@ function removeElements(startArray, removeArray){
   return startArray;
 }
 
-
 // routes to export
 module.exports = function(app) {
     var http = require("http").Server(app);
     var io = require("socket.io")(http);
 
     io.on("connection", function(socket){
-        var connectedUsername;
         
+        // manage presence
         socket.on("userconnected", function(username){
-            connectedUsername = username;
             // mark logged in user as present, get list of all users present
-            markAsPresent(connectedUsername, true, io);
-        });
+            markAsPresent(username, true, io);
 
-        socket.on("disconnect", function(){
-            // mark logged in user as no longer present, and no longer in queue
-            placeInQueue(connectedUsername, false, io);
-            markAsPresent(connectedUsername, false, io);
+            socket.on("disconnect", function(){
+                // mark logged in user as no longer present, and no longer in queue
+                placeInQueue(username, false, io);
+                markAsPresent(username, false, io);
+                io.emit("leftChallenge", username);
+            });
         });
 
         socket.on("chatmessage", function(msg){
+            //console.log("received a chat from ", msg);
             // replace shrug with shrug emoji
             // cause why the hell not
             var filteredText = msg.text;
@@ -58,10 +58,26 @@ module.exports = function(app) {
             msg.text = filteredText;
             // send user's chat out to all connected users
             io.emit("chatmessage", msg);
+            // add chat to the database for preserving chat history
+            db.Chat.create({
+                text: msg.text,
+                userName: msg.chatter,
+                chatRoom: msg.chatRoom
+            }).catch(function(err){
+                console.error("** there was an error adding a chat to the database: ", err);
+            });
         });
 
         socket.on("joinqueue", function(userInfo){
             placeInQueue(userInfo.displayName, true, io);
+        });
+
+        socket.on("codeTyping", function(codeData){
+            io.emit("codeSharing", codeData);
+        });
+
+        socket.on("oneChallengePassed", function(partialSuccess){
+            io.emit("challengeHalfDone", {session: partialSuccess.session, userName: partialSuccess.userName});
         });
     });
 
@@ -113,6 +129,7 @@ module.exports = function(app) {
             if (result[0] === 1){
                 // user updated
                 db.User.findAll({
+                    attributes: ["displayName"],
                     where: {
                         present: true
                     }

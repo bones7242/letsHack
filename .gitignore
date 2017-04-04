@@ -1,4 +1,5 @@
 *.DS_Store
+.vscode
 
 # private credentials
 public/js/firebase-config.js

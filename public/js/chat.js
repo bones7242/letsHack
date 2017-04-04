@@ -1,8 +1,33 @@
 function createChatRoom(chatRoomName, maxUsers, myUserName){
     var socket = io();
     socket.emit('userconnected', myUserName);
+    
+    // display old chats for this chatroom that happened in the last 12 hours
+    // limit 15 chats pulled from db
+    // this fires immediately on doc ready
+    $.get("/recentchats/", function(recentChats){
+        if(chatRoomName === "lobby"){
+            for (var i = 0; i < recentChats.length; i++){
+                var thisChat = {
+                    chatter: recentChats[i].userName,
+                    text: recentChats[i].text,
+                    time: recentChats[i].createdAt,
+                };
+                displayChat(thisChat, myUserName);
+            }
+        }
+    });
+
+    // get number and list of present users
     socket.on("allpresent", function(presentUsers){
         $(".chatStats span.number").text(presentUsers.length);
+        var userList = "";
+        for (var i = 0; i < presentUsers.length; i++){
+            userList += "<a class='online-user' href='/user/" + presentUsers[i].displayName + "'>";
+            userList += presentUsers[i].displayName;
+            userList += "</a>";
+        }
+        $(".chatStats .user-list").html(userList);
     });
 
     socket.on("chatmessage", function(message){
@@ -15,12 +40,11 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
         if (screenname){
             chatter = screenname;
         }
-        var timeStamp = new Date();
         var thisChat = {
             text: msg,
             chatter: chatter,
-            time: timeStamp,
-            chatRoom: chatRoomName
+            chatRoom: chatRoomName,
+            time: new Date()
         };
         socket.emit("chatmessage", thisChat);
     };
@@ -60,6 +84,14 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
         });
     }).on("focusout", function(){
         $("body").off("keyup");
+    });
+
+    $(".chatStats .trigger-user-list").on("mouseenter", function(){
+        $(".chatStats .user-list").show();
+    });
+    
+    $(".chatStats .user-list").on("mouseleave", function(){
+        $(".chatStats .user-list").hide();
     });
 }
 

@@ -3,29 +3,56 @@
   </div>
   <div class="container" id="main-box">
     <div class="container columns main-column">
-        {{#if user}}
-            <h2>{{user.displayName}}</h2>
+        {{#if showUser}}
+            <h2>{{showUser.displayName}}</h2>
             <form method="POST" action="/user/update?_method=PUT">
+                {{#unless showUser.public}}
                 <div class="profileSection" id="emailAddress">
                      <button class="smallButton">Edit</button>
                      Email Address:
-                    {{user.email}}
+                    {{showUser.email}}
                     <input class="profileEdit" name="email" type="text" size="20" placeholder="Email Address" />
-                    <input type="hidden" name="displayName" value={{{user.displayName}}}>
+                    <input type="hidden" name="displayName" value={{{showUser.displayName}}}>
                 </div>
+                {{/unless}}
                 <div class="profileSection" id="firstName">
+                {{#unless showUser.public}}
                      <button class="smallButton">Edit</button>
+                {{/unless}}
                      First Name:
-                    {{user.firstName}}
+                    {{showUser.firstName}}
                     <input class="profileEdit" name="firstName" type="text" size="20" placeholder="First Name" />
                 </div>
                 <div class="profileSection" id="lastName">
+                {{#unless showUser.public}}
                     <button class="smallButton">Edit</button>
+                {{/unless}}
                     Last Name:
-                    {{user.lastName}}
+                    {{showUser.lastName}}
                     <input class="profileEdit" name="lastName" type="text" size="20" placeholder="Last Name" />
                 </div>
-                <input class="smallButton hiddenSubmit" value="Save Changes" type="submit">
+                {{#if showUser.public}}
+                <div class="profileSection" id="present">
+                    Currently online:
+                    {{showUser.present}}
+                </div>
+                <div class="profileSection" id="present">
+                    Currently in the queue:
+                    {{showUser.inQueue}}
+                </div>
+                <hr>
+                <div id="reportingForm">
+                    <h3>Report This User</h3>
+                    <div class="smallInfo">
+                        Has this user been engaged in abusive or prohibited behavior while using Let's Hack? Please send us a brief description of why you're reporting this user.
+                    </div>
+                    <input type="text" id="reportReason"/>
+                    <input class="smallButton reportSubmit" value="Send Report" type="submit" />
+                </div>
+                {{/if}}
+                {{#unless showUser.public}}
+                <input class="smallButton hiddenSubmit" value="Save Changes" type="submit" />
+                {{/unless}}
             </form>
         {{else}}
             <h2>Please Login</h2>
@@ -37,8 +64,8 @@
     </div>
 
     <div class="container columns side-column">
-        <h3>Your Challenge History</h3>
-        {{#if user}}
+        <h3>{{showUser.displayName}}'s Challenge History</h3>
+        {{#if showUser}}
             <ul class="challenge-history">
             <!-- this gets populated by the frontend function showChallengeHistory -->
             </ul>
@@ -47,5 +74,5 @@
         {{/if}}
     </div>
   </div>
-  <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}"></div>
+  <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}" data-showingUser="{{showUser.displayName}}"></div>
   <script src="/js/profile.js" type="text/javascript"></script>
