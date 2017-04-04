@@ -1,50 +1,45 @@
-function createChatRoom(chatRoomName, maxUsers, myUserName, database){
-    var pageLoadTimestamp = Math.round((new Date()).getTime() / 1000);
-    var chatRoom = chatRoomName;
+function createChatRoom(chatRoomName, maxUsers, myUserName){
+    var socket = io();
+    socket.emit('userconnected', myUserName);
+    socket.on("allpresent", function(presentUsers){
+        $(".chatStats span.number").text(presentUsers.length);
+    });
+
+    socket.on("chatmessage", function(message){
+        displayChat(message, myUserName);
+    });
+
     var sendChat = function (msg, screenname){
         // default values
         var chatter = "anon";
-        var chatOwner = false;
         if (screenname){
             chatter = screenname;
-            chatOwner = "user-" + screenname;
         }
         var timeStamp = new Date();
-        database.ref("chatLog/" + chatRoom).push({
-            screenname:chatter, 
-            message:msg, 
-            owner:chatOwner,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
-    };
-    var displayChats = function (snapshot){
-        $("#chat-history").empty();
-        for (var key in snapshot) {
-            var chat = snapshot[key];
-            if (chat.timestamp > pageLoadTimestamp) {
-                // only get chats that are new since the page loaded
-                var div = $("<div>").addClass("chat-message");
-                if (chat.owner){
-                    div.addClass("chat-message-" + chat.owner)
-                }
-                var txt = '<span class="chatter">' + chat.screenname + ": </span>";
-                txt += chat.message;
-                var chatTime = "<span class='chatTime'>(" + convertTime(chat.timestamp) + ")</span>";
-                div.html(chatTime + txt);
-                $("#chat-history").prepend(div);	
-            }
-        }
-    };
-    var clearChat = function (){
-        database.ref("chatLog/"+chatRoom).remove();
+        var thisChat = {
+            text: msg,
+            chatter: chatter,
+            time: timeStamp,
+            chatRoom: chatRoomName
+        };
+        socket.emit("chatmessage", thisChat);
     };
 
-    // watch for new chats
-    database.ref("chatLog/" + chatRoom).orderByChild("timestamp").on("value", function(snapshot){
-        displayChats(snapshot.val());
-    }, function(error){
-        console.error("Can't get chatLog data: " + error);
-    });
+    var displayChat = function (chat, myUserName){
+        var div = $("<div>").addClass("chat-message");
+        if (chat.chatter === myUserName){
+            div.addClass("chat-message-mine");
+        }
+        var txt = '<span class="chatter">' + chat.chatter + ": </span>";
+        txt += chat.text;
+        var chatTime = "<span class='chatTime'>(" + convertTime(chat.time) + ")</span>";
+        div.html(chatTime + txt);
+        $("#chat-history").prepend(div);	
+    };
+
+    var clearChat = function (){
+        $("#chat-history").empty();
+    };
 
     // send new chats to db
     $("button#submit-chat").click(function(){
@@ -55,7 +50,7 @@ function createChatRoom(chatRoomName, maxUsers, myUserName, database){
 
     // make chat send on enter keypress
     $("input#chatbox").on("focus", function(){
-        $("body").on("keypress", function(event){
+        $("body").on("keyup", function(event){
             // firefox doesn't recognize event.keyCode
             var keyPressed = event.which || event.keyCode;
             if (keyPressed === 13) {
@@ -64,7 +59,7 @@ function createChatRoom(chatRoomName, maxUsers, myUserName, database){
             }
         });
     }).on("focusout", function(){
-        $("body").off("keypress");
+        $("body").off("keyup");
     });
 }
 
@@ -72,12 +67,16 @@ function convertTime(unix_timestamp){
     // Create a new JavaScript Date object based on the timestamp
     // multiplied by 1000 so that the argument is in milliseconds, not seconds.
     var date = new Date(unix_timestamp);
+    var ampm = "pm";
+    if (hours < 12 || hours === 0){
+        ampm = "am";
+    }
     // Hours part from the timestamp
-    var hours = date.getHours();
+    var hours = (date.getHours() % 12);
     // Minutes part from the timestamp
     var minutes = "0" + date.getMinutes();
 
-    // Will display time in 10:30:23 format
-    var formattedTime = hours + ':' + minutes.substr(-2);
+    // Will display time in 10:30:23 pm format
+    var formattedTime = hours + ':' + minutes.substr(-2) + ":" + date.getSeconds() + " " + ampm;
     return formattedTime;
 }

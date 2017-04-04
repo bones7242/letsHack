@@ -1,24 +1,14 @@
 var db = require("../models");
+var cloudinaryConfig = require("../config/cloudinary.json");
+var cloudinary = require("cloudinary");
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
 
-// helper function to remove duplicates
-function removeDuplicates(array){
-  for (var i = array.length; i > 0; i--){
-    if ((array.indexOf(array[i]) >= 0) && (array.indexOf(array[i]) < i)) {
-      array.splice(i,1);
-    };
-  };
-  return array;
-}
-
-// helper function to compare two arrays and return
-function removeElements(startArray, removeArray){
-  for (var i = 0; i < startArray.length; i++){
-    if (removeArray.indexOf(startArray[i]) >= 0) {
-      startArray.splice(i, 1);
-    };
-  };
-  return startArray;
-}
+cloudinary.config({
+  cloud_name: cloudinaryConfig.cloud_name,
+  api_key: cloudinaryConfig.api_key,
+  api_secret: cloudinaryConfig.api_secret
+});
 
 // routes to export
 module.exports = function(app) {
@@ -36,7 +26,10 @@ module.exports = function(app) {
         as: "Challenge"
       }, {
         model: db.User,
-        as: "Teammate"
+        as: "playerA"
+      }, {
+        model: db.User,
+        as: "playerB"
       }]
       // to do: order the results by challengeId and then by date updated
     }).then(function(data){
@@ -47,115 +40,30 @@ module.exports = function(app) {
         newObject.ChallengeName = session.Challenge.name;
         newObject.success = session.success;
         newObject.updatedAt = session.updatedAt;
-        newObject.TeammateId = session.Teammate.id;
-        newObject.TeammateDisplayName = session.Teammate.displayName;
+        newObject.playerA = session.playerA.displayName;
+        newObject.playerB = session.playerB.displayName;
         return newObject;
       })
-      console.log("mapped Data:", mappedData);
-      res.json(mappedData);
+       res.json(mappedData);
     }).catch(function (err) {
-      console.log("** error occured on route /user/:userId/challengeHistory:", err);
-      res.json(err);
+       console.error("** error occured on route /user/:userId/challengeHistory:", err);
+       res.json(err);
     });
   });
 
-  // route for creating a session
-  app.get("/session/create", function(req, res){
-    //console.log("** post request received on /session/create.");
-    //console.log("url", req.url);
-    var userId = req.query.userId;
-    var teammateId = req.query.teammateId;
-    var matchId = req.query.matchId;
-
-    if (req.query.isPlayerA == "true") {
-      var isPlayerA = true;
-      var isPlayerB = false;
-    } else {
-      var isPlayerA = false;
-      var isPlayerB = true;
-    };  // i need this from Harold
-    //console.log("userId:", userId);
-    //console.log("teammateId:", teammateId);
-    //console.log("matchId:", matchId);
-    console.log("isPlayerA:", isPlayerA);
-    //console.log(typeof(isPlayerA));
-
-    // 1. select a challenge id that isn't in either user's challenge history.
-    db.sequelize.Promise.all([
-      db.Session.findAll({
-          attributes: ["ChallengeId"],
-          where: {
-            $or: [{UserId: userId}, {UserId: teammateId}],  // selects if id is user's or teammate's
-            success: true // only selects records that have not been solved
-          }
-      }),
-      db.Challenge.findAll({
-          attributes: ["id"],
-      })
-    ])
-    .spread(function(sessions, challenges) {
-      // parse the results to get an array of the used challenge ids
-      var usedChallengeIds = [];
-      for (var i = 0; i < sessions.length; i++){
-        usedChallengeIds.push(sessions[i].ChallengeId);
-      }
-      usedChallengeIds = removeDuplicates(usedChallengeIds);
-      console.log("used:", usedChallengeIds);
-      // parse the array of all possible challenge id
-      var allChallengeIds = [];
-      for (var i = 0; i < challenges.length; i++){
-        allChallengeIds.push(challenges[i].id);
-      }
-      console.log("total:", allChallengeIds);
-      // compare the arrays and remove the used challenges from AllChallengeIds
-      var possibleChallengeIds = removeElements(allChallengeIds, usedChallengeIds)
-      // select a challenge
-      while (matchId < possibleChallengeIds.length){
-        matchId * 2;
-      };
-      var challengeIndex = matchId % possibleChallengeIds.length;
-      var challengeToUse = possibleChallengeIds[challengeIndex];
-      // 2. create the session and get the information
-      db.Session.create({
-        success: "false",  // will always be false when created
-        playerA: isPlayerA,
-        playerB: isPlayerB,
-        matchId: matchId,
-        ChallengeId: challengeToUse,  // note: must be an valid(existing) ChallengeId
-        UserId: userId,  // note: must be an valid(existing) UserId
-        TeammateId: teammateId,  // note: must be an valid(existing) UserId
-      }).then(function(sessionData) {
-        // 3. return the information
-        console.log("newSession:", JSON.parse(JSON.stringify(sessionData)));
-        res.json(sessionData);
-      }).catch(function (err) {
-        console.log("** error occured.  Sent to client as JSON")
-        res.json(err);
-      });
-    }).catch(function (err) {
-      console.log("** error occured.  Sent to client as JSON")
-      res.json(err);
-    });
-  });
-
-  // general API routes for future dev
   // route for updating a user
   app.put("/user/update", function(req, res){
-
     //route to update a user
+    console.log(req.user);
     db.User.update({
-      email: req.body.email || this.email,
-      firstName: req.body.firstName || this.firstName,
-      lastName: req.body.lastName || this.lastName
+      email: req.body.email || req.user.email,
+      firstName: req.body.firstName || req.user.firstName,
+      lastName: req.body.lastName || req.user.lastName
     }, {
       where: {
-
         displayName: req.body.displayName  // can change this to displayName or email if that is better
-
       }
     }).then(function(result){
-        // console.log("this is user: " + user);
-        // res.redirect("/profile");
       // returns "1" for success and "0" for failure
       if (result[0] === 1){
         console.log("user successfully updated");
@@ -167,7 +75,7 @@ module.exports = function(app) {
       };
 
     }).catch(function (err) {
-      console.log("** error occured.  Sent to client as JSON")
+      console.error("** error occured.  Sent to client as JSON")
       res.json(err);
     })
   })
@@ -182,19 +90,19 @@ module.exports = function(app) {
       }
     }).then(function(result) {
       if (result[0] === 1){
-        console.log("user successfully updated");
-        if (req.body.success){  //case for instance where users succeeded
+        console.log("session successfully updated");
+        if (req.body.success){  
           res.json(true);
-        } else {  // fase for instance where users failed
+        } else {
           res.json(false);
         };
       } else if (result[0] === 0) {
-        res.send("user was not successfully updated");
+        res.send("session was not successfully updated");
       } else {
         res.send("and unknown error occured");
       };
     }).catch(function (err) {
-      console.log("** error occured.  Sent to client as JSON")
+      console.error("** error occured.  Sent to client as JSON")
       res.json(err);
     });
   });
@@ -212,6 +120,7 @@ module.exports = function(app) {
       testA: req.body.testA,
       testB: req.body.testB
     }).then(function(newChallenge){
+      console.log("challenge successfully created");
       res.json(newChallenge);
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")
@@ -236,6 +145,7 @@ module.exports = function(app) {
         id: req.body.id
       }
     }).then(function(newChallenge){
+      console.log("challenge successfully updated");
       res.json(newChallenge);
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")
@@ -243,4 +153,14 @@ module.exports = function(app) {
     });
   });
 
+  app.post("/profile/upload", upload.single('avatar'), function(req, res, next){
+    console.log(req.user);
+    var profPicSrc = req.file.path;
+
+    cloudinary.uploader.upload(profPicSrc,
+        function(result) {
+          console.log(result);
+          res.render("profile", {profPic: result, user: req.user});
+        });
+  })
 }

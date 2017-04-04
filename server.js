@@ -2,16 +2,16 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 var path = require('path');
+
 var passport = require('passport');
 var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy;
 var passportRoutes = require('./routes/passport-routes.js');
 var methodOverride = require('method-override');
-var session = require('express-session');
+var passportConfig = require("./config/passport.json");
 
 
 var PORT = process.env.PORT || 3000;
-
 var db = require("./models");
 
 //Setting the local authetication strategy
@@ -39,7 +39,7 @@ passport.use('local', new LocalStrategy({
 
 
   passport.serializeUser(function(user, cb) {
-    console.log("serialized: " + user.id);
+    //console.log("serialized: " + user.id);
     cb(null, user.id);
   });
 
@@ -49,10 +49,10 @@ passport.use('local', new LocalStrategy({
         'id': id
       }
     }).then(function(user) {
-      console.log("deserialize: " + user);
+      //console.log("deserialize: " + user);
       cb(null, user);
     }).catch(function(error){
-      console.log(error);
+      console.error(error);
     });
   });
 
@@ -60,35 +60,40 @@ passport.use('local', new LocalStrategy({
 
 var app = express();
 
+// setup handelbars
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
+// set static directory
 app.use(express.static(path.join(__dirname, '/public')));
 
-app.use(methodOverride("_method"));
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
+app.use(methodOverride("_method"));
 
 app.use(bodyParser.json());
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(require('express-session')(passportConfig));
+
 app.use(flash());
-
-
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', passportRoutes(passport));
 require("./routes/api-routes.js")(app);
-require("./routes/html-routes.js")(app);
 
+// include socket.io functionality
+// this wraps the server in sockets, to intercept incoming sockets requests
+var http = require("./routes/sockets-routes.js")(app);
+
+// start sync db and app
 db.sequelize.sync(/*{force: true}*/).then(function(){
-  app.listen(PORT, function() {
+  http.listen(PORT, function() {
     //create seeds testing
-    //require("./db/seeds.js").createSeeds();
+    // require("./db/seeds.js").createSeeds();
     //log that you are on port
     console.log("Listening on PORT " + PORT);
   });
