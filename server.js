@@ -90,7 +90,7 @@ require("./routes/api-routes.js")(app);
 var http = require("./routes/sockets-routes.js")(app);
 
 // start sync db and app
-db.sequelize.sync(force: true).then(function(){
+db.sequelize.sync({force: true}).then(function(){
   http.listen(PORT, function() {
     //create seeds testing
     require("./db/seeds.js").createSeeds();
