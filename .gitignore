@@ -1,6 +1,9 @@
 *.DS_Store
 .vscode
 
+# images
+uploads
+
 # private credentials
 public/js/firebase-config.js
 config/config.json
