@@ -286,9 +286,17 @@ footer {
 ul.challenge-history li{
     margin: 10px 0;
 }
-div.scroller {    
+div.scroller {
     max-height: 280px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0 7px 0 0;
+}
+.prof-img-circle {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+		border-color: white;
+		border-style: solid;
+		border-width: 5px;
 }

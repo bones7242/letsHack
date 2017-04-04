@@ -10,6 +10,7 @@ var passportRoutes = require('./routes/passport-routes.js');
 var methodOverride = require('method-override');
 var passportConfig = require("./config/passport.json");
 
+
 var PORT = process.env.PORT || 3000;
 var db = require("./models");
 
@@ -92,7 +93,7 @@ var http = require("./routes/sockets-routes.js")(app);
 db.sequelize.sync(/*{force: true}*/).then(function(){
   http.listen(PORT, function() {
     //create seeds testing
-    //require("./db/seeds.js").createSeeds();
+    // require("./db/seeds.js").createSeeds();
     //log that you are on port
     console.log("Listening on PORT " + PORT);
   });
