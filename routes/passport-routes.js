@@ -30,12 +30,42 @@ function passportRoutes(passport){
 
   router.route('/profile')
     .get(isLoggedIn, function(req, res) {
-        res.render('profile', { user: req.user });
+        res.render('profile', { showUser: req.user, user: req.user });
   });
 
   router.route('/lobby')
     .get(isLoggedIn, function(req, res) {
       res.render("lobby", {user: req.user});
+  });
+
+  // route for showing info for another user (not own profile for logged in user)
+  router.route("/user/:userName")
+  .get(function(req, res){
+    var userName = req.params.userName;
+    db.User.find({
+      where: {
+        displayName: userName
+      }
+      // to do: order the results by challengeId and then by date updated
+    }).then(function(data){
+      data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
+      var publicUser = {
+        public: true,
+        id: data.id,
+        displayName: data.displayName,
+        present: data.present,
+        inQueue: data.inqueue,
+        firstName: data.firstName,
+        lastName: data.lastName
+      };
+      res.render('profile', { 
+        user: req.user,
+        showUser: publicUser 
+      });
+    }).catch(function (err) {
+       console.error("** error occured on route /user/:userName", err);
+       res.json(err);
+    });
   });
 
   router.route('/user/create')

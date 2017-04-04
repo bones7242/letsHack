@@ -118,6 +118,15 @@ p.small {
     padding: 4px;
     margin: 10px 4px;
 }
+.smallInfo {
+    font-size: small;
+    margin: 20px 5px -5px 5px;
+    color: #666;
+}
+.container.bump-up {
+    padding: 0 0 20px 0;
+    margin-top: -20px;
+}
 .profileSection .smallButton {
     background-color: #4484ec;
     font-size: .8em;
@@ -139,8 +148,8 @@ input.hiddenSubmit {
     border: 1px solid #8BC34A;
     min-height: 350px;
     padding: 5px 10px;
-    color: #F9CF00;
-    background-color: black;
+    color: #c7ac24;
+    background-color: #222;
     font-family: monospace;
     white-space: pre;
 }
@@ -160,6 +169,23 @@ input.hiddenSubmit {
     top: 5px;
     color: #999;
     font-size: .8em;
+}
+.chatStats .user-list {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: -20px;
+    background-color: #eee;
+    padding: 10px;
+    text-align: right;
+    border-radius: 10px 0 0 10px;
+}
+.chatStats .user-list a.online-user {
+    display: block;
+}
+.chatStats .trigger-user-list {
+    cursor: pointer;
+    text-decoration: underline;
 }
 .chat-message {
     color: #555;
@@ -207,7 +233,7 @@ nav .nav-item {
 nav #logo {
     float: left;
     width: 20%;
-    min-width: 120px;
+    min-width: 145px;
     font-size: 1.5em;
     cursor: pointer;
 }

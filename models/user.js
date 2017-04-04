@@ -43,7 +43,6 @@ module.exports = function(sequelize, DataTypes) {
                 return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
             },
             validatePassword: function(password, dbCheck) {
-
                 return bcrypt.compareSync(password, dbCheck);
             }
 

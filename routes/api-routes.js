@@ -43,7 +43,7 @@ module.exports = function(app) {
         newObject.playerA = session.playerA.displayName;
         newObject.playerB = session.playerB.displayName;
         return newObject;
-      })
+      });
        res.json(mappedData);
     }).catch(function (err) {
        console.error("** error occured on route /user/:userId/challengeHistory:", err);
@@ -78,7 +78,7 @@ module.exports = function(app) {
       console.error("** error occured.  Sent to client as JSON")
       res.json(err);
     })
-  })
+  });
 
   // route to update a session (based on session Id)
   app.put("/session/update", function(req, res){
@@ -150,6 +150,43 @@ module.exports = function(app) {
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")
       res.json(err);
+    });
+  });
+
+  // route for creating a report
+  app.put("/report/", function(req, res){
+    //route to update a user
+    db.Report.create({
+      reportedBy: req.body.reportedby || req.user.displayName,
+      userName: req.body.username || "unknown user",
+      reason: req.body.reason || "no reason specified"
+    }).then(function(result){
+        console.log("user successfully updated: ", result);
+        res.send(result);
+    }).catch(function (err) {
+      console.error("** error occured.  Sent to client as JSON")
+      res.json(err);
+    })
+  });
+
+  // route for sending the client chats that happened just before they entered the room
+  app.get("/recentchats/", function(req, res){
+    db.Chat.findAll({
+      where: { // created at is less than now, and greater than 12 hours ago
+        createdAt: {
+          $lt: new Date(),
+          $gt: new Date(new Date() - 12 * 60 * 60 * 1000)
+        },
+        // this route is only used by the lobby chat room. If this changes, can do some logic here
+        chatRoom: "lobby"
+      }, // don't get more than 15 chats at a time
+      limit: 15
+    }).then(function(data){
+      data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
+      res.json(data);
+    }).catch(function (err) {
+       console.error("** error occured on route /recentchats", err);
+       res.json(err);
     });
   });
 
