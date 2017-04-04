@@ -4,7 +4,7 @@
 public/js/firebase-config.js
 config/config.json
 config/passport.json
-
+config/cloudinary.json
 
 # Logs
 logs
