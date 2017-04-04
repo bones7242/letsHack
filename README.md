@@ -3,7 +3,7 @@
 
 letsHack is a collaborative coding web app that lets people get paired up randomly with other coders, and work together to solve a hacking challenge.
 
-letsHack is written in JavaScript using Node, Express, Sequelize, Handlebars, and Firebase.
+letsHack is written in JavaScript using Node, Express, Sequelize, Handlebars, and Socket.io.
 
 [Application overiew - powerpoint presentation](https://docs.google.com/presentation/d/1DJZedp5DKjjFjCM9r3zlsF3VLGBXBzzJzFoaZCIIs6s/edit?usp=sharing)
 
