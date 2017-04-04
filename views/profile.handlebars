@@ -5,6 +5,17 @@
     <div class="container columns main-column">
         {{#if user}}
             <h2>{{user.displayName}}</h2>
+            <div class="profImage">
+              {{#if profPic}}
+                <img src={{profPic.secure_url}} class="prof-img-circle" />
+              {{else}}
+                <img src="/img/ninja.png" height="100px" width="100px">
+              {{/if}}
+            </div>
+            <form method="POST" action="/profile/upload" enctype="multipart/form-data">
+              <input name="avatar" type="file" class="smallButton"/>
+              <input class="smallButton" value="Upload" type="submit">
+            </form>
             <form method="POST" action="/user/update?_method=PUT">
                 <div class="profileSection" id="emailAddress">
                      <button class="smallButton">Edit</button>
