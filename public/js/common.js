@@ -31,19 +31,19 @@ function showChallengeHistory(){
         var listItem = "";
         for (var i = 0; i < history.length; i++){
             listItem += "<li>";
-            listItem += history[i].ChallengeId + ": " + history[i].ChallengeName;
+            listItem += history[i].ChallengeName;
             if (history[i].success){
                 listItem += ", completed on "
             } else {
                 listItem += ", attempted on "
             }
             listItem += history[i].updatedAt;
-            listItem += " with " + history[i].playerA;
-            listItem += " and " + history[i].playerB;
-            listItem += "</li>";
+            listItem += " with <a href='/user/" + history[i].playerA + "'>" + history[i].playerA;
+            listItem += "</a> and <a href='/user/" + history[i].playerB + "'>" + history[i].playerB;
+            listItem += "</a></li>";
         }
         if (history.length === 0){
-            listItem = "<li>You have not done any challenges yet.</li>"
+            listItem = "<li>No challenges completed yet.</li>"
         }
         list.append(listItem);
     });
