@@ -1,15 +1,21 @@
 var user;
-function openModal(title, html, buttonText, buttonCallback){
-  $("#modal")
-  .show()
-  .find(".title")
-  .text(title)
-  .next("p.modal-text")
-  .html(html);
-  if (buttonText && buttonCallback){
-    $("#modal p.modal-text").append("<button class='largeButton'>" + buttonText + "</button>");
-    $("#modal p").click("button", buttonCallback);
-  }
+function openModal(title, html, buttonText, buttonCallback, closeCallback){
+    $("#modal")
+    .show()
+    .find(".title")
+    .text(title)
+    .next("p.modal-text")
+    .html(html);
+    if (buttonText && buttonCallback){
+        $("#modal p.modal-text").append("<button class='largeButton'>" + buttonText + "</button>");
+        $("#modal p").click("button", buttonCallback);
+    }
+    $("#modal .modal-close, #modal modal-background").click(function(){
+        if (closeCallback){
+            closeCallback();
+        }
+        closeModal();
+    });
 }
 function closeModal(){
   $("#modal").hide().find(".title").text("").next("p").html("");
@@ -60,8 +66,6 @@ $(document).ready(function() {
         .find(".nav-item.user-name")
         .text("");
   }
-
-  $("#modal .modal-close, #modal modal-background").click(closeModal);
 
   $("nav #icon, nav #logo").click(function(){
     window.location = "/";

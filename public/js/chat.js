@@ -7,7 +7,8 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
     // this fires immediately on doc ready
     $.get("/recentchats/", function(recentChats){
         if(chatRoomName === "lobby"){
-            for (var i = 0; i < recentChats.length; i++){
+            // go backwards through the results, since the newest ones are at the top
+            for (var i = recentChats.length-1; i >= 0; i--){
                 var thisChat = {
                     chatter: recentChats[i].userName,
                     text: recentChats[i].text,

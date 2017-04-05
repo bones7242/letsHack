@@ -10,9 +10,11 @@ $(document).ready(function(){
     showChallengeHistory();
     
     $("#joinQueue").click(function(){
-        $(this).hide().next("p").text("Please wait...pairing you with someone...");
-        openModal("Please wait...", "Pairing you with another hacker...");
-        
+        $(this).next("p").text("Please wait...pairing you with someone...");
+        openModal("Please wait...", "Pairing you with another hacker...", false, false, function(){
+            // remove me from the queue if I click the close modal button
+            socket.emit("leavequeue", user);
+        });
         socket.emit("joinqueue", user);
     });
     

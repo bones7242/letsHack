@@ -180,7 +180,8 @@ module.exports = function(app) {
         // this route is only used by the lobby chat room. If this changes, can do some logic here
         chatRoom: "lobby"
       }, // don't get more than 15 chats at a time
-      limit: 15
+      limit: 15,
+      order: 'createdAt DESC'
     }).then(function(data){
       data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
       res.json(data);
