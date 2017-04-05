@@ -1,4 +1,34 @@
 var user;
+
+function padDigits(num) { 
+    return (num < 10) ? "0" + num : num; 
+}
+
+function convertTime(unix_timestamp){
+    // Create a new JavaScript Date object based on the timestamp
+    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+    var date = new Date(unix_timestamp);
+    var ampm = "pm";
+    if (hours < 12 || hours === 0){
+        ampm = "am";
+    }
+    // Hours part from the timestamp
+    var hours = (date.getHours() % 12);
+    // Minutes part from the timestamp
+    var minutes = padDigits(date.getMinutes());
+
+    // Will display time in 10:30:23 pm format
+    var formattedTime = hours + ':' + minutes + ampm;
+    return formattedTime;
+}
+
+function convertDay(unix_timestamp){
+    // Create a new JavaScript Date object based on the timestamp
+    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+    var date = new Date(unix_timestamp);
+    return [padDigits(date.getDate()), padDigits(date.getMonth()+1), date.getFullYear()].join('/');
+}
+
 function openModal(title, html, buttonText, buttonCallback, closeCallback){
     $("#modal")
     .show()
@@ -17,9 +47,11 @@ function openModal(title, html, buttonText, buttonCallback, closeCallback){
         closeModal();
     });
 }
+
 function closeModal(){
   $("#modal").hide().find(".title").text("").next("p").html("");
 }
+
 function showChallengeHistory(){
     $.ajax("/user/" + user.id + "/challengeHistory", {
         data:{
@@ -40,8 +72,9 @@ function showChallengeHistory(){
             if (history[i].playerB == user.displayName){
                 userBcode = "you";
             } else {
-                userBcode = `<a href="/user/${history[i].playerB}">${history[i].playerB}</a>`
+                userBcode = `<a href="/user/${history[i].playerB}">${history[i].playerB}</a>`;
             }
+            var tidyDate = convertDay(history[i].updatedAt) + " at " + convertTime(history[i].updatedAt);
             listItem += "<li>";
             listItem += history[i].ChallengeName;
             if (history[i].success){
@@ -49,7 +82,7 @@ function showChallengeHistory(){
             } else {
                 listItem += ", attempted on "
             }
-            listItem += history[i].updatedAt;
+            listItem += tidyDate;
             listItem += " with " + userAcode;
             listItem += " and " + userBcode;
             listItem += "</li>";

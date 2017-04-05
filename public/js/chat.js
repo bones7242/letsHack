@@ -95,21 +95,3 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
         $(".chatStats .user-list").hide();
     });
 }
-
-function convertTime(unix_timestamp){
-    // Create a new JavaScript Date object based on the timestamp
-    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-    var date = new Date(unix_timestamp);
-    var ampm = "pm";
-    if (hours < 12 || hours === 0){
-        ampm = "am";
-    }
-    // Hours part from the timestamp
-    var hours = (date.getHours() % 12);
-    // Minutes part from the timestamp
-    var minutes = "0" + date.getMinutes();
-
-    // Will display time in 10:30:23 pm format
-    var formattedTime = hours + ':' + minutes.substr(-2) + ":" + date.getSeconds() + " " + ampm;
-    return formattedTime;
-}
