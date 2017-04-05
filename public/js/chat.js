@@ -7,7 +7,8 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
     // this fires immediately on doc ready
     $.get("/recentchats/", function(recentChats){
         if(chatRoomName === "lobby"){
-            for (var i = 0; i < recentChats.length; i++){
+            // go backwards through the results, since the newest ones are at the top
+            for (var i = recentChats.length-1; i >= 0; i--){
                 var thisChat = {
                     chatter: recentChats[i].userName,
                     text: recentChats[i].text,
@@ -93,22 +94,4 @@ function createChatRoom(chatRoomName, maxUsers, myUserName){
     $(".chatStats .user-list").on("mouseleave", function(){
         $(".chatStats .user-list").hide();
     });
-}
-
-function convertTime(unix_timestamp){
-    // Create a new JavaScript Date object based on the timestamp
-    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-    var date = new Date(unix_timestamp);
-    var ampm = "pm";
-    if (hours < 12 || hours === 0){
-        ampm = "am";
-    }
-    // Hours part from the timestamp
-    var hours = (date.getHours() % 12);
-    // Minutes part from the timestamp
-    var minutes = "0" + date.getMinutes();
-
-    // Will display time in 10:30:23 pm format
-    var formattedTime = hours + ':' + minutes.substr(-2) + ":" + date.getSeconds() + " " + ampm;
-    return formattedTime;
 }

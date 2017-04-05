@@ -71,6 +71,9 @@ module.exports = function(app) {
         socket.on("joinqueue", function(userInfo){
             placeInQueue(userInfo.displayName, true, io);
         });
+        socket.on("leavequeue", function(userInfo){
+            placeInQueue(userInfo.displayName, false, io);
+        });
 
         socket.on("codeTyping", function(codeData){
             io.emit("codeSharing", codeData);
