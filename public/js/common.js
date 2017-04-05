@@ -30,6 +30,18 @@ function showChallengeHistory(){
         var list = $("ul.challenge-history");
         var listItem = "";
         for (var i = 0; i < history.length; i++){
+            var userAcode = "";
+            if (history[i].playerA == user.displayName){
+                userAcode = "you";
+            } else {
+                userAcode = `<a href="/user/${history[i].playerA}">${history[i].playerA}</a>`;
+            }
+            var userBcode = "";
+            if (history[i].playerB == user.displayName){
+                userBcode = "you";
+            } else {
+                userBcode = `<a href="/user/${history[i].playerB}">${history[i].playerB}</a>`
+            }
             listItem += "<li>";
             listItem += history[i].ChallengeName;
             if (history[i].success){
@@ -38,9 +50,9 @@ function showChallengeHistory(){
                 listItem += ", attempted on "
             }
             listItem += history[i].updatedAt;
-            listItem += " with <a href='/user/" + history[i].playerA + "'>" + history[i].playerA;
-            listItem += "</a> and <a href='/user/" + history[i].playerB + "'>" + history[i].playerB;
-            listItem += "</a></li>";
+            listItem += " with " + userAcode;
+            listItem += " and " + userBcode;
+            listItem += "</li>";
         }
         if (history.length === 0){
             listItem = "<li>No challenges completed yet.</li>"
