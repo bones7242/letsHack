@@ -19,7 +19,21 @@ module.exports = function(app) {
     var userId = req.params.userId;
     db.Session.findAll({
       where: {
-        UserId: userId
+        $or: [
+            {
+              playerAId: 
+                {
+                  $eq: userId
+                }
+            }, 
+            {
+              playerBId: 
+                {
+                  $eq: userId
+                }
+            }
+        ],
+        success: true
       },
       include: [{
         model: db.Challenge,
@@ -30,13 +44,12 @@ module.exports = function(app) {
       }, {
         model: db.User,
         as: "playerB"
-      }]
-      // to do: order the results by challengeId and then by date updated
+      }],
+      order: 'createdAt DESC'
     }).then(function(data){
       data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
       var mappedData = data.map(function(session){
         var newObject = {};
-        newObject.ChallengeId = session.ChallengeId;
         newObject.ChallengeName = session.Challenge.name;
         newObject.success = session.success;
         newObject.updatedAt = session.updatedAt;
@@ -180,7 +193,8 @@ module.exports = function(app) {
         // this route is only used by the lobby chat room. If this changes, can do some logic here
         chatRoom: "lobby"
       }, // don't get more than 15 chats at a time
-      limit: 15
+      limit: 15,
+      order: 'createdAt DESC'
     }).then(function(data){
       data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
       res.json(data);
