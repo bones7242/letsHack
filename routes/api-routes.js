@@ -1,4 +1,14 @@
 var db = require("../models");
+var cloudinaryConfig = require("../config/cloudinary.json");
+var cloudinary = require("cloudinary");
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
+
+cloudinary.config({
+  cloud_name: cloudinaryConfig.cloud_name,
+  api_key: cloudinaryConfig.api_key,
+  api_secret: cloudinaryConfig.api_secret
+});
 
 // routes to export
 module.exports = function(app) {
@@ -9,7 +19,21 @@ module.exports = function(app) {
     var userId = req.params.userId;
     db.Session.findAll({
       where: {
-        UserId: userId
+        $or: [
+            {
+              playerAId: 
+                {
+                  $eq: userId
+                }
+            }, 
+            {
+              playerBId: 
+                {
+                  $eq: userId
+                }
+            }
+        ],
+        success: true
       },
       include: [{
         model: db.Challenge,
@@ -20,13 +44,12 @@ module.exports = function(app) {
       }, {
         model: db.User,
         as: "playerB"
-      }]
-      // to do: order the results by challengeId and then by date updated
+      }],
+      order: 'createdAt DESC'
     }).then(function(data){
       data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
       var mappedData = data.map(function(session){
         var newObject = {};
-        newObject.ChallengeId = session.ChallengeId;
         newObject.ChallengeName = session.Challenge.name;
         newObject.success = session.success;
         newObject.updatedAt = session.updatedAt;
@@ -44,6 +67,7 @@ module.exports = function(app) {
   // route for updating a user
   app.put("/user/update", function(req, res){
     //route to update a user
+    console.log(req.user);
     db.User.update({
       email: req.body.email || req.user.email,
       firstName: req.body.firstName || req.user.firstName,
@@ -169,7 +193,8 @@ module.exports = function(app) {
         // this route is only used by the lobby chat room. If this changes, can do some logic here
         chatRoom: "lobby"
       }, // don't get more than 15 chats at a time
-      limit: 15
+      limit: 15,
+      order: 'createdAt DESC'
     }).then(function(data){
       data = JSON.parse(JSON.stringify(data)); //cleans up the data for easy reading
       res.json(data);
@@ -179,4 +204,14 @@ module.exports = function(app) {
     });
   });
 
+  app.post("/profile/upload", upload.single('avatar'), function(req, res, next){
+    console.log(req.user);
+    var profPicSrc = req.file.path;
+
+    cloudinary.uploader.upload(profPicSrc,
+        function(result) {
+          console.log(result);
+          res.render("profile", {profPic: result, user: req.user});
+        });
+  })
 }

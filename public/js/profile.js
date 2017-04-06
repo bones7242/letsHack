@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     showChallengeHistory();
 
     // show the form field and submit button when someone says edit an item

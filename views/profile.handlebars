@@ -5,6 +5,23 @@
     <div class="container columns main-column">
         {{#if showUser}}
             <h2>{{showUser.displayName}}</h2>
+            <table cellpadding="0" cellspacing="0" border="0"><tr><td>
+                <div class="profImage">
+                {{#if profPic}}
+                    <img src={{profPic.secure_url}} class="prof-img-circle" />
+                {{else}}
+                    <img src="/img/ninja.png" height="100px" width="100px">
+                {{/if}}
+                </div>
+            </td><td class="container">
+                {{#unless showUser.public}}
+                <h5>Change Profile Picture</h5>
+                <form method="POST" action="/profile/upload" enctype="multipart/form-data">
+                    <input name="avatar" type="file" class="smallButton"/>
+                    <input class="smallButton" value="Upload" type="submit">
+                </form>
+                {{/unless}}
+            </td></tr></table>
             <form method="POST" action="/user/update?_method=PUT">
                 {{#unless showUser.public}}
                 <div class="profileSection" id="emailAddress">
