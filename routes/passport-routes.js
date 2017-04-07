@@ -30,7 +30,28 @@ function passportRoutes(passport){
 
   router.route('/profile')
     .get(isLoggedIn, function(req, res) {
-        res.render('profile', { showUser: req.user, user: req.user });
+        res.render('profile', { showUser: req.user, user: req.user });  // note: why showUser and user if they both contain the same data 
+  });
+
+  router.route('/dashboard')
+    .get(isLoggedIn, function(req, res) {
+      // note: set a check so dashboard only renders if (req.user.role === "admin")
+      // db.sequelize.Promise.all([  // retrieve challenge and user data from sequelize 
+      //   db.Challenge.find({}),
+      //   db.User.find({})
+      // ])
+      // .spread(function(challengesData, usersData){  // clean up the data (if needed)
+      //     JSON.parse(JSON.stringify(challengesData));
+      //     JSON.parse(JSON.stringify(usersData));
+      // })
+      var challengesData = null;
+      var usersData = null;
+      // send all teh info to handlebars 
+      res.render('dashboard', { 
+        user: req.user, 
+        challenges: challengesData, 
+        users: usersData
+      });
   });
 
   router.route('/lobby')
