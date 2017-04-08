@@ -134,7 +134,8 @@ module.exports = function(app) {
       testB: req.body.testB
     }).then(function(newChallenge){
       console.log("challenge successfully created");
-      res.json(newChallenge);
+      //res.json(newChallenge);
+      res.redirect("/dashboard");
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")
       res.json(err);
@@ -142,7 +143,7 @@ module.exports = function(app) {
   });
 
   // route for updating a challenge
-  app.put("/challenge/update", function(req, res){  //route to update a challenge
+  app.put("/challenge/update", function(req, res){ 
     db.Challenge.update({
       difficulty: req.body.difficulty,
       name: req.body.name.trim(),
@@ -157,9 +158,9 @@ module.exports = function(app) {
       where: {
         id: parseInt(req.body.id) //parsing to int because update form might send as a string 
       }
-    }).then(function(newChallenge){
+    }).then(function(challengesAffected){
       console.log("challenge successfully updated");
-      res.json(newChallenge);
+      res.redirect("/dashboard");
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")
       res.json(err);
