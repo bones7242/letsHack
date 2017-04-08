@@ -145,17 +145,17 @@ module.exports = function(app) {
   app.put("/challenge/update", function(req, res){  //route to update a challenge
     db.Challenge.update({
       difficulty: req.body.difficulty,
-      name: req.body.name,
-      instructionsAll: req.body.instructionsAll,
-      instructionsA: req.body.instructionsA,
-      instructionsB: req.body.instructionsB,
-      startCodeA: req.body.startCodeA,
-      startCodeB: req.body.startCodeB,
-      testA: req.body.testA,
-      testB: req.body.testB
+      name: req.body.name.trim(),
+      instructionsAll: req.body.instructionsAll.trim(),
+      instructionsA: req.body.instructionsA.trim(),
+      instructionsB: req.body.instructionsB.trim(),
+      startCodeA: req.body.startCodeA.trim(),
+      startCodeB: req.body.startCodeB.trim(),
+      testA: req.body.testA.trim(),
+      testB: req.body.testB.trim()
     }, {
       where: {
-        id: req.body.id
+        id: parseInt(req.body.id) //parsing to int because update form might send as a string 
       }
     }).then(function(newChallenge){
       console.log("challenge successfully updated");
