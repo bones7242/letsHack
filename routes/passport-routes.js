@@ -36,22 +36,29 @@ function passportRoutes(passport){
   router.route('/dashboard')
     .get(isLoggedIn, function(req, res) {
       // note: set a check so dashboard only renders if (req.user.role === "admin")
-      // db.sequelize.Promise.all([  // retrieve challenge and user data from sequelize 
-      //   db.Challenge.find({}),
-      //   db.User.find({})
-      // ])
-      // .spread(function(challengesData, usersData){  // clean up the data (if needed)
-      //     JSON.parse(JSON.stringify(challengesData));
-      //     JSON.parse(JSON.stringify(usersData));
-      // })
-      var challengesData = null;
-      var usersData = null;
-      // send all teh info to handlebars 
-      res.render('dashboard', { 
-        user: req.user, 
-        challenges: challengesData, 
-        users: usersData
-      });
+      db.sequelize.Promise.all([  // retrieve challenge and user data from sequelize 
+        db.Challenge.findAll({}),
+        db.User.findAll({})
+      ])
+      .spread(function(challengesData, usersData){  
+
+        // clean up the data (if needed)
+        console.log( JSON.parse(JSON.stringify(challengesData)));
+        // send all teh info to handlebars 
+        // console.log({user: req.user, 
+        //   challenges: challengesData, 
+        //   users: usersData});
+        res.render('dashboard', { 
+          user: req.user,   
+          challenges: JSON.parse(JSON.stringify(challengesData)), 
+          users: JSON.parse(JSON.stringify(usersData))
+        });
+      }).catch(function (err) {
+       console.error("** error occured on route /dashboard", err);
+       res.json(err);
+    });
+      
+      
   });
 
   router.route('/lobby')
@@ -160,14 +167,14 @@ function passportRoutes(passport){
         };
         // determine which player gets which role
         if (sessionData.playerAId === userData.id){
-          // this user is player A
+          // this user is player A 
           tailoredChallengeData.instructions = challengeData.instructionsA;
           tailoredChallengeData.partnerInstructions = challengeData.instructionsB;
           tailoredChallengeData.partnerDisplayName = sessionData.playerB.displayName;
           tailoredChallengeData.startCode = challengeData.startCodeA;
           tailoredChallengeData.test = challengeData.testA;
         } else {
-          // this user is player B
+          // this user is player B 
           tailoredChallengeData.instructions = challengeData.instructionsB;
           tailoredChallengeData.partnerInstructions = challengeData.instructionsA;
           tailoredChallengeData.partnerDisplayName = sessionData.playerA.displayName;

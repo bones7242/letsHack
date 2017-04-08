@@ -6,8 +6,22 @@
         <h3>Challenge List</h3>
         {{!--// display the challenges--}}
         {{#if challenges}}
-            {{#each challenge}}
-                <a href="">{{challenge.title}}</a>
+            {{#each challenges}}
+                <p>
+                    <button 
+                        class="challenge-link" 
+                        data-id="{{this.id}}" 
+                        data-name="{{this.name}}" 
+                        data-difficulty="{{this.difficulty}}"
+                        data-instructionsAll="{{this.instructionsAll}}"
+                        data-instructionsA="{{this.instructionsA}}"
+                        data-instructionsB="{{this.instructionsB}}"
+                        data-startCodeA="{{this.startCodeA}}"
+                        data-startCodeB="{{this.startCodeB}}"
+                        data-testA="{{this.testA}}"
+                        data-testb="{{this.testB}}"
+                    >{{this.id}}. {{this.name}}</button>
+                </p>
             {{/each}}
         {{else}}
             <h2>there are no challenges available</h2>
@@ -17,14 +31,10 @@
 
     <div class="container columns side-column">
         <h3>Edit Challenge</h3>
-        {{#if challengeSelected}}
-            <form class="edit-challenge">
-            <!-- this gets populated by the frontend function editChallengeData -->
-            </form>
-        {{else}}
-            <p>You must select a challenge from the Challenge List to edit a challenge.</p>
-        {{/if}}
+        <form method="POST" action="/challenge/update?_method=PUT" id="edit-challenge-field">
+        <!-- this gets populated by the frontend function editChallengeData -->
+        </form>
     </div>
 </div>
-{{!--<div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}" data-showingUser="{{showUser.displayName}}"></div>--}}
-<script src="/js/dashboard.js" type="text/javascript"></script>
+<div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}" data-showingUser="{{showUser.displayName}}" ></div>
+<script src="/js/dashboard.js" type="text/javascript"></script> 
