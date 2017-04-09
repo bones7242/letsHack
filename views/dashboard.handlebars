@@ -5,6 +5,20 @@
     <div class="container columns main-column">
         <h3>Challenge List</h3>
         {{!--// display the challenges--}}
+         <h4>Add a New Challenge:</h4>
+            <button 
+                id="new-challenge-btn" 
+                data-name="" 
+                data-difficulty="1"
+                data-instructionsAll=""
+                data-instructionsA=""
+                data-instructionsB=""
+                data-startCodeA=""
+                data-startCodeB=""
+                data-testA=""
+                data-testb=""
+            >Create New Challenge</button>
+        <h4>Edit Existing Challenges:</h4>
         {{#if challenges}}
             {{#each challenges}}
                 <p>
@@ -30,10 +44,9 @@
     </div>
 
     <div class="container columns side-column">
-        <h3>Edit Challenge</h3>
-        <form method="POST" action="/challenge/update?_method=PUT" id="edit-challenge-field">
-        <!-- this gets populated by the frontend function editChallengeData -->
-        </form>
+        <div id="challenge-edit-area">
+            <!-- this gets populated by the frontend using on-click functions in dashboard.js -->
+        </div>
     </div>
 </div>
 <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}" data-showingUser="{{showUser.displayName}}" ></div>
