@@ -167,6 +167,19 @@ module.exports = function(app) {
     });
   });
 
+  // route for deleting a challenge
+  app.delete("/challenge/delete", function(req, res){ 
+    db.Challenge.destroy({
+      where: { id: req.body.id } // parseInt(req.body.id)?
+    }).then(function(){
+      console.log("challenge successfully deleted");
+      res.redirect("/dashboard");
+    }).catch(function (err) {
+      console.log("** error occured.  Sent to client as JSON.")
+      res.json(err);
+    });
+  });
+
   // route for creating a report
   app.put("/report/", function(req, res){
     //route to update a user
