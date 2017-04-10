@@ -3,7 +3,7 @@
 $(document).ready(function(){
 
     // build an editable form for existing challenges 
-    $(".challenge-link").on("click", function(){
+    $(".edit-challenge-btn").on("click", function(){
         console.log("i found " + $(this).attr("id"));
         // select the challenge edit field 
         var challengeEditArea = $("#challenge-edit-area");
@@ -42,7 +42,7 @@ $(document).ready(function(){
         challengeEditForm.append("<div><label for='testB'>Test for user B</label></div>");
         challengeEditForm.append("<div><textarea name='testB' rows='4' cols='50'>" + $(this).attr("data-testB") + "</textarea></div>");
         // submit button
-        challengeEditForm.append("<div><button type='submit'>Submit Challenge Updates</button></div>");
+        challengeEditForm.append("<div><button type='submit'>Submit Updates</button></div>");
 
         // add form to challenge-edit-area
         challengeEditArea.append(challengeEditForm);
@@ -86,7 +86,7 @@ $(document).ready(function(){
         challengeEditForm.append("<div><label for='testB'>Test for user B</label></div>");
         challengeEditForm.append("<div><textarea name='testB' rows='4' cols='50'>" + $(this).attr("data-testB") + "</textarea></div>");
         // submit button
-        challengeEditForm.append("<div><button type='submit'>Submit New Challenge</button></div>");
+        challengeEditForm.append("<div><button type='submit'>Submit Challenge</button></div>");
 
         // add form to challenge-edit-area
         challengeEditArea.append(challengeEditForm);
