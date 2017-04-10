@@ -3,18 +3,18 @@
   </div>
   <div class="container" id="main-box">
     <div class="container columns main-column">
-        {{#if showUser}}
-            <h2>{{showUser.displayName}}</h2>
+        {{#if user}}
+            <h2>{{user.displayName}}</h2>
             <table cellpadding="0" cellspacing="0" border="0"><tr><td>
                 <div class="profImage">
-                {{#if profPic}}
-                    <img src={{profPic.secure_url}} class="prof-img-circle" />
+                {{#if user.profilePicture}}
+                    <img src={{user.profilePicture}} class="prof-img-circle" />
                 {{else}}
-                    <img src="/img/ninja.png" height="100px" width="100px">
+                    <img src="/img/no-avatar.png" height="100px" width="100px">
                 {{/if}}
                 </div>
             </td><td class="container">
-                {{#unless showUser.public}}
+                {{#unless user.public}}
                 <h5>Change Profile Picture</h5>
                 <form method="POST" action="/profile/upload" enctype="multipart/form-data">
                     <input name="avatar" type="file" class="smallButton"/>
@@ -23,39 +23,39 @@
                 {{/unless}}
             </td></tr></table>
             <form method="POST" action="/user/update?_method=PUT">
-                {{#unless showUser.public}}
+                {{#unless user.public}}
                 <div class="profileSection" id="emailAddress">
                      <button class="smallButton">Edit</button>
                      Email Address:
-                    {{showUser.email}}
+                    {{user.email}}
                     <input class="profileEdit" name="email" type="text" size="20" placeholder="Email Address" />
-                    <input type="hidden" name="displayName" value={{{showUser.displayName}}}>
+                    <input type="hidden" name="displayName" value={{{user.displayName}}}>
                 </div>
                 {{/unless}}
                 <div class="profileSection" id="firstName">
-                {{#unless showUser.public}}
+                {{#unless user.public}}
                      <button class="smallButton">Edit</button>
                 {{/unless}}
                      First Name:
-                    {{showUser.firstName}}
+                    {{user.firstName}}
                     <input class="profileEdit" name="firstName" type="text" size="20" placeholder="First Name" />
                 </div>
                 <div class="profileSection" id="lastName">
-                {{#unless showUser.public}}
+                {{#unless user.public}}
                     <button class="smallButton">Edit</button>
                 {{/unless}}
                     Last Name:
-                    {{showUser.lastName}}
+                    {{user.lastName}}
                     <input class="profileEdit" name="lastName" type="text" size="20" placeholder="Last Name" />
                 </div>
-                {{#if showUser.public}}
+                {{#if user.public}}
                 <div class="profileSection" id="present">
                     Currently online:
-                    {{showUser.present}}
+                    {{user.present}}
                 </div>
                 <div class="profileSection" id="present">
                     Currently in the queue:
-                    {{showUser.inQueue}}
+                    {{user.inQueue}}
                 </div>
                 <hr>
                 <div id="reportingForm">
@@ -67,7 +67,7 @@
                     <input class="smallButton reportSubmit" value="Send Report" type="submit" />
                 </div>
                 {{/if}}
-                {{#unless showUser.public}}
+                {{#unless user.public}}
                 <input class="smallButton hiddenSubmit" value="Save Changes" type="submit" />
                 {{/unless}}
             </form>
@@ -81,8 +81,8 @@
     </div>
 
     <div class="container columns side-column">
-        <h3>{{showUser.displayName}}'s Challenge History</h3>
-        {{#if showUser}}
+        <h3>{{user.displayName}}'s Challenge History</h3>
+        {{#if user}}
             <ul class="challenge-history">
             <!-- this gets populated by the frontend function showChallengeHistory -->
             </ul>
@@ -91,5 +91,5 @@
         {{/if}}
     </div>
   </div>
-  <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}" data-showingUser="{{showUser.displayName}}"></div>
+  <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}" data-showingUser="{{user.displayName}}"></div>
   <script src="/js/profile.js" type="text/javascript"></script>
