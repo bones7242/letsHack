@@ -11,19 +11,23 @@ module.exports = {
             instructionsB: "Create a function that returns the string 'world!'",
             startCodeA: "function sayHello(){\n\t// A your code goes here\n}",
             startCodeB: "function sayWorld(){\n\t// B your code goes here\n}",
-            testA: "Hello",
-            testB: "world!",
+            testAArgument: "", 
+            testAResult: "Hello",
+            testBArgument: "", 
+            testBResult: "world!",
     });
     db.Challenge.create({
         difficulty: 1,
-            name: "Hello World",
-            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Hello world!'",
-            instructionsA: "Create a function that returns the string 'Hello'",
-            instructionsB: "Create a function that returns the string 'world!'",
-            startCodeA: "function sayHello(){\n\t// A your code goes here\n}",
-            startCodeB: "function sayWorld(){\n\t// B your code goes here\n}",
-            testA: "Hello",
-            testB: "world!",
+            name: "Jello Mold",
+            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Jello mold!'",
+            instructionsA: "Create a function that returns the string 'Jello'",
+            instructionsB: "Create a function that returns the string 'mold!'",
+            startCodeA: "function sayJello(){\n\t// A your code goes here\n}",
+            startCodeB: "function sayMold(){\n\t// B your code goes here\n}",
+            testAArgument: "", 
+            testAResult: "Jello",
+            testBArgument: "", 
+            testBResult: "mold!",
     });
     // create users
         // db.User.create({
