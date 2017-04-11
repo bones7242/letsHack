@@ -26,7 +26,7 @@ function convertDay(unix_timestamp){
     // Create a new JavaScript Date object based on the timestamp
     // multiplied by 1000 so that the argument is in milliseconds, not seconds.
     var date = new Date(unix_timestamp);
-    return [padDigits(date.getDate()), padDigits(date.getMonth()+1), date.getFullYear()].join('/');
+    return [padDigits(padDigits(date.getMonth()+1), date.getDate()), date.getFullYear()].join('/');
 }
 
 function openModal(title, html, buttonText, buttonCallback, closeCallback){
