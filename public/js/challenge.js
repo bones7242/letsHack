@@ -45,6 +45,7 @@ $(document).ready(function() {
         }
     });
 
+    // listen for my partner's completing the challenge
     socket.on("challengeHalfDone", function(halfDone){
         if (halfDone.session == matchId){
             // this event is for our current session
@@ -97,8 +98,8 @@ $(document).ready(function() {
         }
     }
 
+    // update the session record to show success
     function challengeSuccess(){
-        //console.log("calling challenge success");
         // update the session record to show success
         $.ajax({
             type: "PUT",
@@ -108,6 +109,9 @@ $(document).ready(function() {
                 id: sessionData.sessionId
             },
             success: function(response){
+                // don't notify when your partner leaves the room anymore
+                socket.off("leftChallenge");
+                // take user back to lobby after success
                 if (response){
                     //console.log("session updated! ", response);
                     openModal("Success!", "You both passed your challenge, nice team work, you guys! Head back to the lobby for more challenge fun!", "Lobby", function(){window.location = "/lobby"});

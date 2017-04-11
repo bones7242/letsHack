@@ -130,11 +130,12 @@ module.exports = function(app) {
       instructionsB: req.body.instructionsB,
       startCodeA: req.body.startCodeA,
       startCodeB: req.body.startCodeB,
-      testA: req.body.testA,
-      testB: req.body.testB
+      testAArgument: req.body.testAArgument, 
+      testAResult: req.body.testAResult,
+      testBArgument: req.body.testBArgument, 
+      testBResult: req.body.testBResult
     }).then(function(newChallenge){
       console.log("challenge successfully created");
-      //res.json(newChallenge);
       res.redirect("/dashboard");
     }).catch(function (err) {
       console.log("** error occured.  Sent to client as JSON.")
@@ -152,8 +153,10 @@ module.exports = function(app) {
       instructionsB: req.body.instructionsB.trim(),
       startCodeA: req.body.startCodeA.trim(),
       startCodeB: req.body.startCodeB.trim(),
-      testA: req.body.testA.trim(),
-      testB: req.body.testB.trim()
+      testAArgument: req.body.testAArgument, 
+      testAResult: req.body.testAResult,
+      testBArgument: req.body.testBArgument, 
+      testBResult: req.body.testBResult
     }, {
       where: {
         id: parseInt(req.body.id) //parsing to int because update form might send as a string 
@@ -188,7 +191,7 @@ module.exports = function(app) {
       userName: req.body.username || "unknown user",
       reason: req.body.reason || "no reason specified"
     }).then(function(result){
-        console.log("user successfully updated: ", result);
+        //console.log("user successfully updated: ", result);
         res.send(result);
     }).catch(function (err) {
       console.error("** error occured.  Sent to client as JSON")
@@ -219,12 +222,12 @@ module.exports = function(app) {
   });
 
   app.post("/profile/upload", upload.single('avatar'), function(req, res, next){
-    console.log(req.user);
+    //console.log(req.user);
     var profPicSrc = req.file.path;
 
     cloudinary.uploader.upload(profPicSrc,
         function(result) {
-          console.log(result);
+          //console.log(result);
           res.render("profile", {profPic: result, user: req.user});
         });
   })

@@ -172,14 +172,15 @@ function passportRoutes(passport){
           tailoredChallengeData.partnerInstructions = challengeData.instructionsB;
           tailoredChallengeData.partnerDisplayName = sessionData.playerB.displayName;
           tailoredChallengeData.startCode = challengeData.startCodeA;
-          tailoredChallengeData.test = challengeData.testA;
+          tailoredChallengeData.testArgument = challengeData.testAArgument;
+          tailoredChallengeData.testResult = challengeData.testAResult;
         } else {
           // this user is player B 
           tailoredChallengeData.instructions = challengeData.instructionsB;
           tailoredChallengeData.partnerInstructions = challengeData.instructionsA;
           tailoredChallengeData.partnerDisplayName = sessionData.playerA.displayName;
-          tailoredChallengeData.startCode = challengeData.startCodeB;
-          tailoredChallengeData.test = challengeData.testB;
+          tailoredChallengeData.testArgument = challengeData.testBArgument;
+          tailoredChallengeData.testResult = challengeData.testBResult;
         }
         // send all the info to handlebars
         res.render("challenge", {
