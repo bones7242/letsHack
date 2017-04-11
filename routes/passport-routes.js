@@ -179,6 +179,7 @@ function passportRoutes(passport){
           tailoredChallengeData.instructions = challengeData.instructionsB;
           tailoredChallengeData.partnerInstructions = challengeData.instructionsA;
           tailoredChallengeData.partnerDisplayName = sessionData.playerA.displayName;
+          tailoredChallengeData.startCode = challengeData.startCodeB;
           tailoredChallengeData.testArgument = challengeData.testBArgument;
           tailoredChallengeData.testResult = challengeData.testBResult;
         }

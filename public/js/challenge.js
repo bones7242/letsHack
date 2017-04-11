@@ -67,12 +67,13 @@ $(document).ready(function() {
 
     function testMyCode(userCode){
         // Get this user's test, as passed down from the db
-        var challengeTest = $("input#myTest").val();
+        var challengeTestArgument = $("input#myTestArgument").val();
+        var challengeTestResult = $("input#myTestResult").val();
         var passedTest = false;
 
         try { 
-            var returnValue = eval("(" + userCode + ")()");
-            if (returnValue == challengeTest){
+            var returnValue = eval("(" + userCode + ")(" + challengeTestArgument + ")");
+            if (returnValue == challengeTestResult){
                 passedTest = true;
             }
         }
