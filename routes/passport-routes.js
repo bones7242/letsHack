@@ -30,7 +30,9 @@ function passportRoutes(passport){
 
   router.route('/profile')
     .get(isLoggedIn, function(req, res) {
-        res.render('profile', { showUser: req.user, user: req.user });  // note: why showUser and user if they both contain the same data 
+
+        res.render('profile', { showUser: req.user, user: req.user });
+
   });
 
   router.route('/dashboard')
