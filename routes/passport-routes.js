@@ -1,7 +1,7 @@
 var db = require("../models");
 var express = require('express');
 var router = express.Router();
-
+var admins = require("../config/admins.json").admins;
 
 function passportRoutes(passport){
 
@@ -30,35 +30,36 @@ function passportRoutes(passport){
 
   router.route('/profile')
     .get(isLoggedIn, function(req, res) {
-        res.render('profile', { showUser: req.user, user: req.user });  // note: why showUser and user if they both contain the same data 
+        // showUser is for when a logged in user looks at another users's public profile page
+        // in this case, it's their own profile, so user and showUser are the same
+        res.render('profile', { showUser: req.user, user: req.user });  
   });
 
   router.route('/dashboard')
     .get(isLoggedIn, function(req, res) {
-      // note: set a check so dashboard only renders if (req.user.role === "admin")
-      db.sequelize.Promise.all([  // retrieve challenge and user data from sequelize 
-        db.Challenge.findAll({}),
-        db.User.findAll({})
-      ])
-      .spread(function(challengesData, usersData){  
-
-        // clean up the data (if needed)
-        console.log( JSON.parse(JSON.stringify(challengesData)));
-        // send all teh info to handlebars 
-        // console.log({user: req.user, 
-        //   challenges: challengesData, 
-        //   users: usersData});
-        res.render('dashboard', { 
-          user: req.user,   
-          challenges: JSON.parse(JSON.stringify(challengesData)), 
-          users: JSON.parse(JSON.stringify(usersData))
+      if (req.user.isAdmin === true){ // only show this page to admins
+        db.sequelize.Promise.all([  // retrieve challenge and user data from sequelize 
+          db.Challenge.findAll({}),
+          db.User.findAll({}),
+          db.Report.findAll({})
+        ])
+        .spread(function(challengesData, usersData, reportsData){  
+          // clean up the data (if needed)
+          console.log(JSON.parse(JSON.stringify(challengesData)));
+          // send all the info to handlebars 
+          res.render('dashboard', { 
+            user: req.user,   
+            challenges: JSON.parse(JSON.stringify(challengesData)), 
+            users: JSON.parse(JSON.stringify(usersData)),
+            reports: JSON.parse(JSON.stringify(reportsData))
+          });
+        }).catch(function (err) {
+          console.error("** error occured on route /dashboard", err);
+          res.json(err);
         });
-      }).catch(function (err) {
-       console.error("** error occured on route /dashboard", err);
-       res.json(err);
-    });
-      
-      
+      } else {
+        res.redirect("/lobby");
+      }
   });
 
   router.route('/lobby')
@@ -68,7 +69,7 @@ function passportRoutes(passport){
 
   // route for showing info for another user (not own profile for logged in user)
   router.route("/user/:userName")
-  .get(function(req, res){
+  .get(isLoggedIn, function(req, res){
     var userName = req.params.userName;
     db.User.find({
       where: {
@@ -108,13 +109,25 @@ function passportRoutes(passport){
         return res.redirect('/login');
       }
       else {
+        var userIsAdmin = false;
+        // make certain users admins, whose emails are specified in config file
+        if (admins){
+          console.log(admins);
+          for (var i = 0; i < admins.length; i++){
+            if (admins[i].trim() == req.body.email.trim()){
+              console.log("this new user is a match!");
+              userIsAdmin = true;
+            }
+          }
+        }
         var hash = db.User.generateHash(req.body.password);
         db.User.create({
           email: req.body.email,
           password: hash,
           displayName: req.body.username,
           firstName: req.body.firstName,
-          lastName: req.body.lastName
+          lastName: req.body.lastName,
+          isAdmin: userIsAdmin
         }).then(function(user){
           passport.authenticate('local', {
             successRedirect: '/lobby',
@@ -172,16 +185,16 @@ function passportRoutes(passport){
           tailoredChallengeData.partnerInstructions = challengeData.instructionsB;
           tailoredChallengeData.partnerDisplayName = sessionData.playerB.displayName;
           tailoredChallengeData.startCode = challengeData.startCodeA;
-          tailoredChallengeData.testArgument = challengeData.testAArgument;
-          tailoredChallengeData.testResult = challengeData.testAResult;
+          tailoredChallengeData.testArgument = encipher(challengeData.testAArgument);
+          tailoredChallengeData.testResult = encipher(challengeData.testAResult);
         } else {
           // this user is player B 
           tailoredChallengeData.instructions = challengeData.instructionsB;
           tailoredChallengeData.partnerInstructions = challengeData.instructionsA;
           tailoredChallengeData.partnerDisplayName = sessionData.playerA.displayName;
           tailoredChallengeData.startCode = challengeData.startCodeB;
-          tailoredChallengeData.testArgument = challengeData.testBArgument;
-          tailoredChallengeData.testResult = challengeData.testBResult;
+          tailoredChallengeData.testArgument = encipher(challengeData.testBArgument);
+          tailoredChallengeData.testResult = encipher(challengeData.testBResult);
         }
         // send all the info to handlebars
         res.render("challenge", {
@@ -198,10 +211,45 @@ function passportRoutes(passport){
     }
     req.flash('loginMessage', 'Please log in');
     res.redirect('/login');
+  }
+
+  function encipher(str){
+    // simple cipher for obscuring code test's argument and result
+    // makes it harder to find the solution by inspecting the code
+    // there is a paired decipher function on the front end
+    var output = "";
+    // this is an arbitraty amount to shift the letters and numbers
+    // it must be between 1 and 9, inclusive
+    // anything other than a number or letter gets left as is (like a space)
+    var amount = 6;
+
+    for (var i = 0; i < str.length; i ++) {
+      var c = str[i];
+      // if it's a letter
+      if (c.match(/[a-z]/i)) {
+        // Get its code
+        var code = str.charCodeAt(i);
+        // Uppercase letters
+        if ((code >= 65) && (code <= 90))
+          // perform shift, and make sure you're still selecting an uppercase letter
+          c = String.fromCharCode(((code - 65 + amount) % 26) + 65);
+        // Lowercase letters
+        else if ((code >= 97) && (code <= 122))
+          // perform shift, and make sure you're still selecting a lowercase letter
+          c = String.fromCharCode(((code - 97 + amount) % 26) + 97);
+      } else if (c.match(/[0-9]/)){
+              // if it's a digit, shift it by amount
+              // and make sure you still have a single digit
+              c = (parseInt(c) + amount) % 10;
+          }
+      // append transformed character to output
+      output += c;
     }
+    return output;
+  }
+
 
   return router;
-
 }
 
 module.exports = passportRoutes;
