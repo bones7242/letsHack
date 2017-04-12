@@ -37,30 +37,29 @@ function passportRoutes(passport){
 
   router.route('/dashboard')
     .get(isLoggedIn, function(req, res) {
-      // note: set a check so dashboard only renders if (req.user.role === "admin")
-      db.sequelize.Promise.all([  // retrieve challenge and user data from sequelize 
-        db.Challenge.findAll({}),
-        db.User.findAll({})
-      ])
-      .spread(function(challengesData, usersData){  
-
-        // clean up the data (if needed)
-        console.log( JSON.parse(JSON.stringify(challengesData)));
-        // send all teh info to handlebars 
-        // console.log({user: req.user, 
-        //   challenges: challengesData, 
-        //   users: usersData});
-        res.render('dashboard', { 
-          user: req.user,   
-          challenges: JSON.parse(JSON.stringify(challengesData)), 
-          users: JSON.parse(JSON.stringify(usersData))
+      if (req.user.isAdmin === true){ // only show this page to admins
+        db.sequelize.Promise.all([  // retrieve challenge and user data from sequelize 
+          db.Challenge.findAll({}),
+          db.User.findAll({}),
+          db.Report.findAll({})
+        ])
+        .spread(function(challengesData, usersData, reportsData){  
+          // clean up the data (if needed)
+          console.log(JSON.parse(JSON.stringify(challengesData)));
+          // send all the info to handlebars 
+          res.render('dashboard', { 
+            user: req.user,   
+            challenges: JSON.parse(JSON.stringify(challengesData)), 
+            users: JSON.parse(JSON.stringify(usersData)),
+            reports: JSON.parse(JSON.stringify(reportsData))
+          });
+        }).catch(function (err) {
+          console.error("** error occured on route /dashboard", err);
+          res.json(err);
         });
-      }).catch(function (err) {
-       console.error("** error occured on route /dashboard", err);
-       res.json(err);
-    });
-      
-      
+      } else {
+        res.redirect("/lobby");
+      }
   });
 
   router.route('/lobby')
