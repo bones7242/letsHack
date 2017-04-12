@@ -237,8 +237,8 @@ function passportRoutes(passport){
     return output;
   }
 
-  return router;
 
+  return router;
 }
 
 module.exports = passportRoutes;
