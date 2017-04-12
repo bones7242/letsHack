@@ -30,7 +30,7 @@ function passportRoutes(passport){
 
   router.route('/profile')
     .get(isLoggedIn, function(req, res) {
-        res.render('profile', { user: req.user });
+        res.render('profile', { showUser:req.user, user: req.user });
   });
 
   router.route('/dashboard')
