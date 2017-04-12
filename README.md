@@ -37,6 +37,7 @@ letsHack is written in JavaScript using Node, Express, Sequelize, Handlebars, an
 + Each user has a profile page which shows their profile data, profile picture, and challenge history
 + Users can edit their own profile, and can view the publicly available elements of other users' profiles as well
 + Users can report other users who are engaged in abusive behavior
++ Administrators have a protected view where they can edit and create challenges and view users' reports
 
 ### Libraries & Frameworks
 
@@ -57,6 +58,8 @@ letsHack is written in JavaScript using Node, Express, Sequelize, Handlebars, an
 + socket.io
 
 + CodeMirror
++ Bootstrap
++ jQuery
 
 ### Screen Shot
 ![Login](http://i.imgur.com/Ewl0l7M.png)
