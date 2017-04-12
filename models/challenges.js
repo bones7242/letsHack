@@ -2,31 +2,37 @@
 module.exports = function(sequelize, DataTypes) {
     var Challenge = sequelize.define("Challenge", {
         difficulty: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER
         },
         name: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING
         },
         instructionsAll: {
-            type: DataTypes.TEXT,
+            type: DataTypes.TEXT
         },
         instructionsA: {
-            type: DataTypes.TEXT,
+            type: DataTypes.TEXT
         },
         instructionsB: {
-            type: DataTypes.TEXT,
+            type: DataTypes.TEXT
         },
         startCodeA: {
-            type: DataTypes.TEXT,
+            type: DataTypes.TEXT
         },
         startCodeB: {
-            type: DataTypes.TEXT,
+            type: DataTypes.TEXT
         },
-        testA: {
-            type: DataTypes.TEXT,
+        testAArgument: {
+            type: DataTypes.TEXT
         },
-        testB: {
-            type: DataTypes.TEXT,
+        testBArgument: {
+            type: DataTypes.TEXT
+        },
+        testAResult: {
+            type: DataTypes.TEXT
+        },
+        testBResult: {
+            type: DataTypes.TEXT
         }
     }, {
         classMethods: {

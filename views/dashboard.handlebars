@@ -3,7 +3,8 @@
 </div>
 <div class="container" id="main-box">
     <div class="container columns main-column">
-        <h3>Challenge List</h3>
+        <h3>Edit Challenge List</h3>
+        <hr/>
         {{!--// display the challenges--}}
          <h4>Add a New Challenge:</h4>
             <button 
@@ -15,28 +16,46 @@
                 data-instructionsB=""
                 data-startCodeA=""
                 data-startCodeB=""
-                data-testA=""
-                data-testb=""
+                data-testAArgument=""
+                data-testAResult=""
+                data-testBArgument=""
+                data-testBResult=""
             >Create New Challenge</button>
+        <hr/>
         <h4>Edit Existing Challenges:</h4>
         {{#if challenges}}
+            <table width="100%">
             {{#each challenges}}
-                <p>
-                    <button 
-                        class="challenge-link" 
-                        data-id="{{this.id}}" 
-                        data-name="{{this.name}}" 
-                        data-difficulty="{{this.difficulty}}"
-                        data-instructionsAll="{{this.instructionsAll}}"
-                        data-instructionsA="{{this.instructionsA}}"
-                        data-instructionsB="{{this.instructionsB}}"
-                        data-startCodeA="{{this.startCodeA}}"
-                        data-startCodeB="{{this.startCodeB}}"
-                        data-testA="{{this.testA}}"
-                        data-testb="{{this.testB}}"
-                    >{{this.id}}. {{this.name}}</button>
-                </p>
+                <tr >
+                    <td width="60%">
+                        {{this.id}}. {{this.name}}
+                    </td>
+                    <td>
+                        <button 
+                            class="edit-challenge-btn" 
+                            data-id="{{this.id}}" 
+                            data-name="{{this.name}}" 
+                            data-difficulty="{{this.difficulty}}"
+                            data-instructionsAll="{{this.instructionsAll}}"
+                            data-instructionsA="{{this.instructionsA}}"
+                            data-instructionsB="{{this.instructionsB}}"
+                            data-startCodeA="{{this.startCodeA}}"
+                            data-startCodeB="{{this.startCodeB}}"
+                            data-testAArgument="{{this.testAArgument}}"
+                            data-testAResult="{{this.testAResult}}"
+                            data-testBArgument="{{this.testBArgument}}"
+                            data-testBResult="{{this.testBResult}}"
+                        >Edit</button>
+                    </td>
+                    <td>
+                        <form method='POST' action='/challenge/delete?_method=DELETE'>
+                            <input type="hidden" name="id" value="{{this.id}}"/>
+                            <button class="delete-challenge-btn" type="submit" data-id="">Delete</button>
+                        </form>
+                    </td>
+                </tr>
             {{/each}}
+            </table>
         {{else}}
             <h2>there are no challenges available</h2>
         {{/if}}
