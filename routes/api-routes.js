@@ -21,13 +21,13 @@ module.exports = function(app) {
       where: {
         $or: [
             {
-              playerAId: 
+              playerAId:
                 {
                   $eq: userId
                 }
-            }, 
+            },
             {
-              playerBId: 
+              playerBId:
                 {
                   $eq: userId
                 }
@@ -104,7 +104,7 @@ module.exports = function(app) {
     }).then(function(result) {
       if (result[0] === 1){
         console.log("session successfully updated");
-        if (req.body.success){  
+        if (req.body.success){
           res.json(true);
         } else {
           res.json(false);
@@ -130,9 +130,9 @@ module.exports = function(app) {
       instructionsB: req.body.instructionsB,
       startCodeA: req.body.startCodeA,
       startCodeB: req.body.startCodeB,
-      testAArgument: req.body.testAArgument, 
+      testAArgument: req.body.testAArgument,
       testAResult: req.body.testAResult,
-      testBArgument: req.body.testBArgument, 
+      testBArgument: req.body.testBArgument,
       testBResult: req.body.testBResult
     }).then(function(newChallenge){
       console.log("challenge successfully created");
@@ -144,7 +144,7 @@ module.exports = function(app) {
   });
 
   // route for updating a challenge
-  app.put("/challenge/update", function(req, res){ 
+  app.put("/challenge/update", function(req, res){
     db.Challenge.update({
       difficulty: req.body.difficulty,
       name: req.body.name.trim(),
@@ -153,13 +153,13 @@ module.exports = function(app) {
       instructionsB: req.body.instructionsB.trim(),
       startCodeA: req.body.startCodeA.trim(),
       startCodeB: req.body.startCodeB.trim(),
-      testAArgument: req.body.testAArgument, 
+      testAArgument: req.body.testAArgument,
       testAResult: req.body.testAResult,
-      testBArgument: req.body.testBArgument, 
+      testBArgument: req.body.testBArgument,
       testBResult: req.body.testBResult
     }, {
       where: {
-        id: parseInt(req.body.id) //parsing to int because update form might send as a string 
+        id: parseInt(req.body.id) //parsing to int because update form might send as a string
       }
     }).then(function(challengesAffected){
       console.log("challenge successfully updated");
@@ -171,7 +171,7 @@ module.exports = function(app) {
   });
 
   // route for deleting a challenge
-  app.delete("/challenge/delete", function(req, res){ 
+  app.delete("/challenge/delete", function(req, res){
     db.Challenge.destroy({
       where: { id: req.body.id } // parseInt(req.body.id)?
     }).then(function(){
@@ -221,14 +221,30 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/profile/upload", upload.single('avatar'), function(req, res, next){
-    //console.log(req.user);
-    var profPicSrc = req.file.path;
+  //Uploading a picture to cloudinary and recieving a JSON object in return
+   app.post("/profile/upload", upload.single('avatar'), function(req, res, next){
+     var profPicSrc = req.file.path;
 
-    cloudinary.uploader.upload(profPicSrc,
-        function(result) {
-          //console.log(result);
-          res.render("profile", {profPic: result, user: req.user});
-        });
-  })
+     //Call to Cloudinary
+     cloudinary.uploader.upload(profPicSrc,
+         function(result) {
+           console.log(result);
+
+           //Update the user's account in the DB to now have the URL source of the profile picture image
+           db.User.update({
+             profilePicture: result.secure_url
+           }, {
+             where: {
+               id: req.user.id
+             }
+           }).then(function(response){
+             console.log("Updated user profile pic!");
+             res.redirect("/profile");
+           }).catch(function(err){
+             console.log("Error occurred. Sent to client as JSON.")
+             res.json(err);
+           });
+
+         });
+   });
 }
