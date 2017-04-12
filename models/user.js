@@ -19,14 +19,17 @@ module.exports = function(sequelize, DataTypes) {
         },
         lastName: {
             type: DataTypes.STRING
-        }, 
+        },
         present: {
             type: DataTypes.BOOLEAN,
             default: false
-        }, 
+        },
         inqueue: {
             type: DataTypes.BOOLEAN,
             default: false
+        },
+        profilePicture: {
+          type: DataTypes.STRING
         },
         isAdmin: {
             type:   DataTypes.BOOLEAN,
