@@ -19,11 +19,11 @@ module.exports = function(sequelize, DataTypes) {
         },
         lastName: {
             type: DataTypes.STRING
-        }, 
+        },
         present: {
             type: DataTypes.BOOLEAN,
             default: false
-        }, 
+        },
         inqueue: {
             type: DataTypes.BOOLEAN,
             default: false
@@ -32,6 +32,9 @@ module.exports = function(sequelize, DataTypes) {
             type:   DataTypes.ENUM,
             values: ["admin", "user"],
             default: "user"
+        },
+        profilePicture: {
+          type: DataTypes.STRING
         }
 
     }, {
