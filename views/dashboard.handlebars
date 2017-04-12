@@ -60,6 +60,27 @@
             <h2>there are no challenges available</h2>
         {{/if}}
         <br><br>
+        
+        <h4>View Abusive User Reports:</h4>
+        {{#if reports}}
+                <table width="100%">
+                {{#each reports}}
+                    <tr >
+                        <td width="60%">
+                            {{this.reportedBy}} reported {{this.userName}} for {{this.reason}} on {{this.createdAt}}
+                        </td>
+                        <td>
+                            <form method='POST' action='/report?_method=DELETE'>
+                                <input type="hidden" name="id" value="{{this.id}}"/>
+                                <button class="delete-report-btn" type="submit" data-id="">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/each}}
+                </table>
+            {{else}}
+                <strong>There are no reports</strong>
+            {{/if}}
     </div>
 
     <div class="container columns side-column">

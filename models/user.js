@@ -28,13 +28,12 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             default: false
         },
-        role: {
-            type:   DataTypes.ENUM,
-            values: ["admin", "user"],
-            default: "user"
-        },
         profilePicture: {
           type: DataTypes.STRING
+        },
+        isAdmin: {
+            type:   DataTypes.BOOLEAN,
+            default: false
         }
 
     }, {

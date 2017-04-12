@@ -1,19 +1,15 @@
 <div class="container" id="header-box">
     <h1>Welcome to Let's Hack!</h1>
+    {{#if user.isAdmin}}
+        <h4><a href="dashboard">View Admin Dashboard &gt;&gt;</a></h4>
+    {{/if}}
     <p>We will randomly assign you to another user, and give you both a challenge to solve together. You won't pass the challenge until both portions of the solution are correct, so make sure to communicate and help each other out!</p>
   </div>
-
   <div class="container" id="main-box">
     <div class="container columns main-column">
         <h2>Are You Ready?</h2>
         <button id="joinQueue" class="largeButton">Join Queue</button>
         <p>Join the queue and you will be paired randomly with another person, and given a challenge to solve!</p>
-        <!--<p class="small">There are currently ***number of logged in users*** hackers online.</p>-->
-        <ul class="onlineusers">
-        {{#each usersonline}}
-            <li>{{user.displayName}}</li>
-        {{/each}}
-        </ul>
     </div>
 
     <div class="container columns side-column">

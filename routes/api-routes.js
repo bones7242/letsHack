@@ -13,7 +13,8 @@ cloudinary.config({
 // routes to export
 module.exports = function(app) {
 
-  // Production Routes
+  // *** Production Routes ***
+
   // route for returning challenge history by user id
   app.get("/user/:userId/challengeHistory", function(req, res){
     var userId = req.params.userId;
@@ -67,7 +68,7 @@ module.exports = function(app) {
   // route for updating a user
   app.put("/user/update", function(req, res){
     //route to update a user
-    console.log(req.user);
+    //console.log(req.user);
     db.User.update({
       email: req.body.email || req.user.email,
       firstName: req.body.firstName || req.user.firstName,
@@ -191,8 +192,21 @@ module.exports = function(app) {
       userName: req.body.username || "unknown user",
       reason: req.body.reason || "no reason specified"
     }).then(function(result){
-        //console.log("user successfully updated: ", result);
         res.send(result);
+    }).catch(function (err) {
+      console.error("** error occured.  Sent to client as JSON")
+      res.json(err);
+    })
+  });
+
+  // route for deleting a report
+  app.delete("/report/", function(req, res){
+    console.log("DELETING ",  req.body.id);
+    //route to update a user
+    db.Report.destroy({
+      where: { id: req.body.id}
+    }).then(function(){
+      res.redirect("/dashboard");
     }).catch(function (err) {
       console.error("** error occured.  Sent to client as JSON")
       res.json(err);

@@ -19,6 +19,7 @@ $(document).ready(function() {
     // start up chat
     createChatRoom(matchId, 2, user.displayName);
 
+    //initialize socket
     var socket = io();
 
     // *** EVENT LISTENERS ***
@@ -67,8 +68,9 @@ $(document).ready(function() {
 
     function testMyCode(userCode){
         // Get this user's test, as passed down from the db
-        var challengeTestArgument = $("input#myTestArgument").val();
-        var challengeTestResult = $("input#myTestResult").val();
+        // element id and var name obscured for security
+        var challengeTestArgument = decipher($("input#asdw8_534p").val());
+        var challengeTestResult = decipher($("input#lldkfe-werwr342").val());
         var passedTest = false;
 
         try { 
