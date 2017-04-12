@@ -1,7 +1,7 @@
 var db = require("../models");
 var express = require('express');
 var router = express.Router();
-
+var admins = require("../config/admins.json").admins;
 
 function passportRoutes(passport){
 
@@ -110,13 +110,25 @@ function passportRoutes(passport){
         return res.redirect('/login');
       }
       else {
+        var userIsAdmin = false;
+        // make certain users admins, whose emails are specified in config file
+        if (admins){
+          console.log(admins);
+          for (var i = 0; i < admins.length; i++){
+            if (admins[i].trim() == req.body.email.trim()){
+              console.log("this new user is a match!");
+              userIsAdmin = true;
+            }
+          }
+        }
         var hash = db.User.generateHash(req.body.password);
         db.User.create({
           email: req.body.email,
           password: hash,
           displayName: req.body.username,
           firstName: req.body.firstName,
-          lastName: req.body.lastName
+          lastName: req.body.lastName,
+          isAdmin: userIsAdmin
         }).then(function(user){
           passport.authenticate('local', {
             successRedirect: '/lobby',

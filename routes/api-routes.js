@@ -13,7 +13,8 @@ cloudinary.config({
 // routes to export
 module.exports = function(app) {
 
-  // Production Routes
+  // *** Production Routes ***
+
   // route for returning challenge history by user id
   app.get("/user/:userId/challengeHistory", function(req, res){
     var userId = req.params.userId;
