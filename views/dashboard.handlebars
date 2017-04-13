@@ -3,37 +3,90 @@
 </div>
 <div class="container" id="main-box">
     <div class="container columns main-column">
-        <h3>Challenge List</h3>
+        <h3>Edit Challenge List</h3>
+        <hr/>
         {{!--// display the challenges--}}
+         <h4>Add a New Challenge:</h4>
+            <button 
+                id="new-challenge-btn" 
+                data-name="" 
+                data-difficulty="1"
+                data-instructionsAll=""
+                data-instructionsA=""
+                data-instructionsB=""
+                data-startCodeA=""
+                data-startCodeB=""
+                data-testAArgument=""
+                data-testAResult=""
+                data-testBArgument=""
+                data-testBResult=""
+            >Create New Challenge</button>
+        <hr/>
+        <h4>Edit Existing Challenges:</h4>
         {{#if challenges}}
+            <table width="100%">
             {{#each challenges}}
-                <p>
-                    <button 
-                        class="challenge-link" 
-                        data-id="{{this.id}}" 
-                        data-name="{{this.name}}" 
-                        data-difficulty="{{this.difficulty}}"
-                        data-instructionsAll="{{this.instructionsAll}}"
-                        data-instructionsA="{{this.instructionsA}}"
-                        data-instructionsB="{{this.instructionsB}}"
-                        data-startCodeA="{{this.startCodeA}}"
-                        data-startCodeB="{{this.startCodeB}}"
-                        data-testA="{{this.testA}}"
-                        data-testb="{{this.testB}}"
-                    >{{this.id}}. {{this.name}}</button>
-                </p>
+                <tr >
+                    <td width="60%">
+                        {{this.id}}. {{this.name}}
+                    </td>
+                    <td>
+                        <button 
+                            class="edit-challenge-btn" 
+                            data-id="{{this.id}}" 
+                            data-name="{{this.name}}" 
+                            data-difficulty="{{this.difficulty}}"
+                            data-instructionsAll="{{this.instructionsAll}}"
+                            data-instructionsA="{{this.instructionsA}}"
+                            data-instructionsB="{{this.instructionsB}}"
+                            data-startCodeA="{{this.startCodeA}}"
+                            data-startCodeB="{{this.startCodeB}}"
+                            data-testAArgument="{{this.testAArgument}}"
+                            data-testAResult="{{this.testAResult}}"
+                            data-testBArgument="{{this.testBArgument}}"
+                            data-testBResult="{{this.testBResult}}"
+                        >Edit</button>
+                    </td>
+                    <td>
+                        <form method='POST' action='/challenge/delete?_method=DELETE'>
+                            <input type="hidden" name="id" value="{{this.id}}"/>
+                            <button class="delete-challenge-btn" type="submit" data-id="">Delete</button>
+                        </form>
+                    </td>
+                </tr>
             {{/each}}
+            </table>
         {{else}}
             <h2>there are no challenges available</h2>
         {{/if}}
         <br><br>
+        
+        <h4>View Abusive User Reports:</h4>
+        {{#if reports}}
+                <table width="100%">
+                {{#each reports}}
+                    <tr >
+                        <td width="60%">
+                            {{this.reportedBy}} reported {{this.userName}} for {{this.reason}} on {{this.createdAt}}
+                        </td>
+                        <td>
+                            <form method='POST' action='/report?_method=DELETE'>
+                                <input type="hidden" name="id" value="{{this.id}}"/>
+                                <button class="delete-report-btn" type="submit" data-id="">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/each}}
+                </table>
+            {{else}}
+                <strong>There are no reports</strong>
+            {{/if}}
     </div>
 
     <div class="container columns side-column">
-        <h3>Edit Challenge</h3>
-        <form method="POST" action="/challenge/update?_method=PUT" id="edit-challenge-field">
-        <!-- this gets populated by the frontend function editChallengeData -->
-        </form>
+        <div id="challenge-edit-area">
+            <!-- this gets populated by the frontend using on-click functions in dashboard.js -->
+        </div>
     </div>
 </div>
 <div class="dataHolder" data-displayname="{{user.displayName}}" data-userid="{{user.id}}" data-showingUser="{{showUser.displayName}}" ></div>

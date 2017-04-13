@@ -26,7 +26,7 @@ function convertDay(unix_timestamp){
     // Create a new JavaScript Date object based on the timestamp
     // multiplied by 1000 so that the argument is in milliseconds, not seconds.
     var date = new Date(unix_timestamp);
-    return [padDigits(date.getDate()), padDigits(date.getMonth()+1), date.getFullYear()].join('/');
+    return [date.getMonth()+1, date.getDate(), date.getFullYear()].join('/');
 }
 
 function openModal(title, html, buttonText, buttonCallback, closeCallback){
@@ -92,6 +92,35 @@ function showChallengeHistory(){
         }
         list.append(listItem);
     });
+}
+
+function decipher(str){
+    //simple cipher for obscuring code test
+    var output = "";
+    var originalAmount = -6;
+    // to reverse, add 26 to this = 16
+    var amount = 20;
+
+	for (var i = 0; i < str.length; i ++) {
+		var c = str[i];
+		// if it's a letter
+		if (c.match(/[a-z]/i)) {
+			// Get its code
+			var code = str.charCodeAt(i);
+			// Uppercase letters
+			if ((code >= 65) && (code <= 90))
+				c = String.fromCharCode(((code - 65 + amount) % 26) + 65);
+			// Lowercase letters
+			else if ((code >= 97) && (code <= 122))
+				c = String.fromCharCode(((code - 97 + amount) % 26) + 97);
+		} else if (c.match(/[0-9]/)){
+            // if it's a digit, shift it by amount
+            c = (parseInt(c) + originalAmount) % 10;
+        }
+		// append transformed character to output
+		output += c;
+	}
+	return output;
 }
 
 $(document).ready(function() {
