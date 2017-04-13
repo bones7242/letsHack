@@ -55,5 +55,31 @@ module.exports = {
             testBArgument: 934324, 
             testBResult: 423439,
     });
+    db.Challenge.create({
+        difficulty: 1,
+            name: "Reverse Reverse",
+            instructionsAll: "Slide to the left! Now reverse these!  For example, 231 would be 132!",
+            instructionsA: "Write a function that reverses any string passed in, and returns the backwards string.",
+            instructionsB: "Write a function that reverses any sequence of nubmers passed in, and returns the backwards number.",
+            startCodeA: "function reverseThisString(string){\n\t// A your code goes here\n}",
+            startCodeB: "function reverseThisNumber(number){\n\t// B your code goes here\n}",
+            testAArgument: "raboof", 
+            testAResult: "foobar",
+            testBArgument: 934324, 
+            testBResult: 423439,
+    });
+    db.Challenge.create({
+        difficulty: 2,
+            name: "Simon Says",
+            instructionsAll: "Who is this Simon, anyway, and why does he get to boss everyone around? Another childhood favorite, you must do as your told, as long as the other person says 'Simon says...' first. Write functions to play this game of nitpicky obedience!",
+            instructionsA: "Write a function that takes an order in as a string, and randomly decides whether to return it as is, or return it with 'Simon says' at the beginning",
+            instructionsB: "Write a function that takes in a string, and returns true if it contains the text 'Simon says', and false if it doesn't",
+            startCodeA: "function simonSays(order){\n\t// A your code goes here\n}",
+            startCodeB: "function didSimonSay(statement){\n\t// B your code goes here\n}",
+            testAArgument: "shake your booty", 
+            testAResult: "Simon says shake your booty",
+            testBArgument: "Simon says shake your booty", 
+            testBResult: true,
+    });
   }
 }

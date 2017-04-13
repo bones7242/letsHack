@@ -240,7 +240,9 @@ function passportRoutes(passport){
       } else if (c.match(/[0-9]/)){
               // if it's a digit, shift it by amount
               // and make sure you still have a single digit
-              c = (parseInt(c) + amount) % 10;
+              c = (parseInt(c) + amount);
+              // adding extra modulo to get correct value for negative numbers
+              c = ((c % 10) + 10) % 10;
           }
       // append transformed character to output
       output += c;

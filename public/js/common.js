@@ -113,9 +113,12 @@ function decipher(str){
 			// Lowercase letters
 			else if ((code >= 97) && (code <= 122))
 				c = String.fromCharCode(((code - 97 + amount) % 26) + 97);
+        // if it's a number
 		} else if (c.match(/[0-9]/)){
             // if it's a digit, shift it by amount
-            c = (parseInt(c) + originalAmount) % 10;
+            c = (parseInt(c) + originalAmount);
+            // adding extra modulo to get correct value for negative numbers
+            c = ((c % 10) + 10) % 10;
         }
 		// append transformed character to output
 		output += c;
