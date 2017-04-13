@@ -67,25 +67,22 @@ $(document).ready(function() {
     });
 
     function testMyCode(userCode){
+        var passedTest = false;
         // Get this user's test, as passed down from the db
         // element id and var name obscured for security
         var challengeTestArgument = decipher($("input#asdw8_534p").val());
         var challengeTestResult = decipher($("input#lldkfe-werwr342").val());
-        // get the argument for the user's function
-        var arg = "";
-        arg = userCode.substring(userCode.indexOf("("), userCode.indexOf(")"));
-        console.log("arg: ", arg);
-        // get the inside of the user's function
-        var userCodeGuts = "";
-        userCodeGuts = userCode.substring(userCode.indexOf("{"), userCode.lastIndexOf("}"));
-        console.log("code guts: ", userCodeGuts);
 
+        // get the argument for the user's function, between first set of parens
+        var arg = userCode.substring(userCode.indexOf("(")+1, userCode.indexOf(")"));
+
+        // get the inside of the user's function, between first and last braces
+        var userCodeGuts = userCode.substring(userCode.indexOf("{")+1, userCode.lastIndexOf("}"));
+
+        // evaluate the string into an actual function:
         var usersFunction = Function(arg, userCodeGuts);
-        console.log(usersFunction);
-        var passedTest = false;
 
         try { 
-            //var returnValue = eval("(" + userCode + ")(" + challengeTestArgument + ")");
             var returnValue = usersFunction(challengeTestArgument);
             if (returnValue == challengeTestResult){
                 passedTest = true;
