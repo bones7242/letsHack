@@ -71,16 +71,28 @@ $(document).ready(function() {
         // element id and var name obscured for security
         var challengeTestArgument = decipher($("input#asdw8_534p").val());
         var challengeTestResult = decipher($("input#lldkfe-werwr342").val());
+        // get the argument for the user's function
+        var arg = "";
+        arg = userCode.substring(userCode.indexOf("("), userCode.indexOf(")"));
+        console.log("arg: ", arg);
+        // get the inside of the user's function
+        var userCodeGuts = "";
+        userCodeGuts = userCode.substring(userCode.indexOf("{"), userCode.lastIndexOf("}"));
+        console.log("code guts: ", userCodeGuts);
+
+        var usersFunction = Function(arg, userCodeGuts);
+        console.log(usersFunction);
         var passedTest = false;
 
         try { 
-            var returnValue = eval("(" + userCode + ")(" + challengeTestArgument + ")");
+            //var returnValue = eval("(" + userCode + ")(" + challengeTestArgument + ")");
+            var returnValue = usersFunction(challengeTestArgument);
             if (returnValue == challengeTestResult){
                 passedTest = true;
             }
         }
         catch (err) {
-           openModal("Your code threw an error", err, "OK", closeModal);
+           console.log("Your code threw an error", err);
         }
         finally {
             if (passedTest) {

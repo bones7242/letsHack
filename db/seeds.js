@@ -18,63 +18,42 @@ module.exports = {
     });
     db.Challenge.create({
         difficulty: 1,
-            name: "Jello Mold",
-            instructionsAll: "Welcome to the wide world of programming.  First things first, say 'Jello mold!'",
-            instructionsA: "Create a function that returns the string 'Jello'",
-            instructionsB: "Create a function that returns the string 'mold!'",
-            startCodeA: "function sayJello(){\n\t// A your code goes here\n}",
-            startCodeB: "function sayMold(){\n\t// B your code goes here\n}",
-            testAArgument: "", 
-            testAResult: "Jello",
-            testBArgument: "", 
-            testBResult: "mold!",
+            name: "Uppers and Lowers",
+            instructionsAll: "Do yo functions!",
+            instructionsA: "Write a function that takes in a string and returns it in all caps.",
+            instructionsB: "Write a function that takes in a string in all caps and returns it in lower case.",
+            startCodeA: "function makeItUpper(string){\n\t// A your code goes here\n}",
+            startCodeB: "function makeItLower(string){\n\t// B your code goes here\n}",
+            testAArgument: "i am whispering", 
+            testAResult: "I AM WHISPERING",
+            testBArgument: "I AM YELLING", 
+            testBResult: "i am yelling",
     });
-    // create users
-        // db.User.create({
-        //   email: "johndoe@gmail.com",
-        //   password: "password",
-        //   displayName: "john-doe",
-        //   firstName: "John",
-        //   lastName: "Doe"
-        // });
-        // db.User.create({
-        //   email: "janedoe@gmail.com",
-        //   password: "password",
-        //   displayName: "jane-doe",
-        //   firstName: "Jan",
-        //   lastName: "Doe"
-        // });
-        // db.User.create({
-        //   email: "jimidoe@gmail.com",
-        //   password: "password",
-        //   displayName: "jimi-doe",
-        //   firstName: "Jimi",
-        //   lastName: "Doe"
-        // });
-    //create sessions
-        // db.Session.create({
-        //   success: true,
-        //   playerA: 1,
-        //   playerB: 2,
-        //   ChallengeId: 1
-        // });
-        // db.Session.create({
-        //   success: true,
-        //   playerA: 2,
-        //   playerB: 1,
-        //   ChallengeId: 1
-        // });
-        // db.Session.create({
-        //   success: false,
-        //   playerA: 1,
-        //   playerB: 2,
-        //   ChallengeId: 2
-        // });
-        // db.Session.create({
-        //   success: false,
-        //   playerA: 2,
-        //   playerB: 1,
-        //   ChallengeId: 2
-        // });
+    db.Challenge.create({
+        difficulty: 3,
+            name: "Pig Latin",
+            instructionsAll: "Did you ever speak Pig Latin as a kid to keep secrets from your parents? The rules are: 1) If a word starts with a consonant, move the first letter to the end of the word and add \"ay\". 2) If the word starts with a vowel, just add \"yay\" to the end of the word. Work with your partner to cover these two cases and create a Pig Latin translator.",
+            instructionsA: "Write a function that takes a word in English as an argument, and returns it's Pig Latin equivalent. The word your function gets will always start with a consonant (that's anything other than a,e,i,o, or u).",
+            instructionsB: "Write a function that takes a word in English as an argument, and returns it's Pig Latin equivalent. The word your function gets will always start with a vowel (that's a,e,i,o, or u).",
+            startCodeA: "function pigLatinConsonant(englishWord){\n\t// A your code goes here\n}",
+            startCodeB: "function pigLatinVowel(englishWord){\n\t// B your code goes here\n}",
+            testAArgument: "campfire", 
+            testAResult: "ampfirecay",
+            testBArgument: "ottoman", 
+            testBResult: "ottomanyay",
+    });
+    db.Challenge.create({
+        difficulty: 1,
+            name: "Reverse Reverse",
+            instructionsAll: "Slide to the left! Now reverse these!  For example, 231 would be 132!",
+            instructionsA: "Write a function that reverses any string passed in, and returns the backwards string.",
+            instructionsB: "Write a function that reverses any sequence of nubmers passed in, and returns the backwards number.",
+            startCodeA: "function reverseThisString(string){\n\t// A your code goes here\n}",
+            startCodeB: "function reverseThisNumber(number){\n\t// B your code goes here\n}",
+            testAArgument: "raboof", 
+            testAResult: "foobar",
+            testBArgument: 934324, 
+            testBResult: 423439,
+    });
   }
 }
