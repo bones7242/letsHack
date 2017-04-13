@@ -85,7 +85,8 @@ function passportRoutes(passport){
         present: data.present,
         inQueue: data.inqueue,
         firstName: data.firstName,
-        lastName: data.lastName
+        lastName: data.lastName,
+        profilePicture: data.profilePicture
       };
       res.render('profile', { 
         user: req.user,
